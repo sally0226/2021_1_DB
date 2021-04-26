@@ -1,6 +1,11 @@
 // base
 @import './base/reset';
 @import './base/variables';
+@import './base/background';
 
 // components
 @import './components/main';
+@import './components/header';
+@import './components/register';
+@import './components/login';
+
