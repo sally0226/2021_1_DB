@@ -11,6 +11,13 @@ export default createMuiTheme({
 		text: {
 			primary: '#FFFFFF',
 			secondary: '#000000',
-		}
+		},
+	},
+	overrides: {
+		MuiTabs: {
+			indicator: {
+			backgroundColor: '#850000'
+			}
+		},
 	}
 });
