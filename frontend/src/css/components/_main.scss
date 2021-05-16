@@ -1,5 +1,7 @@
 .test{
-	height: 200vh;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
 	.testText{
 		font-size: 5rem;
 	}
