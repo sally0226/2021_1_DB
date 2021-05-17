@@ -12,15 +12,16 @@ function Login() {
 	const classes = styles();
 	const [tabValue, setTabValue] = useState(0);
 	const [id, setId] = useState("");
+	const [pw, setPw] = useState("");
 
-	const handleChange = (event, newValue) => {
+	const tabHandler = (event, newValue) => {
 		setTabValue(newValue);
-	  };
+	};
 	
-	const handleSubmit = (event) => {
-		alert('A name was submitted: ' + id);
+	const SubmitHandler = (event) => {
+		alert('A name was submitted: ' + id + 'pw : ' + pw);
 		event.preventDefault();
-	  }
+	}
 	return (
 		<Grid className="login">
 			<Header />
@@ -28,7 +29,7 @@ function Login() {
 				<Grid className="tab">
 					<Tabs
 						value={tabValue}
-						onChange={handleChange}
+						onChange={tabHandler}
 						indicatorColor="primary"
 						textColor="primary"
 						centered
@@ -57,13 +58,15 @@ function Login() {
 									InputProps={{
 									className: classes.input
 									}}
+									value={id}
+									onChange={(e)=>setId(e.target.value)}
 								/>
 								<TextField
 									variant="filled"
 									type="password"
 									margin="normal"
 									fullWidth
-									placeholder="PassWord"
+									placeholder="Password"
 									autoFocus
 									style={{
 										backgroundColor: '#ffffff'
@@ -71,6 +74,8 @@ function Login() {
 									InputProps={{
 										className: classes.input
 									}}
+									value={pw}
+									onChange={(e)=>setPw(e.target.value)}
 								/>
 							</Grid>
 							<Grid item className="submit-grid" xs={3}>
@@ -82,6 +87,7 @@ function Login() {
 										backgroundColor: '#DA8181',
 										borderRadius: 0
 									}}
+									onClick={SubmitHandler}
 								>
 									Login
 								</Button>
