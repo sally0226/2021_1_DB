@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Header } from '../components';
-import { Grid, Tabs, Tab, TextField, Button, withStyles, makeStyles } from '@material-ui/core';
+import { Grid, Tabs, Tab, TextField, Button, makeStyles } from '@material-ui/core';
 
 const styles = makeStyles((theme) => ({
 	input: {
