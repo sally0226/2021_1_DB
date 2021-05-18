@@ -1,8 +1,34 @@
-.test{
+.main {
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
-	.testText{
-		font-size: 5rem;
+
+	.main-content {
+		height:100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.slider {
+		height: 15rem;
+	}
+
+	.movie-list{
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+	}
+
+	.movies {
+		margin-left: 1rem;
+		display: flex;
+		flex-direction: column;
+		width: 170px;
+	}
+
+	.rank {
+		color: white;
+		font-size: 2rem
 	}
 }
