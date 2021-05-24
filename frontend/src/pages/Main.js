@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Header } from '../components';
+import { Carousel, Header } from '../components';
 import { Grid } from '@material-ui/core';
 
 function Main() {
@@ -63,7 +63,7 @@ function Main() {
 			<Header />
 			<Grid className="main-content">
 				<Grid className="slider">
-					영화 슬라이더 넣는 자리
+					<Carousel />
 				</Grid>
 				<Grid className="movie-list">
 					{
