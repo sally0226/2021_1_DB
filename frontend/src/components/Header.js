@@ -11,11 +11,11 @@ export default function Header() {
 		<Grid className="header">
 			<Grid className="header-main">
 				<Grid className="h-title">
-					<Link href="/" style={{ textDecoration: 'none' }}>시DB</Link>
+					<Link href="/" style={{ textDecoration: 'none' }} color="inherit">시DB</Link>
 				</Grid>
 				<Grid className="h-button">
-					<Link href="/login" style={{marginRight:'1rem'}}>로그인</Link>
-					<Link href="/register">회원가입</Link>
+					<Link href="/login" style={{marginRight:'1rem'}} color="inherit">로그인</Link>
+					<Link href="/register" color="inherit">회원가입</Link>
 				</Grid>
 			</Grid>
 			<Grid className="header-sub">
@@ -28,7 +28,7 @@ export default function Header() {
 				<Grid className="sub-navigation">
 					{
 						subnav[idx].map((name, index) =>
-							<Link className="sub-nav-btn">{name}</Link>
+							<Link className="sub-nav-btn" color="inherit" style={{ textDecoration: 'none'}}>{name}</Link>
 						)
 					}
 				</Grid>

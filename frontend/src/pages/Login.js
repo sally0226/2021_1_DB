@@ -5,7 +5,7 @@ import { Grid, Tabs, Tab, TextField, Button, makeStyles } from '@material-ui/cor
 const styles = makeStyles((theme) => ({
 	input: {
 		color: "#000000",
-	  }
+	},
 }));
 
 function Login() {
@@ -37,8 +37,7 @@ function Login() {
 					<Tabs
 						value={tabValue}
 						onChange={tabHandler}
-						indicatorColor="primary"
-						textColor="primary"
+						textColor="inherit"
 						centered
 						TabIndicatorProps={{
 							style: {
