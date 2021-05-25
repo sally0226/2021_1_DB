@@ -1,50 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
-import Pagination from './Pagination';
+import PaginationDot from './PaginationDot';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-const styles = {
-  slide: {
-	height: '18rem',
-  },
-  slide1: {
-    backgroundColor: '#FEA900',
-  },
-  slide2: {
-    backgroundColor: '#B3DC4A',
-  },
-  slide3: {
-    backgroundColor: '#6AC0FF',
-  },
-};
+const Carousel = () => {
+	const [index, setIndex] = useState(0)
+	const dots = 3;
 
-class Carousel extends React.Component {
-  state = {
-    index: 0,
-  };
+	const handleChangeIndex = ( index ) => {
+		setIndex(index);
+	}
 
-  handleChangeIndex = index => {
-    this.setState({
-      index,
-    });
-  };
+	const dotHandler = ( event, index ) => {
+		handleChangeIndex(index);
+	}
+	const dotFunc = () => {
+		const result = [];
+		for(let i=0; i<dots; i++){
+			result.push(<PaginationDot key={i} index={i} active={i === index} onClick={dotHandler} />);
+		}
+		return result;
+	}
 
-  render() {
-    const { index } = this.state;
-
-    return (
-      <div style={styles.root}>
-        <AutoPlaySwipeableViews index={index} onChangeIndex={this.handleChangeIndex}>
-          <div style={Object.assign({}, styles.slide, styles.slide1)} />
-          <div style={Object.assign({}, styles.slide, styles.slide2)} />
-          <div style={Object.assign({}, styles.slide, styles.slide3)} />
-        </AutoPlaySwipeableViews>
-        <Pagination dots={3} index={index} onChangeIndex={this.handleChangeIndex} />
-      </div>
-    );
-  }
+	return (
+		<div className="carousel">
+			<AutoPlaySwipeableViews index={index} onChangeIndex={handleChangeIndex}>
+				<div className={`${"slide"} ${"slide1"}`} />
+				<div className={`${"slide"} ${"slide2"}`} />
+				<div className={`${"slide"} ${"slide3"}`} />
+			</AutoPlaySwipeableViews>
+			<div className="dotCon">{dotFunc()}</div>
+		</div>
+	);
 }
 
 export default Carousel;

@@ -21,13 +21,10 @@ const styles = {
   },
 };
 
-class PaginationDot extends React.Component {
-  handleClick = event => {
-    this.props.onClick(event, this.props.index);
-  };
-
-  render() {
-    const { active } = this.props;
+function PaginationDot({key, index, active, onClick}) {
+	const handleClick = event => {
+		onClick(event, index);
+	};
 
     let styleDot;
 
@@ -38,11 +35,10 @@ class PaginationDot extends React.Component {
     }
 
     return (
-      <button type="button" style={styles.root} onClick={this.handleClick}>
+      <button type="button" style={styles.root} onClick={handleClick}>
         <div style={styleDot} />
       </button>
     );
-  }
 }
 
 export default PaginationDot;

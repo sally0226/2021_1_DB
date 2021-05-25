@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Carousel, Header } from '../components';
 import { Grid } from '@material-ui/core';
+import Slider from "react-slick";
 
 function Main() {
 	const [movie, setMovie] = useState([{
@@ -58,6 +59,16 @@ function Main() {
 		})
 		console.log(movie);
 	}, [])
+
+	const settings = {
+		dots: true,
+		infinite: true,
+		speed: 500,
+		slidesToShow: 4,
+		slidesToScroll: 1,
+		className: "movie-list",
+		appendDots: dots=>(<span />)
+	};
 	return (
 		<Grid className="main">
 			<Header />
@@ -65,18 +76,18 @@ function Main() {
 				<Grid className="slider">
 					<Carousel />
 				</Grid>
-				<Grid className="movie-list">
+				<Slider {...settings}>
 					{
 						movie.map((movie, i) => (
-							<Grid className="movies">
+							<div className="movies">
 								<span className="rank">{i + 1}</span>
 								<span>영화사진</span>
 								<span>{movie.name}</span>
 								<span>{movie.rate}점</span>
-							</Grid>
+							</div>
 						))
 					}
-				</Grid>
+				</Slider>
 			</Grid>
 		</Grid>
 	)
