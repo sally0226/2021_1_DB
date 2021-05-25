@@ -1,0 +1,20 @@
+.carousel {
+
+	.slide {
+		height: 18rem;
+	}
+	.slide1 {
+		background-color: #FEA900;
+	}
+	.slide2 {
+		background-color: #B3DC4A;
+	}
+	.slide3 {
+		background-color: #6AC0FF;
+	}
+	.dotCon {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+	}
+}
