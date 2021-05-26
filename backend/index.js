@@ -8,7 +8,7 @@ const database = require('./models/database.js');
 const defaultThreadPoolSize = 4;
 
 process.env.THREADPOOL_SIZE = dbConfig.hrPool.poolMax + defaultThreadPoolSize;
-
+const dbSetting = require('./dbSetting').createTestTable;
 // DB init
 async function initDB(){
   try {
@@ -20,6 +20,7 @@ async function initDB(){
 
     process.exit(1); // Non-zero failure code
   }
+  dbSetting();
 }
 
 // // DB close
@@ -33,6 +34,7 @@ async function initDB(){
 //     err = err || e;
 //   }
 initDB();
+
 app.use(cors());
 app.use(express.json());
 app.use('/',router);

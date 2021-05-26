@@ -1,6 +1,6 @@
 const conn = require('../models/database');
 
-async function insertData (data, cb)  {
+async function insertData (data)  {
     const sql = `INSERT INTO TEST VALUES(${data.id}, '${data.data}')`;
     console.log(sql);
     try {
