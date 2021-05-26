@@ -1,6 +1,7 @@
-const oracledb = require('oracledb');
-const dbConfig = require('../config/ConnectDB');
+// DB 연결 
 
+const oracledb = require('oracledb');
+const dbConfig = require('../config/dbConfig');
 
 async function initialize() {
   const pool = await oracledb.createPool(dbConfig.hrPool);

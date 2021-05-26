@@ -3,7 +3,7 @@ const app = express();
 const port = 5000;
 const cors = require('cors');
 const router = require('./routes/router');
-const dbConfig = require('./config/ConnectDB');
+const dbConfig = require('./config/dbConfig');
 const database = require('./models/database.js');
 const defaultThreadPoolSize = 4;
 
