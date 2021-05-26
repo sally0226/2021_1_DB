@@ -5,7 +5,6 @@ async function insertItem(req,res) {
         'id': 1,
         'data': "this is test data"
     };
-    console.log("dddd");
     testModel.insertData(item, (result) => {
         if (result) {
             console.log(result);
