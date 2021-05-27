@@ -1,6 +1,7 @@
-const conn = require('../models/database');
+// test Model (test table) 관련 함수들 
+const conn = require('../models/database'); 
 
-async function insertData (data)  {
+async function insertData (data)  { //삽입
     const sql = `INSERT INTO TEST VALUES(${data.id}, '${data.data}')`;
     console.log(sql);
     try {

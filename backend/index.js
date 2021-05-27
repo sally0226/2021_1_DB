@@ -8,7 +8,9 @@ const database = require('./models/database.js');
 const defaultThreadPoolSize = 4;
 
 process.env.THREADPOOL_SIZE = dbConfig.hrPool.poolMax + defaultThreadPoolSize;
-const dbSetting = require('./dbSetting').createTestTable;
+const dbSetting = require('./dbSetting').createTestTable; //그냥 예시 테이블 및 데이터 생성용 
+
+
 // DB init
 async function initDB(){
   try {
@@ -33,9 +35,9 @@ async function initDB(){
   
 //     err = err || e;
 //   }
-initDB();
+initDB(); // DB pool 생성 
 
 app.use(cors());
 app.use(express.json());
 app.use('/',router);
-app.listen(port, () => console.log(`app listening on port ${port}!`))
+app.listen(port, () => console.log(`app listening on port ${port}!`));
