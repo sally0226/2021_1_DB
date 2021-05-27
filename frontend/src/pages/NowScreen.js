@@ -1,30 +1,28 @@
-import React, { useState, useEffect } from 'react'
-import { Carousel, Header } from '../components';
-import { Grid } from '@material-ui/core';
-import Slider from "react-slick";
-import { useMovieState } from '../MVVM/model/MovieModel';
+import React, { useEffect } from 'react'
 
-function Main() {
+import { Carousel, Header } from '../components';
+import { useMovieState } from '../MVVM/model/MovieModel'
+import Slider from "react-slick";
+import { Grid } from '@material-ui/core';
+
+function NowScreen() {
 	const movie = useMovieState();
+
 	let rank = 1;
 
 	// <-- carousel setting
 	const settings = {
-		infinite: true,
+		className: "slider",
 		speed: 500,
-		slidesToShow: 4,
-		slidesToScroll: 1,
-		className: "movie-list",
+		rows: 2,
+		slidesPerRow: 4
 	};
 	// carousel setting -->
-
+	
 	return (
-		<Grid className="main">
+		<Grid className="nowscreen">
 			<Header />
 			<Grid className="main-content">
-				<Grid className="slider">
-					<Carousel />
-				</Grid>
 				<Slider {...settings}>
 					{
 						movie.map((movie, i) => (
@@ -43,4 +41,4 @@ function Main() {
 	)
 }
 
-export default Main
+export default NowScreen
