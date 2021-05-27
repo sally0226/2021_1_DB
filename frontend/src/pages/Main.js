@@ -10,7 +10,7 @@ function Main() {
 
 	// <-- carousel setting
 	const settings = {
-		infinite: true,
+		//infinite: true,
 		speed: 500,
 		slidesToShow: 4,
 		slidesToScroll: 1,
@@ -28,7 +28,7 @@ function Main() {
 				<Slider {...settings}>
 					{
 						movie.map((movie, i) => (
-							movie.isScreen && 
+							movie.isScreen &&
 							<div className="movies">
 								<span className="rank">{rank++}</span>
 								<span>영화사진</span>

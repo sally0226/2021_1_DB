@@ -10,7 +10,7 @@ function Router() {
 				<Route exact path="/" component={Main} />
 				<Route exact path="/login" component={Login} />
 				<Route exact path="/register" component={Register} />
-				<Route exact path="/nowscreen" component={NowScreen} />
+				<Route exact path="/moviescreen/:status" component={NowScreen} />
 			</Switch>
 		</BrowserRouter>
 	)
