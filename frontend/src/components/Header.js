@@ -2,11 +2,18 @@ import React, { useState } from 'react'
 import { Grid, Link } from '@material-ui/core';
 
 export default function Header() {
-	const subnav = [["예매하기", "상영시간표"],["홈", "현재상영작", "상영예정작"]];
+	// 작은 메뉴
+	const subNav = [["예매하기", "상영시간표"],["현재상영작", "상영예정작"]];
+	const subLink = [["/", "/"],["/moviescreen/now", "/moviescreen/will"]];
+	const [subHref, setSubHref] = useState([]);
+
+	// hover 효과 idx(큰 메뉴의 idx)
 	const [idx, setIdx] = useState(0);
 	const idxHandler = (i) => {
 		setIdx(i);
+		setSubHref(subLink[i]);
 	}
+
 	return (
 		<Grid className="header">
 			<Grid className="header-main">
@@ -27,8 +34,15 @@ export default function Header() {
 				</Grid>
 				<Grid className="sub-navigation">
 					{
-						subnav[idx].map((name, index) =>
-							<Link className="sub-nav-btn" color="inherit" style={{ textDecoration: 'none'}}>{name}</Link>
+						subNav[idx].map((name, index) =>
+							<Link
+								href={subHref[index]}
+								className="sub-nav-btn"
+								color="inherit"
+								style={{ textDecoration: 'none'}}
+							>
+								{name}
+							</Link>
 						)
 					}
 				</Grid>

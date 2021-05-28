@@ -1,4 +1,4 @@
-.main {
+.nowscreen {
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
@@ -7,26 +7,20 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		margin-top: 1rem
 	}
 
 	.slider {
-		width: 100%;
-		height: 20rem;
-		margin-bottom: 2rem;
-	}
-
-	.movie-list{
-		width: 80%;
+		width: 90%;
 	}
 
 	.movies {
-		margin-left: 1rem;
-		display: flex !important;
+		margin-bottom: 1rem;
+		display: inline-flex !important;
 		flex-direction: column;
-		min-width: 25%;
+		min-width: 20%;
 		color: white;
 	}
-
 	.rank {
 		font-size: 2rem
 	}
