@@ -31,7 +31,11 @@ function Main() {
 							movie.isScreen &&
 							<div className="movies">
 								<span className="rank">{rank++}</span>
-								<span>영화사진</span>
+								<div style={{
+									width: '150px',
+									height: '200px',
+									backgroundColor: 'white'
+								}} />
 								<span>{movie.name}</span>
 								<span>{movie.rate}점</span>
 							</div>

@@ -1,0 +1,20 @@
+.ratingCircle {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	width: inherit;
+	height: inherit;
+	color: inherit;
+	font-size: inherit;
+}
+
+.ratingCircle.all {
+	background-color:blue;
+}
+.ratingCircle.adult {
+	background-color: red;
+}
+.ratingCircle.avg {
+	background-color: orange;
+}

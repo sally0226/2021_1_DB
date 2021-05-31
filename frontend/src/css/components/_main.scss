@@ -12,22 +12,24 @@
 	.slider {
 		width: 100%;
 		height: 20rem;
-		margin-bottom: 2rem;
+		margin-bottom: 1rem;
 	}
 
 	.movie-list{
 		width: 80%;
+		margin-bottom: 2rem;
 	}
 
 	.movies {
-		margin-left: 1rem;
 		display: flex !important;
 		flex-direction: column;
+		align-items: center;
 		min-width: 25%;
 		color: white;
 	}
 
 	.rank {
-		font-size: 2rem
+		font-size: 1.5rem;
+		align-self: flex-start;
 	}
 }
