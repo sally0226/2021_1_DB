@@ -28,14 +28,21 @@
 		color: white;
 	}
 
+	.poster {
+		width: 150px;
+		height: 200px;
+		background-color: white; //temp
+		margin-bottom: 1rem;
+	}
+
 	.movie-hover {
 		position: absolute;
 		display: none;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		height: 100%;
-		width:6%;
+		width: inherit;
+		height: inherit;
 		background-color: rgba(0, 0, 0, 0.5);
 
 		.MuiButton-outlined{
@@ -44,7 +51,7 @@
 		}
 	}
 
-	.movies:hover > .movie-hover {
+	.movies:hover .movie-hover {
 		display:flex;
 	}
 
