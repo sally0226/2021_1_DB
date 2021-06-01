@@ -1,6 +1,13 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Main, Login, Register, NowScreen, MovieDetail } from '../pages';
+import {
+	Main,
+	Login, 
+	Register,
+	NowScreen,
+	MovieDetail,
+	Reserve
+} from '../pages';
 import '../css/main.scss';
 
 function Router() {
@@ -12,6 +19,7 @@ function Router() {
 				<Route exact path="/register" component={Register} />
 				<Route exact path="/moviescreen/:status" component={NowScreen} />
 				<Route exact path="/movie/:movieId" component={MovieDetail} />
+				<Route exact path="/reserve" component={Reserve} />
 			</Switch>
 		</BrowserRouter>
 	)

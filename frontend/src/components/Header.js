@@ -4,7 +4,7 @@ import { Grid, Link } from '@material-ui/core';
 export default function Header() {
 	// 작은 메뉴
 	const subNav = [["예매하기", "상영시간표"],["현재상영작", "상영예정작"]];
-	const subLink = [["/", "/"],["/moviescreen/now", "/moviescreen/will"]];
+	const subLink = [["/reserve", "/"],["/moviescreen/now", "/moviescreen/will"]];
 	const [subHref, setSubHref] = useState([]);
 
 	// hover 효과 idx(큰 메뉴의 idx)

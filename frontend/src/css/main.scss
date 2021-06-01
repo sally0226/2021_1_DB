@@ -4,14 +4,19 @@
 @import './base/background';
 
 // components
-@import './components/main';
 @import './components/header';
+@import './components/carousel';
+@import './components/modal';
+@import './components/customerInput';
+@import './components/ratingcircle';
+
+//page
+@import './components/main';
 @import './components/register';
 @import './components/login';
-@import './components/carousel';
 @import './components/nowscreen';
 @import './components/moviedetail';
-@import './components/ratingcircle';
+@import './components/reserve';
 
 // slick
 @import "slick-carousel/slick/slick.css"; 

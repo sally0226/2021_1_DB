@@ -136,10 +136,10 @@ function Login() {
 								/>
 								<TextField
 									variant="filled"
-									type="password"
 									margin="normal"
 									fullWidth
-									placeholder="Password"
+									placeholder="Reservation Number"
+									type="number"
 									autoFocus
 									style={{
 										backgroundColor: '#ffffff'

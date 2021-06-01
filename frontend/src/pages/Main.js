@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Carousel, Header } from '../components';
-import { Grid } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import Slider from "react-slick";
 import { useMovieState } from '../MVVM/model/MovieModel';
 
@@ -30,6 +30,10 @@ function Main() {
 						movie.map((movie, i) => (
 							movie.isScreen &&
 							<div className="movies">
+								<Grid className="movie-hover">
+									<Button variant="outlined" href="/reserve">예매하기</Button>
+									<Button variant="outlined">상세정보</Button>
+								</Grid>
 								<span className="rank">{rank++}</span>
 								<div style={{
 									width: '150px',
