@@ -1,5 +1,5 @@
 .movieDetail {
-	height: 100vh;
+	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 	color: white;
@@ -13,6 +13,7 @@
 		font-weight: bold;
 	}
 
+	// <-- movie
 	.movie {
 		display: flex;
 		flex-direction: row;
@@ -23,6 +24,7 @@
 			display:flex;
 			flex-direction: column;
 			justify-content: space-between;
+			width:100%;
 		}
 
 		.movie-header {
@@ -45,10 +47,67 @@
 			margin-left: 0.5rem;
 		}
 
+		.movie-middle {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+		}
+
 		.review {
 			display:flex;
 			flex-direction:row;
 			align-items:center;
 		}
+
+		.movie-last{
+			font-size: 0.9rem;
+		}
+	}
+	// movie -->
+
+	.MuiTabs-indicator {
+		background-color: #850000 !important;
+	}
+	.tabLabel {
+		font-size: 1.2rem;
+	}
+
+	//<-- tab content
+	.tab-content {
+		margin-bottom: 5rem;
+	}
+	.body-head {
+		font-weight: bold;
+		margin: 1rem 0;
+	}
+	.comment {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		margin-bottom: 2rem;
+
+		.star-grid {
+			background-color: #B48484;
+			display: flex;
+			flex-direction: column;
+			text-align: center;
+			justify-content: center;
+		}
+		.comment-body {
+			background-color: white;
+			color: black;
+		}
+		.comment-submit {
+			background-color: #B48484;
+		}
+	}
+
+	.list-con {
+		border-top: 3px solid rgb(201, 201, 201);
+		margin: 1rem 0;
+	}
+	.comment-box {
+		border-bottom: 1px solid rgb(201, 201, 201);
+		padding: 1rem 0;
 	}
 }
