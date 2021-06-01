@@ -8,7 +8,7 @@ export default function Header() {
 	const idxHandler = (i) => {
 		setIdx(i);
 	}
-	const isManager = true;
+	const isManager = false;
 	if (isManager) {
 		return (
 			<Grid className="header">
