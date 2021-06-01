@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-import { Header } from '../components';
-import { Grid, TextField, makeStyles, Button, Checkbox, FormControlLabel } from '@material-ui/core';
-import { CSSTransition } from 'react-transition-group';
+import { Grid, TextField, makeStyles, Button } from '@material-ui/core';
 
 const styles = makeStyles((theme) => ({
 	input: {

@@ -24,4 +24,29 @@
 	.rank {
 		font-size: 2rem
 	}
+	.poster {
+		width: 150px;
+		height: 200px;
+		background-color: white; //temp
+		margin-bottom: 1rem;
+	}
+
+	.movie-hover {
+		position: absolute;
+		display: none;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: inherit;
+		height: inherit;
+		background-color: rgba(0, 0, 0, 0.5);
+
+		.MuiButton-outlined{
+			color: white !important;
+			border: 1px solid white;
+		}
+	}
+	.movies:hover .movie-hover {
+		display:flex;
+	}
 }

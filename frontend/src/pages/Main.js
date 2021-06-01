@@ -30,12 +30,13 @@ function Main() {
 						movie.map((movie, i) => (
 							movie.isScreen &&
 							<div className="movies">
-								<Grid className="movie-hover">
-									<Button variant="outlined" href="/reserve">예매하기</Button>
-									<Button variant="outlined">상세정보</Button>
-								</Grid>
 								<span className="rank">{rank++}</span>
-								<span>영화사진</span>
+								<div className="poster">
+									<Grid className="movie-hover">
+										<Button variant="outlined" href="/reserve" style={{marginBottom:'1rem'}}>예매하기</Button>
+										<Button variant="outlined" href={`/movie/${movie.id}`}>상세정보</Button>
+									</Grid>
+								</div>
 								<span>{movie.name}</span>
 								<span>{movie.rate}점</span>
 							</div>

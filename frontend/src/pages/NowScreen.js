@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 
-import { Carousel, Header } from '../components';
+import { Header } from '../components';
 import { useMovieState } from '../MVVM/model/MovieModel'
 import Slider from "react-slick";
-import { Grid } from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
 
 function NowScreen({ match }) {
 	const { status } = match.params; // now, will
@@ -32,7 +32,12 @@ function NowScreen({ match }) {
 							movie.Date <= today &&
 							<div className="movies">
 								<span className="rank">{rank++}</span>
-								<span>영화사진</span>
+								<div className="poster">
+									<Grid className="movie-hover">
+										<Button variant="outlined" href="/reserve" style={{marginBottom:'1rem'}}>예매하기</Button>
+										<Button variant="outlined" href={`/movie/${movie.id}`}>상세정보</Button>
+									</Grid>
+								</div>
 								<span>{movie.name}</span>
 								<span>{movie.rate}점</span>
 							</div>
