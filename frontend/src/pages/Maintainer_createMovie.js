@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import { Header } from '../components';
-import { Grid, TextField, Button, makeStyles, formatMs } from '@material-ui/core';
+import { Grid, TextField, Button, makeStyles, IconButton } from '@material-ui/core';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 // import {AiOutlineLink} from 'react-icons';
 import DatePicker from "react-datepicker";
-import CalendarContainer from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import 'react-datepicker/dist/react-datepicker-cssmodules.min.css'
 
@@ -13,7 +13,17 @@ const styles = makeStyles((theme) => ({
 		color: "#000000",
 	  }
 }));
-
+function imageReducer(state, action) {
+    switch (action.type) {
+        case 'CREATE':
+            return state.concat(action.item);
+        case 'DELETE':
+            return state.filter(image => image !== action.item);
+        //case 'MODIFY':
+        default:
+            throw new Error(`Unhandled action type: ${action.type}`);
+    }
+}
 function CreateMovie() {
 	const classes = styles();
     const [movieInfo, setMovieInfo] = useState({
@@ -29,6 +39,7 @@ function CreateMovie() {
         //예고 영상
         //예고 사진
     });
+    const [images, imageDispather] = useReducer(imageReducer, ["sad","sfdsf"]);
     const updateField = e => {
         setMovieInfo({
           ...movieInfo,
@@ -188,7 +199,6 @@ function CreateMovie() {
                         onChange={updateField}
                         multiline
                         rows={4}
-                        fullWidth
                     />
                 </div>
                 <div className="label-form">
@@ -212,29 +222,54 @@ function CreateMovie() {
                 </div>
             </div>
             <div className="input-div">
-            <div className="label-form">
-                <div className="label">예고 사진</div>
-                    {/* <TextField
-                        variant="filled"
-                        margin="normal"
-                        placeholder={movieInfo.scrnTime}
-                        required
-                        autoFocus
-                        style={{
-                            backgroundColor: '#ffffff',
-                        }}
-                        InputProps={{
-                        className: classes.input
-                        }}
-                        value={movieInfo.scrnTime}
-                        onChange={(e)=> {
-                            setMovieInfo({
-                                ...movieInfo,
-                                ["scrnTime"]: e.target.value
-                            });
-                            console.log(movieInfo);
-                        }}
-                    /> */}
+                <div className="label-form">
+                    <div className="label">예고 사진</div>
+                    <div className="forms">
+                    <TextField
+                            id="imageInput"
+                            variant="filled"
+                            margin="normal"
+                            // placeholder="
+                            required
+                            autoFocus
+                            style={{
+                            
+                                backgroundColor: '#ffffff',
+                                
+                            }}
+                            InputProps={{
+                                className: classes.input
+                            }}
+                            //value=""
+                            //margin="normal"
+                    />
+                    <IconButton aria-label="add_photo" 
+                    onClick={
+                        console.log(document.getElementById("imageInput"))
+                        //</div>imageDispather();
+                    }>
+                    <AddCircleIcon/>
+                    </IconButton>
+                    {images.map(image => (
+                        <TextField
+                            variant="filled"
+                            margin="normal"
+                            placeholder={image}
+                            required
+                            autoFocus
+                            style={{
+                                backgroundColor: '#ffffff',
+                            }}
+                            InputProps={{
+                                readOnly: true,
+                                className: classes.input
+                            }}
+                            value={image}
+                        />
+                    ))}
+                    </div>
+                    
+                    
                 </div>
             </div>
             <Button variant="contained" href="nextpage" 
