@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-import { Header } from '../components';
-import { Grid, TextField, makeStyles, Button, Checkbox, FormControlLabel } from '@material-ui/core';
-import { CSSTransition } from 'react-transition-group';
+import { Grid, TextField, makeStyles, Button } from '@material-ui/core';
 
 const styles = makeStyles((theme) => ({
 	input: {
@@ -9,7 +7,7 @@ const styles = makeStyles((theme) => ({
 	  }
 }));
 
-function Register() {
+function CustomerInput() {
 	const classes = styles();
 
 	// <-- check button
@@ -22,19 +20,15 @@ function Register() {
 	// <-- input
 	const [name, setName] = useState("");
 	const [phone, setPhone] = useState();
-	const [id, setId] = useState("");
-	const [pw, setPw] = useState("");
-	const [key, setKey] = useState("");
 	const [reg, setReg] = useState("");
 
 	const SubmitHandler = (event) => {
-		alert(`name : ${name} \n phone: ${phone} \n id: ${id} \n pw: ${pw} \n key: ${key}`);
+		alert(`name : ${name} \n phone: ${phone} \n 주민: ${reg}`);
 		event.preventDefault();
 	}
 	// input -->
 	return (
-		<Grid className="register">
-			<Header />
+		<Grid className="customerInput">
 			<Grid className="content-body">
 				<Grid className="input-grid">
 					<TextField
@@ -74,72 +68,6 @@ function Register() {
 						variant="filled"
 						margin="normal"
 						fullWidth
-						placeholder="ID"
-						required
-						autoFocus
-						style={{
-							backgroundColor: '#ffffff'
-						}}
-						InputProps={{
-						className: classes.input
-						}}
-						value={id}
-						onChange={(e)=>setId(e.target.value)}
-					/>
-					<TextField
-						variant="filled"
-						margin="normal"
-						fullWidth
-						placeholder="Password"
-						type="password"
-						required
-						autoFocus
-						style={{
-							backgroundColor: '#ffffff'
-						}}
-						InputProps={{
-						className: classes.input
-						}}
-						value={pw}
-						onChange={(e)=>setPw(e.target.value)}
-					/>
-					<FormControlLabel
-        				control={
-							<Checkbox
-								checked={checked}
-								onChange={checkHandler}
-								style={{ color:'#ffffff' }}
-							/>
-						}
-        				label="Are you Admin?"
-						style={{ color: '#ffffff'}}
-      				/>
-					<CSSTransition
-						in={checked}
-						timeout={300}
-						classNames="adminInput"
-						unmountOnExit
-					>
-						<TextField
-							variant="filled"
-							margin="normal"
-							fullWidth
-							placeholder="Admin Key"
-							autoFocus
-							style={{
-								backgroundColor: '#ffffff'
-							}}
-							InputProps={{
-							className: classes.input
-							}}
-							value={key}
-							onChange={(e)=>setKey(e.target.value)}
-						/>
-					</CSSTransition>
-					<TextField
-						variant="filled"
-						margin="normal"
-						fullWidth
 						placeholder="register number"
 						type="number"
 						required
@@ -165,7 +93,7 @@ function Register() {
 						}}
 						onClick={SubmitHandler}
 					>
-						Register
+						Submit
 					</Button>
 				</Grid>
 			</Grid>
@@ -173,4 +101,4 @@ function Register() {
 	)
 }
 
-export default Register
+export default CustomerInput

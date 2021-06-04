@@ -2,18 +2,27 @@ import React, { useState } from 'react'
 import { Grid, Link } from '@material-ui/core';
 
 export default function Header() {
-	const subnav = [["예매하기", "상영시간표"],["홈", "현재상영작", "상영예정작"], ["서울", "경기/인천", "충청/대전"]];
+	// 작은 메뉴
+	const subNav = [["예매하기", "상영시간표"],["현재상영작", "상영예정작"]];
+	const subLink = [["/reserve", "/"],["/moviescreen/now", "/moviescreen/will"]];
+	const [subHref, setSubHref] = useState([]);
+
+	// hover 효과 idx(큰 메뉴의 idx)
 	const [idx, setIdx] = useState(0);
 	const idxHandler = (i) => {
 		setIdx(i);
+		setSubHref(subLink[i]);
 	}
+
 	return (
 		<Grid className="header">
 			<Grid className="header-main">
-				<Grid className="h-title">시DB</Grid>
+				<Grid className="h-title">
+					<Link href="/" style={{ textDecoration: 'none' }} color="inherit">시DB</Link>
+				</Grid>
 				<Grid className="h-button">
-					<Link href="/login" style={{marginRight:'1rem'}}>로그인</Link>
-					<Link href="/register">회원가입</Link>
+					<Link href="/login" style={{marginRight:'1rem'}} color="inherit">로그인</Link>
+					<Link href="/register" color="inherit">회원가입</Link>
 				</Grid>
 			</Grid>
 			<Grid className="header-sub">
@@ -21,13 +30,19 @@ export default function Header() {
 					<div />
 					<div className="sub-btn" onMouseOver={()=>idxHandler(0)}>예매</div>
 					<div className="sub-btn" onMouseOver={()=>idxHandler(1)}>영화</div>
-					<div className="sub-btn" onMouseOver={()=>idxHandler(2)}>영화관</div>
 					<div />
 				</Grid>
 				<Grid className="sub-navigation">
 					{
-						subnav[idx].map((name, index) =>
-							<Link className="sub-nav-btn">{name}</Link>
+						subNav[idx].map((name, index) =>
+							<Link
+								href={subHref[index]}
+								className="sub-nav-btn"
+								color="inherit"
+								style={{ textDecoration: 'none'}}
+							>
+								{name}
+							</Link>
 						)
 					}
 				</Grid>
