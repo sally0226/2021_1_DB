@@ -1,0 +1,52 @@
+// 필요한 파일에서 import 하기
+.dot-clickable {
+	height: 18px;
+	width: 18px;
+	cursor: pointer;
+	border: 0;
+	background: none;
+	padding: 0;
+}
+
+.dot-cstyle {
+	background-color: #e4e6e7;
+	height: 12px;
+	width: 12px;
+	border-radius: 6px;
+	margin: 3px;
+}
+
+.dot {
+	height: 25px;
+	width: 25px;
+	border: 0;
+	background: none;
+	padding: 0;
+}
+.dot-style {
+	background-color: #C4C4C4;
+	height: 18px;
+	width: 18px;
+	border-radius: 50%;
+	margin: 3px;
+}
+
+.dot-active {
+	background-color: #A30000,
+}
+
+.dot-stepper {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-self: center;
+	width: 25%;
+}
+
+.dot-con {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: white;
+}
