@@ -4,9 +4,6 @@ import { Grid, TextField, Button, makeStyles, IconButton } from '@material-ui/co
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 // import {AiOutlineLink} from 'react-icons';
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"
-import 'react-datepicker/dist/react-datepicker-cssmodules.min.css'
-
 
 const styles = makeStyles((theme) => ({
 	input: {

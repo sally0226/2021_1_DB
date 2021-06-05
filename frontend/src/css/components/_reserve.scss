@@ -1,5 +1,5 @@
 .reserve {
-	height: 100vh;
+	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 	width:100%;
@@ -10,20 +10,187 @@
 		justify-content: center;
 		align-items: center;
 		margin-top: 1rem;
+		margin-bottom: 1rem;
 	}
 
+	//<-- step Zero
 	.stepZero {
 		width: 70%;
-		background-color: aqua;
 		display: flex;
 		flex-direction: row;
-		
-		.left {
-			display: flex;
-			flex-direction: column;
+		height: 30rem;
+
+		.zeroHead {
+			color: white;
+			background-color: #525252;
+			padding: 1rem;
+			text-align: center;
+			font-size: 1.2rem;
+		}
+
+		.right-border {
 			border-right: solid;
 			border-color: #969696;
 			border-width: 1px;
 		}
+		
+		.left, .right {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.zeroBody {
+			height: 100%;
+			background-color: #E8D9D9;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding: 2rem
+		}
+
+		.movie-con {
+			text-align: center;
+			width: 100%;
+
+			.leftContent {
+				padding: 1rem;
+				cursor: pointer;
+			}
+			.leftContent-active {
+				background-color: white;
+				font-weight: bold;
+				outline: black 3px solid;
+				cursor: unset;
+			}
+		}
+
+		.dateGrid {
+			margin-bottom: 1rem;
+			.custom-input {
+				background-color: #985555;
+				color: white;
+				border-radius: 1rem;
+				font-size: 1.2rem;
+				padding: 0.5rem;
+				border:none;
+			}
+		}
+
+		.timeGrid {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+
+			.timeGrid-head {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+			}
+
+			.timeGrid-body{
+				display: flex;
+				margin-top: 1rem;
+				.timeGrid-content {
+					// display: flex;
+					// flex-direction: column;
+					// align-items: center;
+					text-align: center;
+					margin-right: 1rem;
+					padding: 5px;
+					background-color: white;
+					border-radius: 10px;
+					border: 1px solid gray;
+					cursor: pointer;
+				}
+			}
+		}
 	}
+	// stepZero -->
+
+	// <-- stepFirst
+	// stepFirst -->
+
+	// <-- stepSecond
+	.stepSecond {
+		width: 90%;
+		display: flex;
+		flex-direction: row;
+		height: 30rem;
+
+		.SecondHead {
+			color: white;
+			background-color: #525252;
+			padding: 1rem;
+			text-align: center;
+			font-size: 1.2rem;
+		}
+
+		.right-border {
+			border-right: solid;
+			border-color: #969696;
+			border-width: 1px;
+		}
+		
+		.left, .middle, .final {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.SecondBody {
+			height: 100%;
+			background-color: #E8D9D9;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding: 1rem
+		}
+
+		.poster {
+			width: 90px;
+			height: 120px;
+			background-color: white; //temp
+			margin-bottom: 1rem;
+		}
+		.left-content-head {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			width:100%;
+		}
+
+		.movie-info {
+			display: flex;
+			flex-direction: row;
+			width: 100%;
+			margin-top: 1rem;
+			font-size: 0.9rem;
+
+			.movie-info-col{
+				width: 40%;
+			}
+			.movie-info-col2{
+				width: 100%;
+			}
+			.margin-bot {
+				margin-bottom: 1rem;
+			}
+		}
+
+		.middle-content {
+			width:100%;
+			height: 50%;
+		}
+		.content-head {
+			font-weight: bold;
+			font-size: 1.2rem;
+			margin-bottom: 10px;
+		}
+		.MuiFilledInput-input {
+			padding: 1rem;
+		}
+	}
+	// stepSecond -->
+
+	// <-- stepFinal
+	// stepFinal -->
 }
