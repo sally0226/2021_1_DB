@@ -24,6 +24,18 @@ function imageReducer(state, action) {
             throw new Error(`Unhandled action type: ${action.type}`);
     }
 }
+function videoReducer(state, action) {
+    switch (action.type) {
+        case 'CREATE':
+            return state.concat(action.item);
+        case 'DELETE':
+            return state.filter(video => video !== action.item);
+        //case 'MODIFY':
+        default:
+            throw new Error(`Unhandled action type: ${action.type}`);
+    }
+}
+
 function CreateMovie() {
 	const classes = styles();
     const [movieInfo, setMovieInfo] = useState({
@@ -39,7 +51,27 @@ function CreateMovie() {
         //예고 영상
         //예고 사진
     });
-    const [images, imageDispather] = useReducer(imageReducer, ["sad","sfdsf"]);
+    const [images, imageDispatch] = useReducer(imageReducer, []);
+    const [videos, videoDispatch] = useReducer(videoReducer, []);
+    function handelClick(e) {
+        console.log(e.currentTarget.name);
+        if (e.currentTarget.name === "image") {
+            imageDispatch({
+                type: 'CREATE',
+                item: imageInput
+            });
+            setImageInput("");
+        }
+        else if (e.currentTarget.name === "video") {
+            videoDispatch({
+                type: 'CREATE',
+                item: videoInput
+            });
+            setVideoInput("");
+        }
+    }
+    const [imageInput, setImageInput] = useState("");
+    const [videoInput, setVideoInput] = useState("");
     const updateField = e => {
         setMovieInfo({
           ...movieInfo,
@@ -224,33 +256,38 @@ function CreateMovie() {
             <div className="input-div">
                 <div className="label-form">
                     <div className="label">예고 사진</div>
-                    <div className="forms">
-                    <TextField
-                            id="imageInput"
-                            variant="filled"
-                            margin="normal"
-                            // placeholder="
-                            required
-                            autoFocus
-                            style={{
-                            
-                                backgroundColor: '#ffffff',
-                                
-                            }}
-                            InputProps={{
-                                className: classes.input
-                            }}
-                            //value=""
-                            //margin="normal"
-                    />
-                    <IconButton aria-label="add_photo" 
-                    onClick={
-                        console.log(document.getElementById("imageInput"))
-                        //</div>imageDispather();
-                    }>
-                    <AddCircleIcon/>
-                    </IconButton>
-                    {images.map(image => (
+                    <div className="form">
+                        <TextField
+                                id="imageInput"
+                                variant="filled"
+                                margin="normal"
+                                name="image"
+                                // placeholder="
+                                required
+                                autoFocus
+                                style={{
+                                    backgroundColor: '#ffffff',
+                                }}
+                                InputProps={{
+                                    className: classes.input
+                                }}
+                                value={imageInput}
+                                //margin="normal"
+                                onChange={(e)=>{
+                                    console.log(e.target.value);
+                                    setImageInput(e.target.value)}}
+                        />
+                        <IconButton 
+                            aria-label="add image"
+                            name="image"
+                            onClick = {handelClick}>
+                            <AddCircleIcon/>
+                        </IconButton>
+                    </div>
+                </div>
+                <div className="list">
+                {images.map(image => (
+                    <div className="item">
                         <TextField
                             variant="filled"
                             margin="normal"
@@ -265,15 +302,89 @@ function CreateMovie() {
                                 className: classes.input
                             }}
                             value={image}
+                            onClick={(e)=>{
+                                imageDispatch({
+                                    type: 'DELETE',
+                                    item: e.target.value
+                                });
+                            }}
                         />
-                    ))}
                     </div>
-                    
-                    
+                ))}
+                </div>   
+            </div>
+            <div className="input-div">
+            <div className="label-form">
+                    <div className="label">예고 영상</div>
+                    <div className="form">
+                        <TextField
+                                id="videoInput"
+                                variant="filled"
+                                margin="normal"
+                                name="video"
+                                // placeholder="
+                                required
+                                autoFocus
+                                style={{
+                                    backgroundColor: '#ffffff',
+                                }}
+                                InputProps={{
+                                    className: classes.input
+                                }}
+                                value={videoInput}
+                                //margin="normal"
+                                onChange={(e)=>{
+                                    console.log(e.target.value);
+                                    setVideoInput(e.target.value)}}
+                        />
+                        <IconButton 
+                            aria-label="add video"
+                            name="video"
+                            onClick = {handelClick}>
+                            <AddCircleIcon/>
+                        </IconButton>
+                    </div>
+                </div>
+                <div className="list">
+                {videos.map(video => (
+                    <div className="item">
+                        <TextField
+                            variant="filled"
+                            margin="normal"
+                            placeholder={video}
+                            required
+                            autoFocus
+                            style={{
+                                backgroundColor: '#ffffff',
+                            }}
+                            InputProps={{
+                                readOnly: true,
+                                className: classes.input
+                            }}
+                            value={video}
+                            onClick={(e)=>{
+                                videoDispatch({
+                                    type: 'DELETE',
+                                    item: e.target.value
+                                });
+                            }}
+                        />
+                    </div>
+                ))}
                 </div>
             </div>
             <Button variant="contained" href="nextpage" 
+                style={{
+                    width: '100px',
+                    backgroundColor: '#DA8181',
+                    borderRadius: 0,
+                    padding: '10px 0',
+                    marginLeft: '100px',
+                    marginBottom: '30px'
+                }}
                 // onClick={
+                //     // 등록된 영화 목록 페이지로 이동 
+                //     // 백엔드에 영화정보 보내서 레코드 생성되게 하기
                 // }
             >
             등록하기
