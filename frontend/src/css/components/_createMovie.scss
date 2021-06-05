@@ -1,0 +1,53 @@
+.createMovie{
+    height: 100vh;
+    .page {
+        display: flex;
+        align-items: flex-end;
+        .input-div{
+            display: flex;
+            flex-direction: column;
+            float: left;
+            width: max-content;
+            align-items: flex-start;
+            height:80vh;//max-content;
+            margin-left:50px;
+            .MuiInputBase-input{
+                width: 200px;
+            }
+            
+            .MuiFormControl-marginNormal {
+                margin-top: 0px !important;
+                margin-bottom: 0px !important;
+            }     
+            .MuiFilledInput-input{
+                padding: 10px 10px !important;
+            }
+            .MuiFilledInput-multiline {
+                padding : 0px !important;
+            }
+            .MuiFilledInput-underline:after {
+                border-bottom: 3px solid #850000 !important
+            }
+            .label-form{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                padding-top: 9px;
+                padding-bottom: 9px;
+                float:left;
+            }
+            .label{
+                width: 100px;
+                line-height: 39px;
+                text-align: center;
+                color: #ffffff;
+                margin-right: 10px;
+                height:39px;
+            }
+            .item{
+                margin-left: 110px;
+            }
+        }
+    }
+    
+}
