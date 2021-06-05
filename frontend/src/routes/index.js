@@ -7,7 +7,8 @@ import {
 	NowScreen,
 	MovieDetail,
 	Reserve,
-  CreateMovie
+  	CreateMovie,
+	CreateEMP
 } from '../pages';
 import '../css/main.scss';
 
@@ -21,8 +22,9 @@ function Router() {
 				<Route exact path="/moviescreen/:status" component={NowScreen} />
 				<Route exact path="/movie/:movieId" component={MovieDetail} />
 				<Route exact path="/reserve" component={Reserve} />
-        {/* 관리자용 PAGES  */}
+        		{/* 관리자용 PAGES  */}
 				<Route exact path="/createmovie" component={CreateMovie} />
+				<Route exact path="/createemployee" component={CreateEMP} />
 			</Switch>
 		</BrowserRouter>
 	)
