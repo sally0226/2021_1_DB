@@ -21,7 +21,9 @@ function Reserve() {
 		<Grid className="reserve">
 			<Header />
 			<DotStepper steps={steps} step={step} title={title} />
-			<StepContent step={step} next={stepNextHandler} prev={stepPrevHandler} />
+			<Grid className="step-grid">
+				<StepContent step={step} next={stepNextHandler} prev={stepPrevHandler} />
+			</Grid>
 		</Grid>
 	);
 };
@@ -36,6 +38,17 @@ function StepContent ({step, next, prev}) {
 function stepZero({next}) {
 	return (
 		<Grid className="stepZero">
+			<Grid item xs={6} className="left">
+				<Grid className="zeroHead">
+					영화선택
+				</Grid>
+				<Grid className="leftbody">
+					하이
+				</Grid>
+			</Grid>
+			<Grid item xs={6} className="right">
+				오늘
+			</Grid>
 		</Grid>
 	);
 };

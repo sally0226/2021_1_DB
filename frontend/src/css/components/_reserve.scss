@@ -2,4 +2,28 @@
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
+	width:100%;
+
+	.step-grid{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		margin-top: 1rem;
+	}
+
+	.stepZero {
+		width: 70%;
+		background-color: aqua;
+		display: flex;
+		flex-direction: row;
+		
+		.left {
+			display: flex;
+			flex-direction: column;
+			border-right: solid;
+			border-color: #969696;
+			border-width: 1px;
+		}
+	}
 }
