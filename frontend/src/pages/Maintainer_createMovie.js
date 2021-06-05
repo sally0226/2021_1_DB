@@ -1,6 +1,6 @@
 import React, { useReducer, useState } from 'react';
 import { Header } from '../components';
-import { Grid, TextField, Button, makeStyles, IconButton } from '@material-ui/core';
+import { TextField, Button, makeStyles, IconButton } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 // import {AiOutlineLink} from 'react-icons';
 import DatePicker from "react-datepicker";
@@ -77,7 +77,6 @@ function CreateMovie() {
           ...movieInfo,
           [e.target.name]: e.target.value
         });
-        console.log(movieInfo);
       };
     return (
         <div className="createMovie">

@@ -5,3 +5,4 @@ export { default as CreateMovie} from './Maintainer_createMovie';
 export { default as NowScreen } from './NowScreen';
 export { default as MovieDetail } from './MovieDetail';
 export { default as Reserve } from './Reserve';
+export { default as CreateEMP} from './Maintainer_createEMP';
