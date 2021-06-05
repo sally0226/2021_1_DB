@@ -1,7 +1,11 @@
 import React, { forwardRef, useState } from 'react'
 
-import { Grid, Button, FilledInput, FormControl, FormHelperText, InputAdornment } from '@material-ui/core';
+import { Grid, Button, FilledInput, FormControl, FormHelperText, InputAdornment, Link } from '@material-ui/core';
+import CreditCardIcon from '@material-ui/icons/CreditCard';
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+import BeenhereIcon from '@material-ui/icons/Beenhere';
 import DatePicker from "react-datepicker";
+
 import { DotStepper, Header, RatingCircle } from '../components'
 import { useMovieState } from '../MVVM/model/MovieModel';
 
@@ -53,7 +57,7 @@ function StepZero({next, data, selectMovie}) {
 	const [selectedMovie, setSelectedMovie] = useState(0);
 	const handleMovieSelect = (i) => {
 		setSelectedMovie(i);
-		selectedMovie(i);
+		selectMovie(i);
 	}
 	const [selectedDate, setSelectedDate] = useState(new Date());
 	const handleDateChange = (date) => {
@@ -138,6 +142,13 @@ function StepFirst({next, prev}) {
 };
 function StepSecond({next, prev, data, movieId}) {
 	const [point, setPoint] = useState(0);
+	const [DC, setDC] = useState(-1);
+	const [payment, setPayment] = useState(0);
+
+	const handlerDCClick = (i) => {
+		if(i===DC) setDC(-1); // 다시 누르면 취소
+		else setDC(i);
+	}
 
 	return (
 		<Grid className="stepSecond">
@@ -177,18 +188,41 @@ function StepSecond({next, prev, data, movieId}) {
 				</Grid>
 				<Grid className={`${'right-border'} ${'SecondBody'}`}>
 					<Grid className="middle-content">
-						<p className="content-head">할인/포인트</p>
+						<p className="content-head">포인트 사용</p>
 						<FormControl>
 							<FilledInput
 								value={point}
 								onChange={(e)=>setPoint(e.target.value)}
 								endAdornment={<InputAdornment position="end">원</InputAdornment>}
+								disableUnderline
 							/>
 							<FormHelperText>잔여 포인트 : </FormHelperText>
 						</FormControl>
 					</Grid>
 					<Grid className="middle-content">
+						<p className="content-head">할인</p>
+						{/* 할인 방법 불러오기 */}
+						<Grid className="DC-grid">
+							<Grid className={DC === 0 ? 'DC-content content-active' : 'DC-content'} onClick={()=>handlerDCClick(0)}>
+								skt멤버쉽
+							</Grid>
+							<Grid className={DC === 1 ? 'DC-content content-active' : 'DC-content'} onClick={()=>handlerDCClick(1)}>
+								kt멤버쉽
+							</Grid>
+						</Grid>
+					</Grid>
+					<Grid className="middle-content">
 						<p className="content-head">결제방법</p>
+						<Grid className="payment-grid">
+							<Grid className={payment===0 ? 'payment-content content-active' : 'payment-content'} onClick={()=>setPayment(0)}>
+								<CreditCardIcon />
+								신용카드
+							</Grid>
+							<Grid className={payment===1 ? 'payment-content content-active' : 'payment-content'} onClick={()=>setPayment(1)}>
+								<AccountBalanceWalletIcon />
+								무통장입금
+							</Grid>
+						</Grid>
 					</Grid>
 				</Grid>
 			</Grid>
@@ -197,16 +231,94 @@ function StepSecond({next, prev, data, movieId}) {
 					결제하기
 				</Grid>
 				<Grid className="SecondBody">
-					hi
+					<Grid className="final-row">
+						<p className="final-head">상품금액</p>
+						<p style={{fontWeight:'bold'}}>원</p>
+					</Grid>
+					<Grid className="final-row">
+						<p className="final-head">할인금액</p>
+						<p style={{fontWeight:'bold'}}>원</p>
+					</Grid>
+					<Grid className="final-row">
+						<p className="final-head">총 금액</p>
+						<p style={{fontWeight:'bold'}}>원</p>
+					</Grid>
+					<Button
+						variant="contained"
+						fullWidth
+						style={{
+							backgroundColor:'#985555',
+							color:'white',
+							fontWeight:'bold',
+							marginBottom:'1rem',
+						}}
+						onClick={next}
+					>
+						결제하기
+					</Button>
+					<Button
+						variant="contained"
+						fullWidth
+						style={{
+							backgroundColor:'gray',
+							color:'white',
+							marginBottom:'1rem',
+						}}
+						onClick={prev}
+					>
+						이전단계
+					</Button>
+					<Button
+						variant="contained"
+						fullWidth
+						style={{
+							backgroundColor:'gray',
+							color:'white',
+							textDecoration:'none'
+						}}
+						component={Link}
+						href="/"
+					>
+						취소하기
+					</Button>
 				</Grid>
 			</Grid>
 		</Grid>
 	);
 };
 function StepFinal(){
+	// 영화 정보 넣어야함!
 	return (
 		<Grid className="stepFinal">
-			결제완료
+			<Grid className="FinalBody">
+				<BeenhereIcon />
+				<p style={{fontSize:'2rem',fontWeight:'bold', marginTop: '2rem'}}>결제가 완료되었습니다.</p>
+				<Grid className="reserve-info">
+					<Grid className="info-content">
+						<Grid className="left">
+							영화이름
+						</Grid>
+						<Grid className="right">
+							hi
+						</Grid>
+					</Grid>
+					<Grid className="info-content">
+						<Grid className="left">
+							일시
+						</Grid>
+					</Grid>
+					<Grid className="info-content">
+						<Grid className="left">
+							상영관
+						</Grid>
+					</Grid>
+					<Grid className="info-content">
+						<Grid className="left">
+							좌석
+						</Grid>
+					</Grid>
+				</Grid>
+			</Grid>
 		</Grid>
 	);
 };

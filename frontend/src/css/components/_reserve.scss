@@ -186,11 +186,107 @@
 			margin-bottom: 10px;
 		}
 		.MuiFilledInput-input {
-			padding: 1rem;
+			padding: 10px;
+		}
+
+		.DC-grid {
+			display: flex;
+			width: 100%;
+
+			.DC-content {
+				background-color: white;
+				border-radius: 5px;
+				padding: 10px;
+				margin-right: 1rem;
+				border: 1px solid gray;
+				cursor: pointer;
+			}
+			.content-active {
+				background-color: #985555;
+				color: white;
+			}
+		}
+
+		.payment-grid {
+			display: flex;
+			width: 100%;
+
+			.payment-content {
+				background-color: white;
+				border-radius: 5px;
+				padding: 10px;
+				margin-right: 1rem;
+				border: 1px solid gray;
+				cursor: pointer;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				font-size: 0.8rem;
+				width:25%;
+			}
+			.content-active {
+				background-color: #985555;
+				color:white;
+			}
+		}
+
+		.final-row {
+			width:100%;
+			display: flex;
+			flex-direction: column;
+			margin-bottom: 2rem;
+
+			.final-head {
+				margin-bottom: 8px;
+			}
 		}
 	}
 	// stepSecond -->
 
 	// <-- stepFinal
+	.stepFinal {
+		width: 90%;
+		display: flex;
+		flex-direction: row;
+		height: 30rem;
+
+		.FinalBody {
+			height: 100%;
+			width:100%;
+			background-color: #E8D9D9;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+			.MuiSvgIcon-root {
+				width:5rem;
+				height:5rem;
+				margin-top: 3rem;
+			}
+
+			.reserve-info {
+				display:flex;
+				flex-direction: column;
+				background-color: white;
+				margin-top: 3rem;
+				width: 50%;
+
+				.info-content {
+					display:flex;
+					flex-direction: row;
+
+					.left {
+						width: 30%;
+						border-right: 1px solid gray;
+						padding: 1rem;
+					}
+					.right {
+						padding: 1rem;
+					}
+				}
+			}
+		}
+
+	}
 	// stepFinal -->
 }
