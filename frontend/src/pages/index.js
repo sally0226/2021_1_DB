@@ -6,3 +6,5 @@ export { default as NowScreen } from './NowScreen';
 export { default as MovieDetail } from './MovieDetail';
 export { default as Reserve } from './Reserve';
 export { default as CreateEMP} from './Admin_createEMP';
+export { default as AdminMovieList} from './Admin_movieList';
+export { default as ModifyMovie} from './Admin_modifyMovie';
