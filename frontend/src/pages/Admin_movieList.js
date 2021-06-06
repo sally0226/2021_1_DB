@@ -20,9 +20,6 @@ function dataReducer(state, action) {
         case 'DELETE':
             return state.filter(item => item.id != action.index);
         case 'END':
-            console.log(typeof(action.index));
-            console.log(typeof(state[0].id));
-            
             return state.map(item =>
                 item.id == action.index ? {...item, isScreen: false} : item);
 
@@ -35,8 +32,6 @@ function AdminMovieList(){
     // TODO: 초기값 []로 바꾸고 useEffect 사용해서 back에서 불러와서 state설정하는 것으로 변경 
     const movieData = useMovieState();
     const [data, dataDispatch] = useReducer(dataReducer, movieData);
-    console.log(data[0]);
-    //console.log(data);
     function handelClick(e) {
         //console.log(e.currentTarget.id);
         if (e.currentTarget.name === "delete-btn") {
@@ -56,7 +51,6 @@ function AdminMovieList(){
             // 영화 등록 페이지로 넘겨서 칸 기본값을 기존 값으로 채워놓기 
 
         }
-        console.log(data)
     }
     return(
         <div className="adminMovieList">
