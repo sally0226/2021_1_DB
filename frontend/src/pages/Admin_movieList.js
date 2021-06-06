@@ -7,72 +7,21 @@ import { Table,TableBody, TableCell, TableContainer, TableHead, TableRow } from 
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import CancelIcon from '@material-ui/icons/Cancel';
+import { useMovieState } from '../MVVM/model/MovieModel'
+function dateToString(date){
+    var year = date.getFullYear();
+    var month = ("0" + (1 + date.getMonth())).slice(-2);
+    var day = ("0" + date.getDate()).slice(-2);
 
-const rows = [ // TODO : back에서 받아오는 것으로 바꿔야함 
-    {
-        id: "0", // 영화 번호 
-        name: "겨울왕국0", // 영화명
-        startDate: "2021-06-06", // 상영 시작일
-        isScrn: 0 //상영중 여부 
-    },
-    {
-        id: "1",
-        name: "겨울왕국1",
-        startDate: "2021-06-06",
-        isScrn: 0
-    },
-    {
-        id: "2",
-        name: "겨울왕국2",
-        startDate: "2021-06-06",
-        isScrn: 0
-    },
-    {
-        id: "3",
-        name: "겨울왕국3",
-        startDate: "2021-06-06",
-        isScrn: 1
-    },
-    {
-        id: "4",
-        name: "겨울왕국4",
-        startDate: "2021-06-06",
-        isScrn: 1
-    },
-    {
-        id: "5",
-        name: "겨울왕국5",
-        startDate: "2021-06-06",
-        isScrn: 1
-    },
-    {
-        id: "6",
-        name: "겨울왕국6",
-        startDate: "2021-06-06",
-        isScrn: 0
-    },
-    {
-        id: "7",
-        name: "겨울왕국7",
-        startDate: "2021-06-06",
-        isScrn: 0
-    },
-    {
-        id: "8",
-        name: "겨울왕국8",
-        startDate: "2021-06-06",
-        isScrn: 0
-    },
-
-];
-
+    return year + "-" + month + "-" + day;
+}
 function dataReducer(state, action) {
     switch (action.type) {
         case 'DELETE':
-            return state.filter(item => item.id !== action.index);
+            return state.filter(item => item.id != action.index);
         case 'END':
             return state.map(item =>
-                item.id === action.index ? {...item, isScrn: 0} : item);
+                item.id == action.index ? {...item, isScreen: false} : item);
 
         //case 'MODIFY':
         default:
@@ -81,8 +30,8 @@ function dataReducer(state, action) {
 }
 function AdminMovieList(){
     // TODO: 초기값 []로 바꾸고 useEffect 사용해서 back에서 불러와서 state설정하는 것으로 변경 
-    const [data, dataDispatch] = useReducer(dataReducer, rows);
-    //console.log(data);
+    const movieData = useMovieState();
+    const [data, dataDispatch] = useReducer(dataReducer, movieData);
     function handelClick(e) {
         //console.log(e.currentTarget.id);
         if (e.currentTarget.name === "delete-btn") {
@@ -92,10 +41,11 @@ function AdminMovieList(){
             })
         } 
         else if (e.currentTarget.name === 'scrn-end-btn') {
+            //console.log(e.currentTarget.id);
             dataDispatch({
                 type: 'END',
                 index: e.currentTarget.id
-            })
+            });
         }
         else if (e.currentTarget.name === 'modify-btn') {
             // 영화 등록 페이지로 넘겨서 칸 기본값을 기존 값으로 채워놓기 
@@ -123,8 +73,8 @@ function AdminMovieList(){
                             <TableCell component="th" scope="row">
                               {row.name}
                             </TableCell>
-                            <TableCell align="left">{row.startDate}</TableCell>
-                            <TableCell align="left">{row.isScrn}</TableCell>
+                            <TableCell align="left">{dateToString(row.Date)}</TableCell>
+                            <TableCell align="left">{row.isScreen ? 1 : 0}</TableCell>
                             <TableCell align="left">
                                 <IconButton 
                                     aria-label="modify btn"
