@@ -12,7 +12,7 @@ export default function Header() {
 	const subLinkDefault = [["/reserve", "/"],["/moviescreen/now", "/moviescreen/will"]];
 
 	const subnavManager = [["영화 등록", "영화 조회/편집"], ["직원 등록", "직원 조회/편집"],["상영관 관리"],["상영일정 등록", "상영일정 조회/편집"], ["출입 명부"]];
-	const subLinkManager = [["/createmovie", "/"],["/", "/"],["/"],["/","/"],["/"]];
+	const subLinkManager = [["/createmovie", "/"],["/createemployee", "/"],["/"],["/","/"],["/"]];
 	
 	// hover 효과 idx(큰 메뉴의 idx)
 	const [idx, setIdx] = useState(0);
