@@ -131,12 +131,53 @@ function StepZero({next, data, selectMovie}) {
 		</Grid>
 	);
 };
+
 function StepFirst({next, prev}) {
+	function handelClick(e){
+		console.log(e.target);
+		console.log("clicked")
+		
+	}
+	function Seat(props) {
+		if (props.isSelected === 1) {
+			return (
+				<div className="selected-seat"
+					id={props.id}
+					onClick={handelClick}>
+				</div>
+			)
+		}
+		else {
+			return (
+				<div className="seat"
+					id={props.id}
+					onClick={handelClick}>
+				</div>
+			)
+		}
+		
+	};
+	const seatRow = 10;
+	const seatCol = 20;
+	var seatsData = [];
 	return (
 		<Grid className="stepFirst">
-			인원좌석
-			<Button onClick={prev}>prev</Button>
-			<Button onClick={next}>next</Button>
+			<Grid className="label">
+				
+			</Grid>
+			<Grid className="map">
+				<Grid className="screen">S C R E E N</Grid>
+				<Grid className="seats">
+					{[...Array(seatRow)].map((r, indexR) => (
+						<Grid className="seat-row" id={indexR}>
+							{[...Array(seatCol)].map((c, indexC) => (
+								<Seat isSelected={0} id={indexR+'-'+indexC}/>
+							))}
+						</Grid>
+					))}
+					
+				</Grid>
+			</Grid>			
 		</Grid>
 	);
 };
