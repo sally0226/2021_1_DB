@@ -22,7 +22,7 @@
 
 		.zeroHead {
 			color: white;
-			background-color: #525252;
+			background-color:var(--table-head-color);
 			padding: 1rem;
 			text-align: center;
 			font-size: 1.2rem;
@@ -41,7 +41,7 @@
 
 		.zeroBody {
 			height: 100%;
-			background-color: #E8D9D9;
+			background-color: var(--table-body-color);
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -67,12 +67,20 @@
 		.dateGrid {
 			margin-bottom: 1rem;
 			.custom-input {
-				background-color: #985555;
+				background-color: var(--picker-bg-color);
 				color: white;
 				border-radius: 1rem;
 				font-size: 1.2rem;
 				padding: 0.5rem;
 				border:none;
+				cursor:pointer;
+				transition-property: filter;
+				transition-duration: 0.5s;
+			}
+			.custom-input:hover {
+				filter:brightness(0.8);
+				transition-property: filter;
+				transition-duration: 0.5s;
 			}
 		}
 
@@ -119,7 +127,7 @@
 
 		.SecondHead {
 			color: white;
-			background-color: #525252;
+			background-color:var(--table-head-color);
 			padding: 1rem;
 			text-align: center;
 			font-size: 1.2rem;
@@ -138,7 +146,7 @@
 
 		.SecondBody {
 			height: 100%;
-			background-color: #E8D9D9;
+			background-color: var(--table-body-color);
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -253,7 +261,7 @@
 		.FinalBody {
 			height: 100%;
 			width:100%;
-			background-color: #E8D9D9;
+			background-color: var(--table-body-color);
 			display: flex;
 			flex-direction: column;
 			align-items: center;

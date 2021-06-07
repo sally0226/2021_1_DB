@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
 import { Header } from '../components';
-import { Grid, Tabs, Tab, TextField, Button, makeStyles } from '@material-ui/core';
+import { Grid, Tabs, Tab, TextField, Button } from '@material-ui/core';
 
-const styles = makeStyles((theme) => ({
-	input: {
-		color: "#000000",
-	},
-}));
 
 function Login() {
-	const classes = styles();
-
 	// <-- tab state
 	const [tabValue, setTabValue] = useState(0);
 	const tabHandler = (event, newValue) => {
@@ -21,7 +14,7 @@ function Login() {
 	// <-- input
 	const [id, setId] = useState(""); // 비회원시 이름
 	const [pw, setPw] = useState(""); // 비회원시 비밀번호
-	const [phone, setPhone] = useState(); // 비회원시 필요한 폰
+	const [phone, setPhone] = useState(""); // 비회원시 필요한 폰
 	
 	const SubmitHandler = (event) => {
 		alert('A name was submitted: ' + id + 'pw : ' + pw);
@@ -62,9 +55,6 @@ function Login() {
 									style={{
 										backgroundColor: '#ffffff'
 									}}
-									InputProps={{
-									className: classes.input
-									}}
 									value={id}
 									onChange={(e)=>setId(e.target.value)}
 								/>
@@ -77,9 +67,6 @@ function Login() {
 									autoFocus
 									style={{
 										backgroundColor: '#ffffff'
-									}}
-									InputProps={{
-										className: classes.input
 									}}
 									value={pw}
 									onChange={(e)=>setPw(e.target.value)}
@@ -112,9 +99,6 @@ function Login() {
 									style={{
 										backgroundColor: '#ffffff'
 									}}
-									InputProps={{
-									className: classes.input
-									}}
 									value={id}
 									onChange={(e)=>setId(e.target.value)}
 								/>
@@ -123,13 +107,9 @@ function Login() {
 									margin="normal"
 									fullWidth
 									placeholder="Phone Number"
-									type="number"
 									autoFocus
 									style={{
 										backgroundColor: '#ffffff'
-									}}
-									InputProps={{
-										className: classes.input
 									}}
 									value={phone || ''}
 									onChange={(e)=>setPhone(e.target.value)}
@@ -143,9 +123,6 @@ function Login() {
 									autoFocus
 									style={{
 										backgroundColor: '#ffffff'
-									}}
-									InputProps={{
-										className: classes.input
 									}}
 									value={pw}
 									onChange={(e)=>setPw(e.target.value)}

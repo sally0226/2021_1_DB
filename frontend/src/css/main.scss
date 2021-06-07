@@ -2,6 +2,8 @@
 @import './base/reset';
 @import './base/variables';
 @import './base/background';
+@import './common/table.scss';
+@import './common/input.scss';
 
 // components
 @import './components/header';
@@ -21,6 +23,8 @@
 @import './components/reserve';
 @import './components/createEMP';
 @import './components/adminMovieList';
+@import './components/adminEnterList';
+@import './components/enter';
 
 // slick
 @import "slick-carousel/slick/slick.css"; 

@@ -1,10 +1,12 @@
 import React from 'react'
-import { MovieModel } from '.'
+import { MovieModel, VisitorModel } from '.'
 
 function ModelProvider({ children }) {
 	return (
 		<MovieModel>
-			{children}
+			<VisitorModel>
+				{children}
+			</VisitorModel>
 		</MovieModel>
 	)
 }
