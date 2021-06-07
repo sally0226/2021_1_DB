@@ -12,7 +12,7 @@ export default function Header() {
 	const subLinkDefault = [["/reserve", "/"],["/moviescreen/now", "/moviescreen/will"]];
 
 	const subnavManager = [["영화 등록", "영화 조회/편집"], ["직원 등록", "직원 조회/편집"],["상영관 관리"],["상영일정 등록", "상영일정 조회/편집"], ["출입 명부"]];
-	const subLinkManager = [["/createmovie", "/adminmovielist"],["/createemployee", "/"],["/"],["/","/"],["/"]];
+	const subLinkManager = [["/createmovie", "/adminmovielist"],["/createemployee", "/"],["/"],["/","/"],["/adminenterlist"]];
 	
 	// hover 효과 idx(큰 메뉴의 idx)
 	const [idx, setIdx] = useState(0);
@@ -34,9 +34,10 @@ export default function Header() {
 						<Link href="/" style={{ textDecoration: 'none' }} color="inherit">시DB</Link>
 					</Grid>
 					<Grid className="h-button">
-						<Link />
-						<Link />
-						{/* 왠지 모르겠는데 위에 두개 없으면 자꾸 login, register페이지로감 */}
+						<Link style={{display:'none'}}>h</Link>
+						<Link style={{display:'none'}}>h</Link>
+						<Link style={{display:'none'}}>h</Link>
+						{/* 왠지 모르겠는데 위에 없으면 자꾸 login, register페이지로감 */}
 						<Link href="/" color="inherit" style={{cursor:'pointer'}} onClick={modeHandler}>회원메뉴</Link>
 					</Grid>
 				</Grid>
@@ -75,6 +76,7 @@ export default function Header() {
 						<Link href="/" style={{ textDecoration: 'none' }} color="inherit">시DB</Link>
 					</Grid>
 					<Grid className="h-button">
+						<Link href="/enterroom" style={{marginRight:'1rem'}} color="inherit">출입명부작성</Link>
 						<Link href="/login" style={{marginRight:'1rem'}} color="inherit">로그인</Link>
 						<Link href="/register" style={{marginRight:'1rem'}} color="inherit">회원가입</Link>
 						<Link href="/" color="inherit" onClick={modeHandler}>관리자</Link>

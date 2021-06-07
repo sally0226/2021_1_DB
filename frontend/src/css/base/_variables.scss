@@ -1,3 +1,10 @@
 // 컬러팔레트
 
-$white: #fcfcfc; // 예시
+:root {
+	--table-head-color:#525252;
+	--table-body-color:#E8D9D9;
+
+	--picker-bg-color:#985555;
+
+	--red-border-color:#850000;
+}

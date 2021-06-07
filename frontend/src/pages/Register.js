@@ -1,17 +1,10 @@
 import React, { useState } from 'react'
 import { Header } from '../components';
-import { Grid, TextField, makeStyles, Button, Checkbox, FormControlLabel } from '@material-ui/core';
+import { Grid, TextField, Button, Checkbox, FormControlLabel } from '@material-ui/core';
 import { CSSTransition } from 'react-transition-group';
 
-const styles = makeStyles((theme) => ({
-	input: {
-		color: "#000000",
-	  }
-}));
 
 function Register() {
-	const classes = styles();
-
 	// <-- check button
 	const [checked, setChecked] = useState(false);
 	const checkHandler = (e) => {
@@ -21,7 +14,7 @@ function Register() {
 
 	// <-- input
 	const [name, setName] = useState("");
-	const [phone, setPhone] = useState();
+	const [phone, setPhone] = useState("");
 	const [id, setId] = useState("");
 	const [pw, setPw] = useState("");
 	const [key, setKey] = useState("");
@@ -47,9 +40,6 @@ function Register() {
 						style={{
 							backgroundColor: '#ffffff',
 						}}
-						InputProps={{
-						className: classes.input
-						}}
 						value={name}
 						onChange={(e)=>setName(e.target.value)}
 					/>
@@ -58,14 +48,10 @@ function Register() {
 						margin="normal"
 						fullWidth
 						placeholder="Phone Number"
-						type="number"
 						required
 						autoFocus
 						style={{
 							backgroundColor: '#ffffff'
-						}}
-						InputProps={{
-						className: classes.input
 						}}
 						value={phone || ''}
 						onChange={(e)=>setPhone(e.target.value)}
@@ -80,9 +66,6 @@ function Register() {
 						style={{
 							backgroundColor: '#ffffff'
 						}}
-						InputProps={{
-						className: classes.input
-						}}
 						value={id}
 						onChange={(e)=>setId(e.target.value)}
 					/>
@@ -96,9 +79,6 @@ function Register() {
 						autoFocus
 						style={{
 							backgroundColor: '#ffffff'
-						}}
-						InputProps={{
-						className: classes.input
 						}}
 						value={pw}
 						onChange={(e)=>setPw(e.target.value)}
@@ -129,9 +109,6 @@ function Register() {
 							style={{
 								backgroundColor: '#ffffff'
 							}}
-							InputProps={{
-							className: classes.input
-							}}
 							value={key}
 							onChange={(e)=>setKey(e.target.value)}
 						/>
@@ -146,9 +123,6 @@ function Register() {
 						autoFocus
 						style={{
 							backgroundColor: '#ffffff'
-						}}
-						InputProps={{
-						className: classes.input
 						}}
 						value={reg}
 						onChange={(e)=>setReg(e.target.value)}

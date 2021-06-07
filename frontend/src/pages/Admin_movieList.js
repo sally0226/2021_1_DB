@@ -7,14 +7,9 @@ import { Table,TableBody, TableCell, TableContainer, TableHead, TableRow } from 
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import CancelIcon from '@material-ui/icons/Cancel';
-import { useMovieState } from '../MVVM/model/MovieModel'
-function dateToString(date){
-    var year = date.getFullYear();
-    var month = ("0" + (1 + date.getMonth())).slice(-2);
-    var day = ("0" + date.getDate()).slice(-2);
+import { useMovieState } from '../MVVM/model/MovieModel';
+import dateToString from '../function/DateToString';
 
-    return year + "-" + month + "-" + day;
-}
 function dataReducer(state, action) {
     switch (action.type) {
         case 'DELETE':
@@ -58,14 +53,12 @@ function AdminMovieList(){
             <div className="page">
                 <Table className="movieTable"  size="small" aria-label="simple table">
                     <TableHead>
-                        <TableRow>
-                            <TableCell>영화명</TableCell>
-                            <TableCell>상영 시작일자</TableCell>
-                            <TableCell>상영중 여부</TableCell>
-                            <TableCell>수정</TableCell>
-                            <TableCell>상영 종료</TableCell>
-                            <TableCell>삭제</TableCell>
-                        </TableRow>
+						<TableCell>영화명</TableCell>
+						<TableCell>상영 시작일자</TableCell>
+						<TableCell>상영중 여부</TableCell>
+						<TableCell>수정</TableCell>
+						<TableCell>상영 종료</TableCell>
+						<TableCell>삭제</TableCell>
                     </TableHead>
                     <TableBody>
                         {data.map((row)=>(
