@@ -149,16 +149,18 @@
 				margin:2px;
 			}
 			.selected-seat{
-				width: 15px;
-				height: 15px;
-				background-color: blue;
+				width: 20px;
+				height: 20px;
+				background-color: #985555;
 				border-radius: 5px;
+				margin:2px;
 			}
 			.invalid-seat{ // 이미 팔린 좌석
-				width: 15px;
-				height: 15px;
-				background-color: gray;
+				width: 20px;
+				height: 20px;
+				background-color: #525252;
 				border-radius: 5px;
+				margin:2px;
 			}
 		}
 		
