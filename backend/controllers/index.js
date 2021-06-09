@@ -1,5 +1,5 @@
-import InsertItem from './testController';
-import UserController from './UserController';
+const InsertItem = require('./testController');
+const UserController = require('./UserController');
 
 export {
    InsertItem,

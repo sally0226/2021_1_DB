@@ -1,7 +1,8 @@
 const express = require('express');
+const UserController = require('../controllers/userController');
 const router = express.Router();
-import UserRouter from './UserRouter';
 
-router.use('/api/user', UserRouter);
+router.post('/signup', UserController.signUp) 
+//router.use('/login', UserController.logIn)
 
 module.exports = router;

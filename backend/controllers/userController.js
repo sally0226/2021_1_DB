@@ -1,37 +1,49 @@
-import { Request, Response, NextFunction } from 'express';
-//import { errorGenerator } from '../errors';
-import bcrypt from 'bcryptjs' ;
-import { UserService } from '../Services';
+const bcrypt = require('bcrypt');
+const errorGenerator = require('../function/errorGeneratior');
+const  userModel = require('../models/userModel');
 
 const signUp = async (req, res, next) => {
   try{
-    const { id, password } = req.body;
-    //if (!email || !password) errorGenerator({ message: 'invalid input', statusCode: 400})
+    const { name, phone, id, password, regnum } = req.body;
+	// 입력사항을 입력하지 않으면 에러.
+    if (!id || !password) errorGenerator({ message: 'invalid input', statusCode: 400});
+	/*
+	위 코드는 이것과 같은 말.
+	if (!id || !password) {
+      const err = new Error('invalid input')
+      err.statusCode = 400
+      throw err
+    } catch(err) {
+      res.status(400).json({ message: err.message })
+    }
+	*/
+    
+	/* 이미 유저가 있다면 가입 불가. */
+    const foundUser = await userModel.findUser({ id }) ;
+    if (foundUser) errorGenerator({ statusCode: 409 });
+    
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // if (!email || !password) {
-    //   const err = new Error('invalid input')
-    //   err.statusCode = 400
-    //   throw err
-    // } catch(err) {
-    //   res.status(400).json({ message: err.message })
-    // }       
+	const userData = {
+		name: name,
+		phone: phone,
+		id: id,
+		password: password,
+		regnum: regnum
+	}
     
-    const foundUser = await UserService.findUser({ email }) 
-    if (foundUser) errorGenerator({ statusCode: 409 })
-    
-    const hashedPassword = await bcrypt.hash(password, 10)
-    
-    const createdUser = await UserService.createUser({ email, password: hashedPassword})
-    
-    res.status(201).json({ message: 'created', createdUserEmail: createdUser.email })
+	userModel.insertData(userData, (result)=>{
+		if(result) console.log(result);
+	})
+
+    res.status(201).json({ message: 'created', createdUserEmail: createdUser.email });
     
   } catch(err) {
     next(err)
   }
 }
 
-// UserController에서 구현한 함수가 객체에 맵핑됨
-export {
-  signUp,
-  logIn
+
+module.exports ={
+    signUp:signUp,
 }
