@@ -1,28 +1,39 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 import { Header } from '../components';
-import { Grid, TextField, Button, Checkbox, FormControlLabel } from '@material-ui/core';
-import { CSSTransition } from 'react-transition-group';
+import { Grid, TextField, Button } from '@material-ui/core';
+import { API_URL } from '../CommonVariable';
 
 
 function Register() {
-	// <-- check button
-	const [checked, setChecked] = useState(false);
-	const checkHandler = (e) => {
-		setChecked(e.target.checked);
-	}
-	// check button -->
 
 	// <-- input
 	const [name, setName] = useState("");
 	const [phone, setPhone] = useState("");
 	const [id, setId] = useState("");
 	const [pw, setPw] = useState("");
-	const [key, setKey] = useState("");
 	const [reg, setReg] = useState("");
+	const [birth, setBirth] = useState("")
 
 	const SubmitHandler = (event) => {
-		alert(`name : ${name} \n phone: ${phone} \n id: ${id} \n pw: ${pw} \n key: ${key}`);
 		event.preventDefault();
+		let body = {
+			name: name,
+			phone: phone,
+			id: id,
+			password: pw,
+			regnum: reg,
+			birth: birth,
+		}
+		axios.post(`${API_URL}/signup`, body)
+		.then(response=>{
+			if(response.data.success){
+				alert(`${response.data.userId}님 가입을 축하드립니다!`);
+				window.location.href='/';
+			}
+			else
+				alert(response.data.message);
+		})
 	}
 	// input -->
 	return (
@@ -83,36 +94,6 @@ function Register() {
 						value={pw}
 						onChange={(e)=>setPw(e.target.value)}
 					/>
-					<FormControlLabel
-        				control={
-							<Checkbox
-								checked={checked}
-								onChange={checkHandler}
-								style={{ color:'#ffffff' }}
-							/>
-						}
-        				label="Are you Admin?"
-						style={{ color: '#ffffff'}}
-      				/>
-					<CSSTransition
-						in={checked}
-						timeout={300}
-						classNames="adminInput"
-						unmountOnExit
-					>
-						<TextField
-							variant="filled"
-							margin="normal"
-							fullWidth
-							placeholder="Admin Key"
-							autoFocus
-							style={{
-								backgroundColor: '#ffffff'
-							}}
-							value={key}
-							onChange={(e)=>setKey(e.target.value)}
-						/>
-					</CSSTransition>
 					<TextField
 						variant="filled"
 						margin="normal"
@@ -126,6 +107,20 @@ function Register() {
 						}}
 						value={reg}
 						onChange={(e)=>setReg(e.target.value)}
+					/>
+					<TextField
+						variant="filled"
+						margin="normal"
+						fullWidth
+						placeholder="birthdate 8string"
+						type="number"
+						required
+						autoFocus
+						style={{
+							backgroundColor: '#ffffff'
+						}}
+						value={birth}
+						onChange={(e)=>setBirth(e.target.value)}
 					/>
 					<Button 
 						variant="contained"
