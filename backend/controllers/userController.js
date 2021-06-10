@@ -2,9 +2,11 @@ const bcrypt = require('bcrypt');
 const errorGenerator = require('../function/errorGenerator');
 const  userModel = require('../models/userModel');
 
+
 const signUp = async (req, res, next) => {
   try{
-    const { name, phone, id, password, regnum } = req.body;
+    const { name, phone, id, password, regnum, birth } = req.body;
+
 	// 입력사항을 입력하지 않으면 에러.
     if (!id || !password) errorGenerator.errorGenerator({ message: 'invalid input', statusCode: 400});
 	/*
@@ -28,13 +30,14 @@ const signUp = async (req, res, next) => {
 		name: name,
 		phone: phone,
 		id: id,
-		password: password,
-		regnum: regnum
+		password: password, // hashedPassword로 바꿔서 보내기~
+		regnum: regnum,
+		birth: birth,
 	};
     
 	const result = await userModel.insertData(userData);
 	if(result === "success")
-		res.status(201).json({ message: 'success', userId: hashedPassword});
+		res.status(201).json({ message: 'success', userId: password});
 	else errorGenerator.errorGenerator({ message: result, statusCode: 500 });
     
   } catch(err) {
