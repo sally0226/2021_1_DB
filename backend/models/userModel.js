@@ -10,14 +10,17 @@ async function findUser (id)  { //삽입
 async function insertData (data)  { //삽입
 	// num, name, birth, phone, code(20001)
 	// num, csnum, regnum, id, password, point
-    const cssql = `INSERT INTO CS VALUES(1, '${data.name}', '${new Date()}', '${data.phone}', '20001')`;
+	const date = "19981229";
+    const cssql = `INSERT INTO CS VALUES(1, '${data.name}', to_date(${date}, 'yyyy-mm-dd'), '${data.phone}', '20001')`;
 	const memsql = `INSERT INTO MEM VALUES(1, 1, '${data.regnum}', '${data.id}', '${data.password}', 0)`;
-    console.log(sql);
+    console.log(cssql);
     try {
-        await conn.simpleExecute(sql);
+        await conn.simpleExecute(cssql);
+		await conn.simpleExecute(memsql);
     } catch(e) {
-        console.error(e);
+		return e
     }
+	return "success"
 }
 
 module.exports = {
