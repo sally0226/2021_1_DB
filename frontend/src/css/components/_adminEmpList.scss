@@ -1,0 +1,25 @@
+.adminEmpList{
+    min-height: 100vh;
+    height: max-content;
+    .page{
+        //min-height: 80vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        .empTable{
+            margin-top: 5vh;
+            width: 80vw;
+            //height: 80vh;
+            color: white;
+            overflow:auto;
+        }
+        
+        .MuiTableCell-head{
+            color: white;
+        }
+       
+        .MuiTable-root{
+            border-collapse: separate;
+        }
+    }
+}

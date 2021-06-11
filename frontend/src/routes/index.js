@@ -12,7 +12,9 @@ import {
 	CreateEMP,
 	AdminMovieList,
 	AdminEnterList,
-	Enter
+	Enter,
+	AdminEMPList,
+	ModifyEMP,
 } from '../pages';
 import '../css/main.scss';
 
@@ -33,6 +35,8 @@ function Router() {
 				<Route exact path="/createemployee" component={CreateEMP} />
 				<Route exact path="/adminmovielist" component={AdminMovieList}/>
 				<Route exact path="/adminenterlist" component={AdminEnterList}/>
+				<Route exact path="/adminemplist" component={AdminEMPList}/>
+				<Route exact path="/modifyemp/:empid" component={ModifyEMP}/>
 			</Switch>
 		</BrowserRouter>
 	)

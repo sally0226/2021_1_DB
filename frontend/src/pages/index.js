@@ -10,3 +10,5 @@ export { default as AdminMovieList } from './Admin_movieList';
 export { default as ModifyMovie } from './Admin_modifyMovie';
 export { default as AdminEnterList } from './Admin_enterList';
 export { default as Enter } from './Enter';
+export { default as AdminEMPList } from './Admin_empList';
+export { default as ModifyEMP } from './Admin_modifyEmp';
