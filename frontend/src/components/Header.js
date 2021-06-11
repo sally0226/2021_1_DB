@@ -11,7 +11,7 @@ export default function Header() {
 	
 	// 작은 메뉴
 	const subNavDefault = [["예매하기", "상영시간표"],["현재상영작", "상영예정작"]];
-	const subLinkDefault = [["/reserve", "/"],["/moviescreen/now", "/moviescreen/will"]];
+	const subLinkDefault = [["/reserve", "/movieschedule"],["/moviescreen/now", "/moviescreen/will"]];
 
 	const subnavManager = [["영화 등록", "영화 조회/편집"], ["직원 등록", "직원 조회/편집"],["상영관 관리"],["상영일정 등록", "상영일정 조회/편집"], ["출입 명부"]];
 	const subLinkManager = [["/createmovie", "/adminmovielist"],["/createemployee", "/adminemplist"],["/"],["/","/"],["/adminenterlist"]];
