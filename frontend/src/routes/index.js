@@ -15,6 +15,8 @@ import {
 	Enter,
 	AdminEMPList,
 	ModifyEMP,
+	Adminscreenroom,
+	Adminschedule
 } from '../pages';
 import '../css/main.scss';
 
@@ -37,6 +39,8 @@ function Router() {
 				<Route exact path="/adminenterlist" component={AdminEnterList}/>
 				<Route exact path="/adminemplist" component={AdminEMPList}/>
 				<Route exact path="/modifyemp/:empid" component={ModifyEMP}/>
+				<Route exact path="/manageroom" component={Adminscreenroom} />
+				<Route exact path="/adminschedule" component={Adminschedule} />
 			</Switch>
 		</BrowserRouter>
 	)

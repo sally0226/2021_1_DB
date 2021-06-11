@@ -12,3 +12,5 @@ export { default as AdminEnterList } from './Admin_enterList';
 export { default as Enter } from './Enter';
 export { default as AdminEMPList } from './Admin_empList';
 export { default as ModifyEMP } from './Admin_modifyEmp';
+export { default as Adminscreenroom } from './Admin_screenroom';
+export { default as Adminschedule } from './Admin_schedule';
