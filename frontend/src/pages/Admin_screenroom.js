@@ -84,7 +84,7 @@ function Admin_screenroom() {
 										</TableCell>
 										<TableCell align="center" style={{width:'20%'}}>
 											<Grid className="btn-con">
-												<Button color="inherit" onClick={()=>handlerMode(data.id)}>수정</Button>
+												<Button color="inherit" onClick={()=>handlerMode(data.id)}>등록</Button>
 												<Button color="inherit">삭제</Button>
 											</Grid>
 										</TableCell>
