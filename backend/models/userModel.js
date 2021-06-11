@@ -4,12 +4,12 @@ const conn = require('../models/database');
 async function Login (id, password) {
 	let r = 0;
 	let userRow = '';
+	
 	await conn.simpleExecute(`SELECT * FROM MEM WHERE MEM_ID='${id}'`)
 	.then(result=>{
 		if(result.rows.length>0){
 			userRow = result.rows;
-			if(userRow[0].MEM_PW === password)
-				r = userRow
+			r = userRow
 		}
 	})
 	return r;
@@ -37,10 +37,12 @@ async function insertData (data)  {
 	let CS_NUM, MEM_NUM;	
 	
     try {
+		await conn.simpleExecute('SELECT * FROM MEM')
+		.then(result => console.log(result));
 		// 추후에 시퀀스로 고쳐서 아래 ID 불러오는 거 교체하기!
 		await conn.simpleExecute(CS_NUM_sql)
 		.then((result)=>{
-			//console.log(result);
+			console.log(result);
 			if(result.rows.length===0) // 첫 데이터일 경우
 				CS_NUM = 1;
 			else
@@ -49,7 +51,7 @@ async function insertData (data)  {
 
 		await conn.simpleExecute(MEM_NUM_sql)
 		.then(result => {
-			//console.log(result);
+			console.log(result);
 			if(result.rows.length===0) // 첫 데이터일 경우
 				MEM_NUM = 1;
 			else
@@ -63,6 +65,7 @@ async function insertData (data)  {
 		await conn.simpleExecute(memsql)
 
     } catch(e) {
+		console.log(e); // 에러 출력
 		return e.errorNum
     }
 	return "success"

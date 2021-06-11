@@ -20,7 +20,7 @@ const signUp = async (req, res, next) => {
 		name: name,
 		phone: phone,
 		id: id,
-		password: password, // hashedPassword로 바꿔서 보내기~
+		password: hashedPassword, // hashedPassword로 바꿔서 보내기~
 		regnum: regnum,
 		birth: birth,
 	};
@@ -28,8 +28,11 @@ const signUp = async (req, res, next) => {
 	const result = await userModel.insertData(userData);
 	if(result === "success")
 		res.status(201).json({ success: true, userId: name});
+	else if(result === 936 || result === 1840) {
+		res.status(200).json({ success: false, message: '정보가 부족합니다.'});
+	}
 	else {
-		res.status(200).json({ success: false, message: '중복된 계정입니다.'});
+		res.status(200).json({ success: false, message: '회원가입에 실패하셨습니다.'})
 	}
     
   } catch(err) {
@@ -44,7 +47,12 @@ const logIn = async(req, res, next) => {
 		if(loginData==0){ // 로그인실패
 			return res.status(200).json({ success: false, message: '로그인에 실패하셨습니다.'})
 		} else{
-			return res.status(200).json({ success: true, user:loginData});
+			bcrypt.compare(password, loginData[0].MEM_PW, function(err, isMatch){
+				if(isMatch){
+					return res.status(200).json({ success: true, user:loginData});
+				}
+				else return res.status(200).json({ success: false, message: '로그인에 실패하셨습니다.'})
+			})
 		}
 	} catch(err) {
 		next(err)
