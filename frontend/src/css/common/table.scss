@@ -1,0 +1,12 @@
+.MuiTableHead-root {
+	background-color: var(--table-head-color);
+}
+.MuiTableCell-head {
+	color: white !important;
+}
+.MuiTableCell-root {
+	border-bottom: 1px solid gray !important;
+}
+.MuiTableRow-root {
+	background-color: var(--table-body-color);
+}

@@ -1,35 +1,41 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 import { Header } from '../components';
-import { Grid, TextField, makeStyles, Button, Checkbox, FormControlLabel } from '@material-ui/core';
-import { CSSTransition } from 'react-transition-group';
+import { Grid, TextField, Button } from '@material-ui/core';
+import { API_URL } from '../CommonVariable';
 
-const styles = makeStyles((theme) => ({
-	input: {
-		color: "#000000",
-	  }
-}));
 
 function Register() {
-	const classes = styles();
-
-	// <-- check button
-	const [checked, setChecked] = useState(false);
-	const checkHandler = (e) => {
-		setChecked(e.target.checked);
-	}
-	// check button -->
 
 	// <-- input
 	const [name, setName] = useState("");
-	const [phone, setPhone] = useState();
+	const [phone, setPhone] = useState("");
 	const [id, setId] = useState("");
 	const [pw, setPw] = useState("");
-	const [key, setKey] = useState("");
 	const [reg, setReg] = useState("");
+	const [reg2, setReg2] = useState("");
+	const [birth, setBirth] = useState("")
 
 	const SubmitHandler = (event) => {
-		alert(`name : ${name} \n phone: ${phone} \n id: ${id} \n pw: ${pw} \n key: ${key}`);
 		event.preventDefault();
+		let body = {
+			name: name,
+			phone: phone,
+			id: id,
+			password: pw,
+			regnum: reg+reg2,
+			birth: birth,
+		}
+		console.log(body);
+		axios.post(`${API_URL}/signup`, body)
+		.then(response=>{
+			if(response.data.success){
+				alert(`${response.data.userId}님 가입을 축하드립니다!`);
+				window.location.href='/';
+			}
+			else
+				alert(response.data.message);
+		})
 	}
 	// input -->
 	return (
@@ -41,14 +47,11 @@ function Register() {
 						variant="filled"
 						margin="normal"
 						fullWidth
-						placeholder="Name"
+						placeholder="이름"
 						required
 						autoFocus
 						style={{
 							backgroundColor: '#ffffff',
-						}}
-						InputProps={{
-						className: classes.input
 						}}
 						value={name}
 						onChange={(e)=>setName(e.target.value)}
@@ -57,16 +60,13 @@ function Register() {
 						variant="filled"
 						margin="normal"
 						fullWidth
-						placeholder="Phone Number"
-						type="number"
+						placeholder="전화번호(숫자만)"
 						required
 						autoFocus
 						style={{
 							backgroundColor: '#ffffff'
 						}}
-						InputProps={{
-						className: classes.input
-						}}
+						inputProps={{ maxLength: 11 }}
 						value={phone || ''}
 						onChange={(e)=>setPhone(e.target.value)}
 					/>
@@ -74,14 +74,11 @@ function Register() {
 						variant="filled"
 						margin="normal"
 						fullWidth
-						placeholder="ID"
+						placeholder="아이디"
 						required
 						autoFocus
 						style={{
 							backgroundColor: '#ffffff'
-						}}
-						InputProps={{
-						className: classes.input
 						}}
 						value={id}
 						onChange={(e)=>setId(e.target.value)}
@@ -90,68 +87,60 @@ function Register() {
 						variant="filled"
 						margin="normal"
 						fullWidth
-						placeholder="Password"
+						placeholder="비밀번호"
 						type="password"
 						required
 						autoFocus
 						style={{
 							backgroundColor: '#ffffff'
 						}}
-						InputProps={{
-						className: classes.input
-						}}
 						value={pw}
 						onChange={(e)=>setPw(e.target.value)}
 					/>
-					<FormControlLabel
-        				control={
-							<Checkbox
-								checked={checked}
-								onChange={checkHandler}
-								style={{ color:'#ffffff' }}
-							/>
-						}
-        				label="Are you Admin?"
-						style={{ color: '#ffffff'}}
-      				/>
-					<CSSTransition
-						in={checked}
-						timeout={300}
-						classNames="adminInput"
-						unmountOnExit
-					>
+					<Grid style={{display:'flex', flexDierction:'row', alignItems:'center'}}>
 						<TextField
 							variant="filled"
 							margin="normal"
 							fullWidth
-							placeholder="Admin Key"
+							placeholder="주민등록번호"
+							inputProps={{ maxLength: 6 }}
+							required
 							autoFocus
 							style={{
 								backgroundColor: '#ffffff'
 							}}
-							InputProps={{
-							className: classes.input
-							}}
-							value={key}
-							onChange={(e)=>setKey(e.target.value)}
+							value={reg}
+							onChange={(e)=>setReg(e.target.value)}
 						/>
-					</CSSTransition>
+						<p style={{padding:'0 5px', color:'white'}}>-</p>
+						<TextField
+							variant="filled"
+							margin="normal"
+							fullWidth
+							type="password"
+							inputProps={{ maxLength: 7 }}
+							required
+							autoFocus
+							style={{
+								backgroundColor: '#ffffff'
+							}}
+							value={reg2}
+							onChange={(e)=>setReg2(e.target.value)}
+						/>
+					</Grid>
 					<TextField
 						variant="filled"
 						margin="normal"
 						fullWidth
-						placeholder="register number"
-						type="number"
+						placeholder="생일 8자리"
 						required
 						autoFocus
+						inputProps={{ maxLength: 8 }}
 						style={{
 							backgroundColor: '#ffffff'
 						}}
-						InputProps={{
-						className: classes.input
-						}}
-						value={reg}
-						onChange={(e)=>setReg(e.target.value)}
+						value={birth}
+						onChange={(e)=>setBirth(e.target.value)}
 					/>
 					<Button 
 						variant="contained"

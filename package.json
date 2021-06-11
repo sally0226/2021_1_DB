@@ -1,0 +1,16 @@
+{
+	"name": "backend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "",
+	"scripts": {
+		"frontend" : "npm run start --prefix frontend",
+		"backend" : "npm run start --prefix backend",
+		"dev": "concurrently \"npm run backend\" \"npm run start --prefix frontend\""
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"concurrently": "^6.2.0"
+	}
+}

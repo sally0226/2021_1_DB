@@ -64,10 +64,7 @@
 		}
 	}
 	// movie -->
-
-	.MuiTabs-indicator {
-		background-color: #850000 !important;
-	}
+	
 	.tabLabel {
 		font-size: 1.2rem;
 	}
@@ -99,6 +96,9 @@
 		}
 		.comment-submit {
 			background-color: #B48484;
+		}
+		.star-clicker {
+			cursor: pointer;
 		}
 	}
 

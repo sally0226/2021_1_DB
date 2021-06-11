@@ -2,6 +2,8 @@
 @import './base/reset';
 @import './base/variables';
 @import './base/background';
+@import './common/table.scss';
+@import './common/input.scss';
 
 // components
 @import './components/header';
@@ -14,10 +16,23 @@
 @import './components/main';
 @import './components/register';
 @import './components/login';
+@import './components/carousel';
 @import './components/nowscreen';
 @import './components/moviedetail';
 @import './components/reserve';
+@import './components/movieschedule';
+
+@import './components/createEMP';
+@import './components/adminMovieList';
+@import './components/adminEnterList';
+@import './components/adminEmpList';
+@import './components/createMovie';
+@import './components/enter';
 
 // slick
 @import "slick-carousel/slick/slick.css"; 
 @import "slick-carousel/slick/slick-theme.css";
+
+// datepicker
+@import "react-datepicker/dist/react-datepicker.css";
+@import 'react-datepicker/dist/react-datepicker-cssmodules.min.css';

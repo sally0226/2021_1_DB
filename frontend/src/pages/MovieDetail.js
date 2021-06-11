@@ -109,11 +109,13 @@ function MovieDetail(props) {
 								<Grid item xs={3} className="star-grid">
 									<p>{score}점</p>
 									<Grid className="star-con">
+										<span className="star-clicker">
 										<Star width="25" height="25" fill={clicked[0] ? 'yellow' : 'gray'} onClick={e => starClickHandler(e,0)} />
 										<Star width="25" height="25" fill={clicked[1] ? 'yellow' : 'gray'} onClick={e => starClickHandler(e,1)} />
 										<Star width="25" height="25" fill={clicked[2] ? 'yellow' : 'gray'} onClick={e => starClickHandler(e,2)} />
 										<Star width="25" height="25" fill={clicked[3] ? 'yellow' : 'gray'} onClick={e => starClickHandler(e,3)} />
 										<Star width="25" height="25" fill={clicked[4] ? 'yellow' : 'gray'} onClick={e => starClickHandler(e,4)} />
+										</span>
 									</Grid>
 								</Grid>
 								<Grid item xs={6} className="comment-body">
