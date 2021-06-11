@@ -17,17 +17,19 @@
 @import './components/register';
 @import './components/login';
 @import './components/carousel';
-@import './components/createMovie';
 @import './components/nowscreen';
 @import './components/moviedetail';
 @import './components/reserve';
+@import './components/movieschedule';
+
 @import './components/createEMP';
 @import './components/adminMovieList';
 @import './components/adminEnterList';
-@import './components/enter';
 @import './components/adminEmpList';
 @import './components/adminScreenroom';
 @import './components/_adminschedule';
+@import './components/createMovie';
+@import './components/enter';
 
 // slick
 @import "slick-carousel/slick/slick.css"; 

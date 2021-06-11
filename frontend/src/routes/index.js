@@ -16,7 +16,8 @@ import {
 	AdminEMPList,
 	ModifyEMP,
 	Adminscreenroom,
-	Adminschedule
+	Adminschedule,
+	MovieSchedule,
 } from '../pages';
 import '../css/main.scss';
 
@@ -31,6 +32,8 @@ function Router() {
 				<Route exact path="/movie/:movieId" component={MovieDetail} />
 				<Route exact path="/reserve" component={Reserve} />
 				<Route exact path="/enterroom" component={Enter} />
+				<Route exact path="/movieschedule" component={MovieSchedule} />
+
         		{/* 관리자용 PAGES  */}
 				<Route exact path="/createmovie" component={CreateMovie} />
 				<Route exact path="/modifymovie/:movieid" component={ModifyMovie} />

@@ -13,6 +13,7 @@ function Register() {
 	const [id, setId] = useState("");
 	const [pw, setPw] = useState("");
 	const [reg, setReg] = useState("");
+	const [reg2, setReg2] = useState("");
 	const [birth, setBirth] = useState("")
 
 	const SubmitHandler = (event) => {
@@ -22,9 +23,10 @@ function Register() {
 			phone: phone,
 			id: id,
 			password: pw,
-			regnum: reg,
+			regnum: reg+reg2,
 			birth: birth,
 		}
+		console.log(body);
 		axios.post(`${API_URL}/signup`, body)
 		.then(response=>{
 			if(response.data.success){
@@ -45,7 +47,7 @@ function Register() {
 						variant="filled"
 						margin="normal"
 						fullWidth
-						placeholder="Name"
+						placeholder="이름"
 						required
 						autoFocus
 						style={{
@@ -58,12 +60,13 @@ function Register() {
 						variant="filled"
 						margin="normal"
 						fullWidth
-						placeholder="Phone Number"
+						placeholder="전화번호(숫자만)"
 						required
 						autoFocus
 						style={{
 							backgroundColor: '#ffffff'
 						}}
+						inputProps={{ maxLength: 11 }}
 						value={phone || ''}
 						onChange={(e)=>setPhone(e.target.value)}
 					/>
@@ -71,7 +74,7 @@ function Register() {
 						variant="filled"
 						margin="normal"
 						fullWidth
-						placeholder="ID"
+						placeholder="아이디"
 						required
 						autoFocus
 						style={{
@@ -84,7 +87,7 @@ function Register() {
 						variant="filled"
 						margin="normal"
 						fullWidth
-						placeholder="Password"
+						placeholder="비밀번호"
 						type="password"
 						required
 						autoFocus
@@ -94,28 +97,45 @@ function Register() {
 						value={pw}
 						onChange={(e)=>setPw(e.target.value)}
 					/>
+					<Grid style={{display:'flex', flexDierction:'row', alignItems:'center'}}>
+						<TextField
+							variant="filled"
+							margin="normal"
+							fullWidth
+							placeholder="주민등록번호"
+							inputProps={{ maxLength: 6 }}
+							required
+							autoFocus
+							style={{
+								backgroundColor: '#ffffff'
+							}}
+							value={reg}
+							onChange={(e)=>setReg(e.target.value)}
+						/>
+						<p style={{padding:'0 5px', color:'white'}}>-</p>
+						<TextField
+							variant="filled"
+							margin="normal"
+							fullWidth
+							type="password"
+							inputProps={{ maxLength: 7 }}
+							required
+							autoFocus
+							style={{
+								backgroundColor: '#ffffff'
+							}}
+							value={reg2}
+							onChange={(e)=>setReg2(e.target.value)}
+						/>
+					</Grid>
 					<TextField
 						variant="filled"
 						margin="normal"
 						fullWidth
-						placeholder="register number"
-						type="number"
+						placeholder="생일 8자리"
 						required
 						autoFocus
-						style={{
-							backgroundColor: '#ffffff'
-						}}
-						value={reg}
-						onChange={(e)=>setReg(e.target.value)}
-					/>
-					<TextField
-						variant="filled"
-						margin="normal"
-						fullWidth
-						placeholder="birthdate 8string"
-						type="number"
-						required
-						autoFocus
+						inputProps={{ maxLength: 8 }}
 						style={{
 							backgroundColor: '#ffffff'
 						}}
