@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { Grid, Link } from '@material-ui/core';
-import { useLocalStorage } from '.';
+import { useSessionStorage } from '.';
 
 
 export default function Header() {
-	const [isManager, setIsManager] = useLocalStorage("isManager", false);
+	const [isManager, setIsManager] = useSessionStorage("isManager", false);
+	const [isLogined, setIsLogined] = useSessionStorage("isLogined", false);
+
 	const [subHref, setSubHref] = useState([]); // 링크를 담는 state
 	
 	// 작은 메뉴
@@ -25,10 +27,9 @@ export default function Header() {
 	const modeHandler = () => {
 		setIsManager(!isManager);
 	};
-
-	if (isManager) {
-		return (
-			<Grid className="header">
+	return(
+		isManager ?
+		<Grid className="header">
 				<Grid className="header-main">
 					<Grid className="h-title">
 						<Link href="/" style={{ textDecoration: 'none' }} color="inherit">시DB</Link>
@@ -66,19 +67,23 @@ export default function Header() {
 					</Grid>
 				</Grid>
 			</Grid>
-		)
-	} 
-	else {
-		return (
-			<Grid className="header">
+		:
+		<Grid className="header">
 				<Grid className="header-main">
 					<Grid className="h-title">
 						<Link href="/" style={{ textDecoration: 'none' }} color="inherit">시DB</Link>
 					</Grid>
 					<Grid className="h-button">
 						<Link href="/enterroom" style={{marginRight:'1rem'}} color="inherit">출입명부작성</Link>
-						<Link href="/login" style={{marginRight:'1rem'}} color="inherit">로그인</Link>
-						<Link href="/register" style={{marginRight:'1rem'}} color="inherit">회원가입</Link>
+						{
+							isLogined ?
+							<Link href="/" color="inherit" onClick={()=>setIsLogined(false)} style={{marginRight:'1rem' }}>로그아웃</Link>
+							:
+							<>
+								<Link href="/login" style={{marginRight:'1rem'}} color="inherit">로그인</Link>
+								<Link href="/register" style={{marginRight:'1rem'}} color="inherit">회원가입</Link>
+							</>
+						}
 						<Link href="/" color="inherit" onClick={modeHandler}>관리자</Link>
 					{/* 추후 login기능으로 관리자 페이지 접속할 수 있게 하기 */}
 					</Grid>
@@ -105,6 +110,5 @@ export default function Header() {
 					</Grid>
 				</Grid>
 			</Grid>
-	  )
-	}
+	)
 }

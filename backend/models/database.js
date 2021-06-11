@@ -16,29 +16,30 @@ module.exports.close = close;
 
 function simpleExecute(statement, binds = [], opts = {}) { //statement (sql 구문)을 실행하는 함수 
     return new Promise(async (resolve, reject) => {
-    let conn;
+			let conn;
 
-    opts.outFormat = oracledb.OBJECT;
-    opts.autoCommit = true;
+			opts.outFormat = oracledb.OBJECT;
+			opts.autoCommit = true;
 
-    try {
-        conn = await oracledb.getConnection(); // 위에 init함수에서 생성한 pool에서 연결을 가져옴 
+			try {
+				conn = await oracledb.getConnection(); // 위에 init함수에서 생성한 pool에서 연결을 가져옴 
 
-        const result = await conn.execute(statement, binds, opts); //sql 구문 실행 
+				const result = await conn.execute(statement, binds, opts); //sql 구문 실행 
 
-        resolve(result);
-    } catch (err) {
-        reject(err);
-    } finally {
-        if (conn) { // conn assignment worked, need to close
-        try {
-            await conn.close();
-        } catch (err) {
-            console.log(err);
-        }
-        }
-    }
-    });
+				resolve(result);
+			} catch (err) {
+				reject(err);
+			} finally {
+				if (conn) { // conn assignment worked, need to close
+					try {
+						await conn.close();
+					} catch (err) {
+						console.log(err);
+					}
+				}
+			}
+		}
+	);
 }
   
 module.exports.simpleExecute = simpleExecute;

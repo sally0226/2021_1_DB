@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
+import axios from 'axios'
 import { Header } from '../components';
 import { Grid, Tabs, Tab, TextField, Button } from '@material-ui/core';
+import { API_URL } from '../CommonVariable';
 
 
 function Login() {
@@ -17,8 +19,38 @@ function Login() {
 	const [phone, setPhone] = useState(""); // 비회원시 필요한 폰
 	
 	const SubmitHandler = (event) => {
-		alert('A name was submitted: ' + id + 'pw : ' + pw);
 		event.preventDefault();
+		if(tabValue==0){
+			let body = {
+				id: id,
+				password: pw
+			}
+			axios.post(`${API_URL}/login`, body)
+			.then(response=>{
+				if(response.data.success){
+					alert(`${response.data.user[0].MEM_ID}님 로그인 되었습니다!`);
+					sessionStorage.setItem("isLogined", true);
+					console.log(sessionStorage.getItem("isLogined"))
+					window.location.href='/';
+				}
+				else
+					alert(response.data.message);
+			})
+		}
+		else{
+			let body = {
+				phone: phone,
+				id: id,
+				password: pw
+			}
+			axios.post(`${API_URL}/login`, body)
+			.then(response=>{
+				if(response.data.success)
+					alert(`${response.data}님 가입을 축하드립니다!`);
+				else
+					alert(response.data.message);
+			})
+		}
 	}
 	// input -->
 

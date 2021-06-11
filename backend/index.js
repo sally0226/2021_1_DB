@@ -15,5 +15,5 @@ initDB.init();
 
 app.use(cors());
 app.use(express.json());
-app.use('/',router);
+app.use('/api',router);
 app.listen(port, () => console.log(`app listening on port ${port}!`));

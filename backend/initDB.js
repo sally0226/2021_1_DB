@@ -6,6 +6,8 @@ async function initDB()  {
 	try {
 		console.log('Initializing database module');
 		await database.initialize();
+		// await conn.simpleExecute(`DELETE MEM`);
+		// await conn.simpleExecute(`DELETE CS`)
 	} catch (err) {
 		console.error(err);
 		process.exit(1); // Non-zero failure code
