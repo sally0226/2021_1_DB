@@ -8,3 +8,6 @@ export { default as DotStep } from './DotStep';
 export { default as DotStepper } from './DotStepper';
 export { default as useLocalStorage } from './useLocalStorage';
 export { default as useSessionStorage } from './useSesstionStorage';
+export { default as StepZero } from './StepZero';
+export { default as StepFirst } from './StepFirst';
+export { default as StepSecond } from './StepSecond';
