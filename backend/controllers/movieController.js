@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const movieModel = require('../models/movieModel');
 const userModel = require('../models/movieModel');
+const { get } = require('../routes/router');
 
 const createMovie = async (req, res, next) => {
     try {
@@ -19,6 +20,16 @@ const createMovie = async (req, res, next) => {
     }
 }
 
+const getAllMovie = async (req, res, next) => {
+    try {
+        const result = await movieModel.selectAllMovie();
+        res.body(result)
+    } catch(err) {
+        next(err);
+    }
+    return result;
+}
 module.exports = {
     createMovie: createMovie,
+    getAllMovie: getAllMovie,
 }

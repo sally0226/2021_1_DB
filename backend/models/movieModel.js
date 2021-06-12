@@ -70,6 +70,22 @@ async function insertData(movieData, images, videos){
     return "success";
 }
 
+async function selectAllMovie() {
+    var data;
+    try {
+        //영화 포스터는 필요없음?? 
+        const sql = `SELECT MOVIE_NUM, MOVIE_NAME, MOVIE_RATING_CODE, AVG_STARS, SCRN_STATUS FROM MOVIE`;
+        
+        await conn.simpleExecute(sql).then((result) => {
+            data = result;
+            console.log(data.length);
+            console.log(data[0]);
+        });
+    } catch(e){
+        return e.errorNum
+    }
+}
 module.exports = {
     insertData: insertData,
+    selectAllMovie: selectAllMovie,
 }
