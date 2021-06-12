@@ -1,8 +1,7 @@
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { Header } from '../components';
 import { Button, makeStyles, IconButton } from '@material-ui/core';
 import { Table,TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
-// import { AutoSizer, Column, Table } from 'react-virtualized';
 
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
@@ -10,13 +9,18 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { useMovieState } from '../MVVM/model/MovieModel';
 import dateToString from '../function/DateToString';
 
+import axios from 'axios';
+import { API_URL } from '../CommonVariable';
+
 function dataReducer(state, action) {
     switch (action.type) {
+        case 'SET':
+            return action.data;
         case 'DELETE':
-            return state.filter(item => item.id != action.index);
+            return state.filter(item => item.MOVIE_NUM != action.index);
         case 'END':
             return state.map(item =>
-                item.id == action.index ? {...item, isScreen: false} : item);
+                item.MOVIE_NUM == action.index ? {...item, SCRN_STATUS: false} : item);
 
         //case 'MODIFY':
         default:
@@ -24,9 +28,18 @@ function dataReducer(state, action) {
     }
 }
 function AdminMovieList(){
-    // TODO: 초기값 []로 바꾸고 useEffect 사용해서 back에서 불러와서 state설정하는 것으로 변경 
-    const movieData = useMovieState();
-    const [data, dataDispatch] = useReducer(dataReducer, movieData);
+    useEffect(()=> {
+        axios.get(`${API_URL}/movie`)
+		.then(response=>{
+			const movieData = response.data;
+            dataDispatch({
+                type: 'SET',
+                data: movieData
+            });
+		});
+    },[]);
+    const [data, dataDispatch] = useReducer(dataReducer, []); 
+    //console.log(data);
     function handelClick(e) {
         //console.log(e.currentTarget.id);
         if (e.currentTarget.name === "delete-btn") {
@@ -62,19 +75,19 @@ function AdminMovieList(){
                     </TableHead>
                     <TableBody>
                         {data.map((row)=>(
-                            <TableRow key={row.name}>
+                            <TableRow key={row.MOVIE_NUM}>
                             <TableCell component="th" scope="row">
-                              {row.name}
+                              {row.MOVIE_NAME}
                             </TableCell>
-                            <TableCell align="left">{dateToString(row.Date)}</TableCell>
-                            <TableCell align="left">{row.isScreen ? 1 : 0}</TableCell>
+                            <TableCell align="left">{row.RELEASE_DATE}</TableCell>
+                            <TableCell align="left">{row.SCRN_STATUS ? 1 : 0}</TableCell>
                             <TableCell align="left">
                                 <IconButton 
                                     aria-label="modify btn"
                                     name="modify-btn"
-                                    id={row.id}
+                                    id={row.MOVIE_NUM}
                                     //onClick = {handelClick}
-                                    href={`/modifymovie/${row.id}`}
+                                    href={`/modifymovie/${row.MOVIE_NUM}`}
                                 >
                                     <EditIcon/>
                                 </IconButton>
@@ -83,7 +96,7 @@ function AdminMovieList(){
                                 <IconButton 
                                     aria-label="scrn end btn"
                                     name="scrn-end-btn"
-                                    id={row.id}
+                                    id={row.MOVIE_NUM}
                                     onClick = {handelClick}
                                 >
                                     <CancelIcon/>
@@ -93,7 +106,7 @@ function AdminMovieList(){
                                 <IconButton 
                                     aria-label="delete btn"
                                     name="delete-btn"
-                                    id={row.id}
+                                    id={row.MOVIE_NUM}
                                     onClick = {handelClick}
                                 >
                                     <DeleteForeverIcon/>

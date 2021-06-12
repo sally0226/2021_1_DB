@@ -1,9 +1,11 @@
 import React, { useReducer, useState } from 'react';
+import axios from 'axios';
 import { Header } from '../components';
 import { TextField, Button, makeStyles, IconButton } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 // import {AiOutlineLink} from 'react-icons';
 import DatePicker from "react-datepicker";
+import { API_URL } from '../CommonVariable';
 
 const styles = makeStyles((theme) => ({
 	input: {
@@ -50,6 +52,24 @@ function CreateMovie() {
     });
     const [images, imageDispatch] = useReducer(imageReducer, []);
     const [videos, videoDispatch] = useReducer(videoReducer, []);
+
+    const SubmitHandler = (event) => {
+        event.preventDefault();
+		let body = {
+            movie: movieInfo,
+            images: images,
+            videos: videos,
+        }
+		axios.post(`${API_URL}/movie`, body)
+		.then(response=>{
+			if(response.data.success){
+				alert(`영화가 등록되었습니다.`);
+				window.location.href='/';
+			}
+			else
+				alert(response.data.message);
+		})
+    }
     function handelClick(e) {
         console.log(e.currentTarget.name);
         if (e.currentTarget.name === "image") {
@@ -378,10 +398,10 @@ function CreateMovie() {
                     marginLeft: '100px',
                     marginBottom: '30px'
                 }}
-                // onClick={
-                //     // 등록된 영화 목록 페이지로 이동 
-                //     // 백엔드에 영화정보 보내서 레코드 생성되게 하기
-                // }
+                onClick={SubmitHandler
+                    // 등록된 영화 목록 페이지로 이동 
+                    // 백엔드에 영화정보 보내서 레코드 생성되게 하기
+                }
             >
             등록하기
             </Button>
