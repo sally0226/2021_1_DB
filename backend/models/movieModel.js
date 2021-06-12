@@ -36,11 +36,14 @@ async function insertData(movieData, images, videos){
             NULL, 
             ${movie_rating_code}
             )`;
-        await conn.simpleExecute(movieSql); 
-
-        await conn.simpleExecute(`SELECT MOVIE_NUM.CURRVAL FROM DUAL`).then((result) => {
-            // console.log(result.rows[0].CURRVAL);
-            movie_num = result.rows[0].CURRVAL;
+        await conn.simpleExecute(movieSql).then((result) => {
+            //console.log(result);
+        }); 
+        //console.log("movie insert success");
+        await conn.simpleExecute(`SELECT LAST_NUMBER from USER_SEQUENCES where SEQUENCE_NAME = 'MOVIE_NUM'`).then((result) => {
+            //console.log(result);
+            movie_num = result.rows[0].LAST_NUMBER;
+            //console.log(movie_num);
         });
         
     } catch(e){
@@ -49,15 +52,15 @@ async function insertData(movieData, images, videos){
     
     //image, video 생성 
     try {
-        for (var i=0; i<images.length;i++) {
+        for (var i=0; i < images.length; i++) {
             // console.log(images[i]);
-            const imageSql = `INSERT INTO TRAILER_SHOT VALUES(${movie_num}, TRAILER_SHOT_NUM.NEXTVAL, '${images[i]}')`;
+            const imageSql = `INSERT INTO TRAILER_SHOT VALUES(${movie_num-1}, TRAILER_SHOT_NUM.NEXTVAL, '${images[i]}')`;
             await conn.simpleExecute(imageSql);
         }
-       
-        for (var i=0; i<videos.length;i++) {
+        
+        for (var i=0; i < videos.length; i++) {
             // console.log(videos[i]);
-            const videoSql = `INSERT INTO TRAILER_VIDEO VALUES(${movie_num}, TRAILER_VIDEO_NUM.NEXTVAL, '${videos[i]}')`;
+            const videoSql = `INSERT INTO TRAILER_VIDEO VALUES(${movie_num-1}, TRAILER_VIDEO_NUM.NEXTVAL, '${videos[i]}')`;
             await conn.simpleExecute(videoSql);
         }
        
