@@ -1,23 +1,27 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import { Header } from '../components';
 import { TextField, Button, makeStyles, IconButton, Select, MenuItem } from '@material-ui/core';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import 'react-datepicker/dist/react-datepicker-cssmodules.min.css'
-import axios from 'axios';
-import { API_URL } from '../CommonVariable';
 
 const styles = makeStyles((theme) => ({
 	input: {
 		color: "#000000",
 	  }
 }));
-
+function getStyles(name, personName, theme) {
+    return {
+      fontWeight:
+        personName.indexOf(name) === -1
+          ? theme.typography.fontWeightRegular
+          : theme.typography.fontWeightMedium,
+    };
+  }
 // TODO: back에서 dept list 받아서 정보 집어넣고 시작하는걸로 바꿔야함 
 const deptList = ["총무부", "팝콘부", "상영관부", "미화부"]; 
 function CreateEMP(){
     const classes = styles();
-    const [deptList, setDeptList] = useState([]);
     const [empInfo, setEmpInfo] = useState({
         name: "", //직원명
         startDate: new Date(), //근무시작일
@@ -26,27 +30,7 @@ function CreateEMP(){
         reg_num: "", //주민등록번호
         contact: "" //연락처
     })
-    useEffect(()=> {
-        axios.get(`${API_URL}/dept`)
-		.then(response=>{
-            setDeptList(response.data);
-		});
-    },[]);
-    const SubmitHandler = (event) => {
-        event.preventDefault();
-		let body = empInfo;
-		axios.post(`${API_URL}/emp`, body)
-		.then(response=>{
-			if(response.data.success){
-				alert(`직원이 등록되었습니다.`);
-				window.location.href='/adminemplist';
-			}
-			else
-				alert(response.data.message);
-		})
-    }
     const updateField = e => {
-        console.log(e.target.name);
         setEmpInfo({
           ...empInfo,
           [e.target.name]: e.target.value
@@ -55,6 +39,27 @@ function CreateEMP(){
         console.log(empInfo);
       };
       
+    function TextForm(props) {
+        //console.log(props.test);
+        return (
+            <TextField
+            variant="filled"
+            margin="normal"
+            name={props.name}
+            placeholder={empInfo[props.name]}
+            required
+            autoFocus
+            style={{
+                backgroundColor: '#ffffff',
+            }}
+            InputProps={{
+                className: classes.input
+            }}
+            value={empInfo[props.name]}
+            onChange={updateField}>
+        </TextField>
+        )
+    }
     return(
         <div className="createEMP">
             <Header/>
@@ -62,22 +67,7 @@ function CreateEMP(){
                 <div className="input-div">
                     <div className="label-form">
                         <div className="label">이름</div>
-                        <TextField
-                            variant="filled"
-                            margin="normal"
-                            name='name'
-                            placeholder={empInfo['name']}
-                            required
-                            autoFocus
-                            style={{
-                                backgroundColor: '#ffffff',
-                            }}
-                            InputProps={{
-                                className: classes.input
-                            }}
-                            value={empInfo['name']}
-                            onChange={updateField}>
-                        </TextField>
+                        <TextForm name="name"></TextForm>
                     </div>
                     <div className="label-form">
                         <div className="label">근무 시작일</div>
@@ -95,22 +85,7 @@ function CreateEMP(){
                     </div>
                     <div className="label-form">
                         <div className="label">직급</div>
-                        <TextField
-                            variant="filled"
-                            margin="normal"
-                            name='title'
-                            placeholder={empInfo['title']}
-                            required
-                            autoFocus
-                            style={{
-                                backgroundColor: '#ffffff',
-                            }}
-                            InputProps={{
-                                className: classes.input
-                            }}
-                            value={empInfo['title']}
-                            onChange={updateField}>
-                        </TextField>
+                        <TextForm name="title"></TextForm>
                     </div>
                     <div className="label-form">
                         <div className="label">부서</div>
@@ -130,66 +105,40 @@ function CreateEMP(){
                             value={empInfo.dept}
                             onChange={updateField}
                         >
-                            {deptList.map((dept) => (
-                                <MenuItem value={dept.DEPT_NUM}>
-                                    {dept.DEPT_NAME}
+                            {deptList.map((deptName) => (
+                                <MenuItem value={deptName}>
+                                    {deptName}
                                 </MenuItem>
                             ))}
                         </Select>
                     </div>
                     <div className="label-form">
                         <div className="label">주민등록번호</div>
-                        <TextField
-                            variant="filled"
-                            margin="normal"
-                            name='reg_num'
-                            placeholder={empInfo['reg_num']}
-                            required
-                            autoFocus
-                            style={{
-                                backgroundColor: '#ffffff',
-                            }}
-                            InputProps={{
-                                className: classes.input
-                            }}
-                            value={empInfo['reg_num']}
-                            onChange={updateField}>
-                        </TextField>
+                        <TextForm name="reg_num"></TextForm>
                     </div>
                     <div className="label-form">
                         <div className="label">연락처</div>
-                        <TextField
-                            variant="filled"
-                            margin="normal"
-                            name='contact'
-                            placeholder={empInfo['contact']}
-                            required
-                            autoFocus
-                            style={{
-                                backgroundColor: '#ffffff',
-                            }}
-                            InputProps={{
-                                className: classes.input
-                            }}
-                            value={empInfo['contact']}
-                            onChange={updateField}>
-                        </TextField>
+                        <TextForm name="contact"></TextForm>
                     </div>
                 </div>
                 <Button variant="contained" href="nextpage" 
-                    style={{
-                        width: '100px',
-                        backgroundColor: '#DA8181',
-                        borderRadius: 0,
-                        padding: '10px 0',
-                        marginLeft: '100px',
-                        marginBottom: '30px'
-                    }}
-                    onClick={SubmitHandler}
-                >
-                등록하기
-                </Button>
+                style={{
+                    width: '100px',
+                    backgroundColor: '#DA8181',
+                    borderRadius: 0,
+                    padding: '10px 0',
+                    marginLeft: '100px',
+                    marginBottom: '30px'
+                }}
+                // onClick={
+                //     // 등록된 영화 목록 페이지로 이동 
+                //     // 백엔드에 영화정보 보내서 레코드 생성되게 하기
+                // }
+            >
+            등록하기
+            </Button>
             </div>
+            
         </div>
         
     )

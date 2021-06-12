@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const movieModel = require('../models/movieModel');
+const userModel = require('../models/movieModel');
 
 const createMovie = async (req, res, next) => {
     try {
@@ -28,6 +29,7 @@ const getAllMovie = async (req, res, next) => {
     } catch(err) {
         next(err);
     }
+    return result;
 }
 module.exports = {
     createMovie: createMovie,
