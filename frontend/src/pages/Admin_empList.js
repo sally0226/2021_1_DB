@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react';
+import React, { useReducer, useState, useEffect } from 'react';
 import { Header } from '../components';
 import { Button, makeStyles, IconButton } from '@material-ui/core';
 import { Table,TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
@@ -6,9 +6,14 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import dateToString from '../function/DateToString';
 
+import axios from 'axios';
+import { API_URL } from '../CommonVariable';
+
 function dataReducer(state, action) {
-    console.log(action.index);
+    //console.log(action.index);
     switch (action.type) {
+        case 'SET':
+            return action.data;
         case 'DELETE':
             return state.filter(item => item.emp_num != action.index);
         case 'END':
@@ -22,35 +27,23 @@ function dataReducer(state, action) {
 }
 function AdminEMPList(){
     // TODO: 초기값 []로 바꾸고 useEffect 사용해서 back에서 불러와서 state설정하는 것으로 변경 
-    const empData = [{
-        emp_num: 1,
-        name: "김바다",
-        dept_num: 2,
-        contact: '01034343434',
-        reg_num: '9807251111111',
-        title: '회장',
-        work_start_date: '1998-07-25',
-    },
-    {
-        emp_num: 2,
-        name: "김바다",
-        dept_num: 2,
-        contact: '01034343434',
-        reg_num: '9807251111111',
-        title: '사장',
-        work_start_date: '1998-07-25',
-    },
-    {
-        emp_num: 3,
-        name: "김바다",
-        dept_num: 2,
-        contact: '01034343434',
-        reg_num: '9807251111111',
-        title: '부장',
-        work_start_date: '1998-07-25',
-    }];
-    const deptData = ['1번부서','2번부서','3번부서'];
-    const [data, dataDispatch] = useReducer(dataReducer, empData);
+    useEffect(()=> {
+        axios.get(`${API_URL}/emp`)
+		.then(response=>{
+            dataDispatch({
+                type: 'SET',
+                data: response.data
+            });
+		});
+    },[]);
+    useEffect(()=> {
+        axios.get(`${API_URL}/dept`)
+		.then(response=>{
+            setDeptList(response.data);
+		});
+    },[]);
+    const [deptList, setDeptList] = useState([]);
+    const [data, dataDispatch] = useReducer(dataReducer, []);
     function handelClick(e) {
         //console.log(e.currentTarget.id);
         if (e.currentTarget.name === "delete-btn") {
@@ -86,20 +79,24 @@ function AdminEMPList(){
                     </TableHead>
                     <TableBody>
                         {data.map((row)=>(
-                            <TableRow key={row.emp_num}>
+                            <TableRow key={row.EMP_NUM}>
                             <TableCell component="th" scope="row">
-                              {row.name}
+                              {row.EMP_NAME}
                             </TableCell>
-                            <TableCell align="left">{deptData[row.dept_num-1]}</TableCell>
-                            <TableCell align="left">{row.title}</TableCell>
-                            <TableCell align="left">{row.contact}</TableCell>
+                            <TableCell align="left">{
+                                (deptList.filter(element => element.DEPT_NUM == row.DEPT_NUM)[0]===undefined) ? 
+                                '' : deptList.filter(element => element.DEPT_NUM == row.DEPT_NUM)[0].DEPT_NAME
+                                }
+                            </TableCell>
+                            <TableCell align="left">{row.TITLE}</TableCell>
+                            <TableCell align="left">{row.EMP_CONTACT}</TableCell>
                             <TableCell align="left">
                                 <IconButton 
                                     aria-label="modify btn"
                                     name="modify-btn"
                                     id={row.emp_num}
                                     //onClick = {handelClick}
-                                    href={`/modifyemp/${row.emp_num}`}
+                                    href={`/modifyemp/${row.EMP_NUM}`}
                                 >
                                     <EditIcon/>
                                 </IconButton>
