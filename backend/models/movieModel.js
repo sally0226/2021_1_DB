@@ -108,47 +108,6 @@ async function selectAllMovie() {
     }
 }
 
-async function modifyMovie(movie, type) {
-    if (type === 'DELETE') { // 해당 레코드 삭제 
-        const deleteSql = `DELETE FROM MOVIE WHERE MOVIE_NUM = ${movie.MOVIE_NUM}`;
-        try {  
-            await conn.simpleExecute(deleteSql);
-
-        }catch(e){
-            return e.errorNum
-        }
-    } 
-    else if (type === 'SCRN_END'){ // update
-        const updateSql = `UPDATE MOVIE SET SCRN_STATUS='N'`;
-        try {  
-            await conn.simpleExecute(updateSql);
-
-        }catch(e){
-            return e.errorNum
-        }
-    } 
-    else if (type === 'MODIFY'){
-        const updateSql = `UPDATE MOVIE SET 
-                            MOVIE_NAME = ${movie.MOVIE_NAME},
-                            SCRN_TIME = ${movie.SCRN_TIME},
-                            DIRECTOR = ${movie.DIRECTOR},
-                            CAST = ${movie.CAST},
-                            GENRE = ${movie.GENRE},
-                            MOVIE_INTRO = ${movie.MOVIE_INTRO},
-                            COUNTRY = ${movie.COUNTRY},
-                            RELEASE_DATE = ${movie.RELEASE_DATE},
-                            COUNTRY = ${movie.COUNTRY},
-                            MOVIE_RATING_CODE = ${'값만들기'}
-                            `;
-        try {  
-            await conn.simpleExecute(updateSql);
-
-        }catch(e){
-            return e.errorNum
-        }
-    }
-}
-
 module.exports = {
     insertData: insertData,
     selectAllMovie: selectAllMovie,
