@@ -116,6 +116,63 @@
 	// stepZero -->
 
 	// <-- stepFirst
+	.stepFirst{
+		width: 80%;
+		height: 30rem;
+		.label{
+			height: 10vh;
+			background-color: #E8D9D9;
+		}
+		.map{
+			display:flex;
+			justify-content: flex-start;
+			background-color: black;
+			height: 60vh;
+			flex-direction: column;
+    		align-items: center;
+			.screen{
+				width: 90%;
+				text-align: center;
+				color: white;
+				background-color: #969696;
+				margin-top: 5vh;
+				padding-top: 4px;
+				padding-bottom: 4px;
+			}
+			.seats{
+				margin-top: 10vh;
+				display: flex;
+				flex-direction: column;
+				width: fit-content;
+				.seat-row{
+					display: flex;
+					flex-direction: row;
+				}
+			}
+			.seat{
+				width: 20px;
+				height: 20px;
+				background-color: aliceblue;
+				border-radius: 5px;
+				margin:2px;
+			}
+			.selected-seat{
+				width: 20px;
+				height: 20px;
+				background-color: #985555;
+				border-radius: 5px;
+				margin:2px;
+			}
+			.invalid-seat{ // 이미 팔린 좌석
+				width: 20px;
+				height: 20px;
+				background-color: #525252;
+				border-radius: 5px;
+				margin:2px;
+			}
+		}
+		
+	}
 	// stepFirst -->
 
 	// <-- stepSecond
