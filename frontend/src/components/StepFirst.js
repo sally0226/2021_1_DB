@@ -47,7 +47,7 @@ function StepFirst({ next, prev }) {
 	}]];
 	const arr = Array.from(Array(seatRow), () => Array(seatCol).fill(false))
 	const [selectInfo, setSelectInfo] = useState({"arr": arr});
-
+	const [selectCount, setSelectCount] = useState(0);
 	// useEffect(() => {}, [selectInfo]);
 	console.log(selectInfo);
 	function handelClick(e){
@@ -57,6 +57,10 @@ function StepFirst({ next, prev }) {
 		const newState = selectInfo.arr;
 		// console.log(r +" " +c);
 		// console.log(newState[0]);
+		if (newState[r][c])
+			setSelectCount(selectCount - 1);
+		else 
+			setSelectCount(selectCount + 1);
 		newState[r][c] = !newState[r][c];
 		setSelectInfo({arr: newState});
 		console.log(selectInfo);
@@ -70,8 +74,9 @@ function StepFirst({ next, prev }) {
 					r={props.r}
 					c={props.c}
 					onClick={handelClick}>
+				{props.c}
 				</div>
-			)
+			);
 		}
 		else {
 			return (
@@ -80,8 +85,9 @@ function StepFirst({ next, prev }) {
 					r={props.r}
 					c={props.c}
 					onClick={handelClick}>
+				{props.c}
 				</div>
-			)
+			);
 		}	
 	}
 	
@@ -89,7 +95,7 @@ function StepFirst({ next, prev }) {
 	return (
 		<Grid className="stepFirst">
 			<Grid className="label">
-			<Button	onClick={next}>next</Button>
+				{/* 상영일정 정보 담기 */}
 			</Grid>
 			<Grid className="map">
 				<Grid className="screen">S C R E E N</Grid>
@@ -97,12 +103,22 @@ function StepFirst({ next, prev }) {
 					{[...Array(seatRow)].map((r, indexR) => (
 						<Grid className="seat-row" id={indexR}>
 							{[...Array(seatCol)].map((c, indexC) => (
-								<Seat isSelected={0} r={indexR} c={indexC}/>
+								<Seat r={indexR} c={indexC}/>
 							))}
 						</Grid>
 					))}
 					
 				</Grid>
+			</Grid>
+			<Grid className="info">
+				<div>선택된 좌석 {selectCount}개</div>
+				<div>총 금액 {1000}원</div>
+				<div className="btn-wrapper">
+					<Button className="btn" onClick={next}>
+						결제하기
+					</Button>
+				</div>
+				
 			</Grid>
 		</Grid>
 	)
