@@ -10,13 +10,13 @@ function Admin_screenroom() {
 		row: 3,
 		col: 30,
 		sum: 90,
-		exit: 2,
+		exit: [2,3,4]
 	},{
 		id: 2,
 		row: 3,
 		col: 10,
 		sum: 30,
-		exit: 1,
+		exit: [1,2]
 	}]);
 
 	const [mode, setMode] = useState(-1); // -1 : list, 0: add
@@ -44,6 +44,13 @@ function Admin_screenroom() {
 		setCol(0);
 		setSum(0);
 		setExit(0);
+	}
+
+	const handlerExit = (text) => {
+		// 입력받은 exit 배열로~
+		// 대신 꼭 띄어쓰기 없이 , <- 이걸 구분자로 이용~!
+		var arr = text.split(",");
+		setExit(arr);
 	}
 	
 	return (
@@ -78,14 +85,13 @@ function Admin_screenroom() {
 										<TableCell align="center" style={{width:'15%'}}>
 											<TextField value={sum} onChange={(e)=>setSum(e.target.value)} />
 										</TableCell>
-										{/* exit 나중에 picker로 바꾸기. 여러개의 exit도... */}
 										<TableCell align="center" style={{width:'15%'}}>
 											<TextField value={exit} onChange={(e)=>setExit(e.target.value)} />
 										</TableCell>
 										<TableCell align="center" style={{width:'20%'}}>
 											<Grid className="btn-con">
 												<Button color="inherit" onClick={()=>handlerMode(data.id)}>등록</Button>
-												<Button color="inherit">삭제</Button>
+												<Button color="inherit">취소</Button>
 											</Grid>
 										</TableCell>
 								</TableRow>)
@@ -97,7 +103,11 @@ function Admin_screenroom() {
 										<TableCell align="center" style={{width:'15%'}}>{data.row}</TableCell>
 										<TableCell align="center" style={{width:'15%'}}>{data.col}</TableCell>
 										<TableCell align="center" style={{width:'15%'}}>{data.sum}</TableCell>
-										<TableCell align="center" style={{width:'15%'}}>{data.exit}</TableCell>
+										<TableCell align="center" style={{width:'15%'}}>
+											{data.exit.map(e => 
+												<p>{e}</p>
+											)}
+										</TableCell>
 										<TableCell align="center" style={{width:'20%'}}>
 											<Grid className="btn-con">
 												<Button color="inherit" onClick={()=>handlerMode(data.id)}>수정</Button>
@@ -123,7 +133,6 @@ function Admin_screenroom() {
 								<TableCell align="center" style={{width:'15%'}}>
 									<TextField value={sum} onChange={(e)=>setSum(e.target.value)} />
 								</TableCell>
-								{/* exit 나중에 picker로 바꾸기. 여러개의 exit도... */}
 								<TableCell align="center" style={{width:'15%'}}>
 									<TextField value={exit} onChange={(e)=>setExit(e.target.value)} />
 								</TableCell>

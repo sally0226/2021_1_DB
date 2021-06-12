@@ -117,7 +117,7 @@ function Admin_schedule() {
 										<TableCell align="center" style={{width:'15%'}}>
 											<Grid className="btn-con">
 												<Button onClick={()=>handlerMode(data.id)}  style={{backgroundColor:'#985555', color:'white'}}>등록</Button>
-												<Button style={{backgroundColor:'#985555', color:'white'}}>삭제</Button>
+												<Button style={{backgroundColor:'#985555', color:'white'}}>취소</Button>
 											</Grid>
 										</TableCell>
 								</TableRow>)
