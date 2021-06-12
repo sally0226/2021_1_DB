@@ -71,20 +71,84 @@ async function insertData(movieData, images, videos){
 }
 
 async function selectAllMovie() {
-    var data;
+    var movies;
+    var posters;
     try {
-        //영화 포스터는 필요없음?? 
-        const sql = `SELECT MOVIE_NUM, MOVIE_NAME, MOVIE_RATING_CODE, AVG_STARS, SCRN_STATUS FROM MOVIE`;
+        const sql = `SELECT MOVIE_NUM, MOVIE_NAME, MOVIE_RATING_CODE, AVG_STARS, SCRN_STATUS, TO_CHAR(RELEASE_DATE,'YYYY-MM-DD') AS RELEASE_DATE FROM MOVIE`;
         
         await conn.simpleExecute(sql).then((result) => {
-            data = result;
-            console.log(data.length);
-            console.log(data[0]);
+            movies = result.rows;
+            console.log(movies.length);
         });
+
+        // 각 영화별 첫 번째 사진 가져오기 (포스터)
+        const selectPosterSql = `SELECT * FROM TRAILER_SHOT where trailer_shot_num in 
+        (SELECT MIN(trailer_shot_num) FROM TRAILER_SHOT GROUP BY MOVIE_NUM) order by MOVIE_NUM`;
+
+        await conn.simpleExecute(selectPosterSql).then((result) => {
+            posters = result.rows;
+            console.log(posters);
+        });
+        for (var i=0;i<movies.length;i++){
+            const temp_movie_num = movies[i].MOVIE_NUM;
+            const poster = posters.find(element => element.MOVIE_NUM == temp_movie_num);
+            console.log(poster);
+            if (poster === undefined) {
+                movies[i].POSTER = null;
+            }
+               
+            else 
+                movies[i].POSTER = poster.TRAILER_SHOT_ROUTE;
+            console.log(movies[i]);
+        }
+        return movies;
     } catch(e){
+        console.log(e.errorNum);
         return e.errorNum
     }
 }
+
+async function modifyMovie(movie, type) {
+    if (type === 'DELETE') { // 해당 레코드 삭제 
+        const deleteSql = `DELETE FROM MOVIE WHERE MOVIE_NUM = ${movie.MOVIE_NUM}`;
+        try {  
+            await conn.simpleExecute(deleteSql);
+
+        }catch(e){
+            return e.errorNum
+        }
+    } 
+    else if (type === 'SCRN_END'){ // update
+        const updateSql = `UPDATE MOVIE SET SCRN_STATUS='N'`;
+        try {  
+            await conn.simpleExecute(updateSql);
+
+        }catch(e){
+            return e.errorNum
+        }
+    } 
+    else if (type === 'MODIFY'){
+        const updateSql = `UPDATE MOVIE SET 
+                            MOVIE_NAME = ${movie.MOVIE_NAME},
+                            SCRN_TIME = ${movie.SCRN_TIME},
+                            DIRECTOR = ${movie.DIRECTOR},
+                            CAST = ${movie.CAST},
+                            GENRE = ${movie.GENRE},
+                            MOVIE_INTRO = ${movie.MOVIE_INTRO},
+                            COUNTRY = ${movie.COUNTRY},
+                            RELEASE_DATE = ${movie.RELEASE_DATE},
+                            COUNTRY = ${movie.COUNTRY},
+                            MOVIE_RATING_CODE = ${'값만들기'}
+                            `;
+        try {  
+            await conn.simpleExecute(updateSql);
+
+        }catch(e){
+            return e.errorNum
+        }
+    }
+}
+
 module.exports = {
     insertData: insertData,
     selectAllMovie: selectAllMovie,

@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const movieModel = require('../models/movieModel');
 const userModel = require('../models/movieModel');
-const { get } = require('../routes/router');
 
 const createMovie = async (req, res, next) => {
     try {
@@ -21,9 +20,12 @@ const createMovie = async (req, res, next) => {
 }
 
 const getAllMovie = async (req, res, next) => {
+    console.log("Afsdff");
     try {
         const result = await movieModel.selectAllMovie();
-        res.body(result)
+        if (result === undefined)
+            res.status(200).json({ success: false, message: '이것은 에러'});
+        res.send(result)
     } catch(err) {
         next(err);
     }
