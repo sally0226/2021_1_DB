@@ -5,34 +5,33 @@ import { API_URL } from '../../CommonVariable';
 
 import { useMovieState, useMovieDispatch } from '../model/MovieModel';
 
-const GetMovie = createContext(()=>{});
+const GetMovies = createContext(()=>{});
 
-const MovieViewModel = ({children}) => {
+const MovieViewModel = ({id, children}) => {
 	const movie = useMovieState();
 	const setMovie = useMovieDispatch();
 
 	useEffect(()=>{
-		fetchMovie();
+		fetchMovies();
 	},[]);
 
-	const fetchMovie = () => {
+	const fetchMovies = () => {
 		axios.get(`${API_URL}/movie`)
 		.then(res => {
-			//console.log(res.data);
 			setMovie(res.data);
 		})
 	}
 
 	return (
-		<GetMovie.Provider value={fetchMovie}>
+		<GetMovies.Provider value={fetchMovies}>
 			{children}
-		</GetMovie.Provider>
+		</GetMovies.Provider>
 	)
 }
 
 export default MovieViewModel
 
-export function useGetMovie() {
-	const context = useContext(GetMovie);
+export function useGetMovies() {
+	const context = useContext(GetMovies);
 	return context;
 }
