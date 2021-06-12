@@ -13,7 +13,7 @@ function getFormatDate(date){
 }
 
 async function insertData(data){
-    console.log(data.startDate);
+    //console.log(data.startDate);
     try {
         const sql = `INSERT INTO EMP VALUES(EMP_NUM.NEXTVAL, ${data.dept}, '${data.name}', '${data.contact}', '${data.reg_num}', TO_DATE('${getFormatDate(data.startDate)}', 'YYYY-MM-DD'), '${data.title}')`;
         await conn.simpleExecute(sql);
@@ -23,6 +23,21 @@ async function insertData(data){
     return "success";
 }
 
+async function selectAllEmp() {
+    try {
+        var empList; 
+        const sql = `SELECT * FROM EMP`;
+        await conn.simpleExecute(sql).then((result) => {
+            //console.log(result);
+            empList = result.rows;
+        });
+        return empList;
+    } catch(e) {
+        return e;
+    }
+}
+
 module.exports = {
     insertData: insertData,
+    selectAllEmp: selectAllEmp, 
 }

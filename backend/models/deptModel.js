@@ -16,15 +16,14 @@ async function selectAllDept(){
 }
 
 async function nameToNum(name) {
-    console.log(name);
     const sql = `SELECT DEPT_NUM FROM DEPT WHERE DEPT_NAME = '${name}'`;
     var deptNum;
     try {
         await conn.simpleExecute(sql).then((result) => {
-            console.log(result);
+            //console.log(result);
             deptNum = result.rows[0].DEPT_NUM;
         })
-        console.log(deptNum);
+        //console.log(deptNum);
         return deptNum;
     } catch(e) {
         return e.errorNum;

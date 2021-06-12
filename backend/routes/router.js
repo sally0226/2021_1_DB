@@ -16,5 +16,6 @@ router.post('/movie', MovieController.createMovie);
 router.get('/dept', DeptController.getAllDept);
 
 router.post('/emp', EmpController.createEmp);
+router.get('/emp', EmpController.getAllEmp);
 
 module.exports = router;
