@@ -96,5 +96,4 @@ module.exports = {
     updateMovie: updateMovie,
     getAllMovie: getAllMovie,
 	getOneMovie: getOneMovie,
-	getMovieRatingCode: getMovieRatingCode,
 }

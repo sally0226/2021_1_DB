@@ -253,5 +253,4 @@ module.exports = {
     updateData: updateData,
     selectAllMovie: selectAllMovie,
 	selectOneMovie: selectOneMovie,
-	selectMovieRatingCode: selectMovieRatingCode
 }
