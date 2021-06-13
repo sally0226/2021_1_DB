@@ -36,11 +36,11 @@ async function roomIsEmpty(data) {
         console.log(result);
         scrn_time = result.rows[0].SCRN_TIME;
     });
-
+    const gap = 10; //상영일정간 최소간격  
     const start_times = schelist.map(sche => Number(sche.TIME[0]+sche.TIME[1])*60 + Number(sche.TIME[3]+sche.TIME[4]));
     const end_times = start_times.map((start_time, idx)=> start_time + schelist[idx].SCRN_TIME);
     const start = Number(new Date(data.SCRN_DATE).getHours()) * 60 + Number(new Date(data.SCRN_DATE).getMinutes());
-    const end = start + scrn_time; 
+    const end = start + scrn_time + gap; // 상영일정간 간격을 두기 위함  
 
     var isCan = true;
     for (var i=0;i<start_times.length;i++){
