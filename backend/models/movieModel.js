@@ -30,7 +30,7 @@ async function insertData(movieData, images, videos){
             NULL, 
             ${movieData.rating}
             )`;
-		//console.log(movieSql);
+		console.log(movieSql);
         await conn.simpleExecute(movieSql).then((result) => {
             //console.log(result);
         }); 

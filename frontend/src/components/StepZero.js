@@ -4,6 +4,7 @@ import { RatingCircle } from '../components'
 import DatePicker from "react-datepicker";
 
 function StepZero({next, data, selectMovie}) {
+	console.log(data);
 	const [selectedMovie, setSelectedMovie] = useState(0);
 	const handleMovieSelect = (i) => {
 		setSelectedMovie(i);
@@ -31,7 +32,7 @@ function StepZero({next, data, selectMovie}) {
 				<Grid className={`${'right-border'} ${'zeroBody'}`}>
 					<Grid className="movie-con">
 						{
-							data.map((movie, i)=>(
+							data && data.map((movie, i)=>(
 								movie.isScreen &&
 								<Grid className={selectedMovie===i ? 'leftContent leftContent-active' : 'leftContent'} onClick={() => handleMovieSelect(i)}>
 									{movie.name}
@@ -63,7 +64,7 @@ function StepZero({next, data, selectMovie}) {
 									color:'white',
 									marginRight:'5px'}}
 							><RatingCircle /></Grid>
-							{data[selectedMovie].name}
+							{data[selectedMovie] != undefined && data[selectedMovie].name}
 						</Grid>
 						<Grid className="timeGrid-body">
 							<Grid className="timeGrid-content" onClick={next}>

@@ -72,6 +72,7 @@ const starScore = (num) => {
 }
 
 function MovieDetail(props) {
+	let today = new Date();
 	const movieId = props.match.params.movieId;
 	const [movie, setMovie] = useState();
 	const [shot, setShot] = useState();
@@ -157,7 +158,10 @@ function MovieDetail(props) {
 								<RatingCircle rating={movie && movie.MOVIE_RATING_CODE} />
 							</Grid>
 							<p>{movie && movie.MOVIE_NAME}</p>
-							{movie && movie.SCRN_STATUS ==='Y' ? <Grid className="tag">"현재 상영중"</Grid> : null}
+							{
+								movie && movie.SCRN_STATUS ==='Y' && new Date(movie.RELEASE_DATE) <= today ?
+								<Grid className="tag">현재 상영중</Grid> : null
+							}
 						</Grid>
 						<Grid className="movie-middle">
 							<Grid className="review">
@@ -197,7 +201,7 @@ function MovieDetail(props) {
 								{
 									vid && vid.map(vid => (
 										<Grid>
-											<iframe width="90%" height="130" allowfullscreen src={vid.TRAILER_VIDEO_ROUTE} title="YouTube video player" frameBorder="0" allow="accelerometer"></iframe>
+											<iframe width="90%" height="230" allowfullscreen src={vid.TRAILER_VIDEO_ROUTE} title="YouTube video player" frameBorder="0" allow="accelerometer"></iframe>
 										</Grid>
 									))
 								}
