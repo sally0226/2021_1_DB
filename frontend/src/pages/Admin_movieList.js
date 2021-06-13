@@ -70,11 +70,11 @@ function AdminMovieList(){
             console.log(e.currentTarget.id);
             var body =data.filter(item => item.MOVIE_NUM == e.currentTarget.id)[0];
             console.log(body);
-            body.SCRN_STATUS = "N";
+            body.SCRN_STATUS = body.SCRN_STATUS==='Y'? 'N' : 'Y';
             axios.put(`${API_URL}/movie/${e.currentTarget.id}`, body)
 		    .then(response=>{
                 if(response.data.success){
-                    alert(`영화가 상영 종료 되었습니다.`);
+					body.SCRN_STATUS==='Y' ? alert('영화 상영 시작합니다.') : alert(`영화가 상영 종료 되었습니다.`);
                     //window.location.href='';
                     axios.get(`${API_URL}/movie`)
                     .then(response=>{

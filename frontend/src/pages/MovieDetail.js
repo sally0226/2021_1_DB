@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
+import Slider from "react-slick";
 
 import { Button, Grid, InputBase, Link, Tab, Tabs } from '@material-ui/core';
 import { ReactComponent as Star } from '../assets/Star.svg'
@@ -76,6 +77,17 @@ function MovieDetail(props) {
 	const [shot, setShot] = useState();
 	const [vid, setVid] = useState();
 	const [review, setReview] = useState();
+	let len = 4
+
+	// <-- carousel setting
+	const settings = {
+		//infinite: true,
+		speed: 500,
+		slidesToShow: len,
+		slidesToScroll: 1,
+		className: "movie-list",
+	};
+	// carousel setting -->
 
 	useEffect(() => {
 		const getData = async() => {
@@ -178,16 +190,19 @@ function MovieDetail(props) {
 								))}
 							</Grid>
 							<p className="body-head">포스터 & 스틸컷</p>
-							<Grid className="media-con">
-								{shot && shot.map(shot => (
-									<Grid item xs={12} sm={6} md={4} lg={2}>
+							
+							<Slider {...settings}>
+								{
+									shot && shot.map(shot => (
+										<Grid item xs={12} sm={6} md={4} lg={3}>
 										<a href={shot.TRAILER_SHOT_ROUTE} target="_blank">
 											<img alt="예고 사진" style={{maxHeight:'230px'}} src={shot.TRAILER_SHOT_ROUTE} />
 										</a>
 									</Grid>
-								))}
+									))
+								}
+							</Slider>
 							</Grid>
-						</Grid>
 						: // 평점 및 관람평
 						<Grid className="tab-content">
 							<Grid className="comment">

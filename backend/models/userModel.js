@@ -41,18 +41,19 @@ async function insertData (data)  {
 	let CS_NUM;
 
 	try{
-		const cssql = `INSERT INTO CS VALUES(CS_NUM.NEXTVAL, '${data.name}', to_date(${data.birth}, 'yyyy-mm-dd'), '${data.phone}', '20001')`;
-
+		const cssql = `INSERT INTO CS VALUES(CS_NUM.NEXTVAL, '${data.name}', to_date('${data.birth}', 'yyyy-mm-dd'), '${data.phone}', '20001')`;
+		console.log(cssql);
 		await conn.simpleExecute(cssql)
 
 		await conn.simpleExecute(`SELECT LAST_NUMBER FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'CS_NUM'`)
-		.then(res => CS_NUM = result.rows[0].LAST_NUMBER-1)
+		.then(res => CS_NUM = res.rows[0].LAST_NUMBER-1)
 
-		const memsql = `INSERT INTO MEM VALUES(MEM_NUM.NEXTCAL, ${CS_NUM}, '${data.regnum}', '${data.id}', '${data.password}', 0)`;
+		const memsql = `INSERT INTO MEM VALUES(MEM_NUM.NEXTVAL, ${CS_NUM}, '${data.regnum}', '${data.id}', '${data.password}', 0)`;
+		console.log(memsql);
 		await conn.simpleExecute(memsql)
 
     } catch(e) {
-		//console.log(e); // 에러 출력
+		console.log(e); // 에러 출력
 		return e.errorNum
     }
 	return "success"
