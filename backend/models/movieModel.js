@@ -73,12 +73,13 @@ async function insertData(movieData, images, videos){
 async function selectAllMovie() {
     var movies;
     var posters;
+	var vids;
     try {
         const sql = `SELECT MOVIE_NUM, MOVIE_NAME, MOVIE_RATING_CODE, AVG_STARS, SCRN_STATUS, TO_CHAR(RELEASE_DATE,'YYYY-MM-DD') AS RELEASE_DATE FROM MOVIE`;
         
         await conn.simpleExecute(sql).then((result) => {
             movies = result.rows;
-            console.log(movies.length);
+            //console.log(movies.length);
         });
 
         // 각 영화별 첫 번째 사진 가져오기 (포스터)
@@ -87,7 +88,7 @@ async function selectAllMovie() {
 
         await conn.simpleExecute(selectPosterSql).then((result) => {
             posters = result.rows;
-            console.log(posters);
+            //console.log(posters);
         });
         for (var i=0;i<movies.length;i++){
             const temp_movie_num = movies[i].MOVIE_NUM;
@@ -99,8 +100,27 @@ async function selectAllMovie() {
                
             else 
                 movies[i].POSTER = poster.TRAILER_SHOT_ROUTE;
-            console.log(movies[i]);
+            //console.log(movies[i]);
         }
+
+		 // 각 영화별 첫 번째 비디오 가져오기 (비디오) main페이지의 carousel에 들어감!
+		 const selectVidSql = `SELECT * FROM TRAILER_VIDEO where TRAILER_VIDEO_NUM in 
+		 (SELECT MIN(TRAILER_VIDEO_NUM) FROM TRAILER_VIDEO GROUP BY MOVIE_NUM) order by MOVIE_NUM`;
+ 
+		 await conn.simpleExecute(selectVidSql).then((result) => {
+			 vids = result.rows;
+		 });
+		 for (var i=0;i<movies.length;i++){
+			 const temp_movie_num = movies[i].MOVIE_NUM;
+			 const video = vids.find(element => element.MOVIE_NUM == temp_movie_num);
+			 if (video === undefined) {
+				 movies[i].VIDEO = null;
+			 }
+				
+			 else 
+				 movies[i].VIDEO = video.TRAILER_VIDEO_ROUTE;
+			 console.log(movies[i]);
+		 }
         return movies;
     } catch(e){
         console.log(e.errorNum);

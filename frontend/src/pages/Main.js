@@ -6,6 +6,7 @@ import { useMovieState } from '../MVVM/model/MovieModel';
 
 function Main() {
 	const movie = useMovieState();
+	console.log(movie);
 	let rank = 1;
 	let len = movie.length;
 	if(len>4) len =4;
@@ -40,6 +41,7 @@ function Main() {
 										<Button variant="outlined" href="/reserve" style={{marginBottom:'1rem'}}>예매하기</Button>
 										<Button variant="outlined" href={`/movie/${movie.MOVIE_NUM}`}>상세정보</Button>
 									</Grid>
+									<img alt="포스터" style={{width: '100%', height:'100%'}} src={movie.POSTER} />
 								</div>
 								<span>{movie.MOVIE_NAME}</span>
 								<span>{movie.AVG_STARS===null ? 0 : movie.AVG_STARS}점</span>
