@@ -11,6 +11,9 @@ const createReview = async (req, res, next) => {
         else if(result===false) {
             res.status(200).json({ success: false, message: '리뷰 작성에 실패하였습니다.'});
 	    }
+		else if(result===-1) {
+            res.status(200).json({ success: false, message: '리뷰 작성는 하나만 작성할 수 있습니다.'});
+	    }
 		else {
 			res.status(200).json({ success: true})
 		}

@@ -4,6 +4,12 @@ const conn = require('../models/database');
 async function insertData(mem_num, movie_num, stars, comments){
 	var r = false;
     try{
+		await conn.simpleExecute(`SELECT * FROM REVIEW WHERE MEM_NUM=${mem_num}`)
+		.then(res => r=res.rows)
+
+		if(r.length>1){
+			return -1
+		}
         await conn.simpleExecute(`INSERT INTO REVIEW VALUES(REVIEW_NUM.NEXTVAL, ${movie_num}, ${mem_num}, ${stars}, '${comments}')`)
 
 		await conn.simpleExecute(`SELECT AVG(STARS) AS AVG FROM REVIEW GROUP BY MOVIE_NUM HAVING MOVIE_NUM=${movie_num}`)
