@@ -58,8 +58,45 @@ async function insertData (data)  {
 	return "success"
 }
 
+async function Enter (name, contact, room)  {
+	let r = 0;
+	let date = new Date();
+	var yyyy = date.getFullYear();
+	var mm = date.getMonth() < 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1); // getMonth() is zero-based
+	var dd  = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+	var hh = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+	var min = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+	var day = "".concat(yyyy).concat("").concat(mm).concat("").concat(dd).concat(hh).concat(min).concat('00');
+
+	try{
+		const esql = `INSERT INTO VISIT_INFO VALUES(VISIT_NUM.NEXTVAL, ${room}, '${name}', '${contact}',TO_DATE('${day}','YYYYMMDDHH24MISS'))`
+		await conn.simpleExecute(esql)
+		.then(res => r="success");
+	} catch (e) {
+		console.log(e)
+		return e.errorNum
+	}
+	return r;
+}
+
+async function GetEnter ()  {
+	let r = 0;
+
+	try{
+		const esql = `SELECT * FROM VISIT_INFO`
+		await conn.simpleExecute(esql)
+		.then(res => r=res);
+	} catch (e) {
+		console.log(e)
+		return e.errorNum
+	}
+	return r;
+}
+
 module.exports = {
     insertData : insertData,
 	findUser: findUser,
-	Login: Login
+	Login: Login,
+	Enter: Enter,
+	GetEnter: GetEnter,
 }

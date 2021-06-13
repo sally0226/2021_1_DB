@@ -8,7 +8,8 @@ const router = express.Router();
 
 router.post('/signup', UserController.signUp);
 router.post('/login', UserController.logIn);
-
+router.post('/enter', UserController.enter);
+router.get('/enter', UserController.getEnter);
 
 router.get('/movie', MovieController.getAllMovie);
 router.get('/movie/:id', MovieController.getOneMovie);

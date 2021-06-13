@@ -7,9 +7,12 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const Carousel = (data) => {
 	const movieData = data.data;
+	const reverse = [...movieData].reverse();
+
 
 	const [index, setIndex] = useState(0)
-	const dots = movieData.length;
+	var dots = movieData.length;
+	if(movieData.length>8) dots = 8;
 
 	const handleChangeIndex = ( index ) => {
 		setIndex(index);
@@ -25,16 +28,25 @@ const Carousel = (data) => {
 		}
 		return result;
 	}
+	const vidFunc = () => {
+		const result = [];
+		for(let i=0; i<dots; i++)
+			result.push(<div style={{height:'18rem'}}>
+				<iframe width="100%" height="100%" allowfullscreen src={reverse[i].VIDEO} title="YouTube video player" frameBorder="0" allow="accelerometer"></iframe>
+			</div>)
+		return result
+	}
 
 	return (
 		<div className="carousel">
 			<AutoPlaySwipeableViews index={index} onChangeIndex={handleChangeIndex}>
 				{
-					movieData.map(vid => (
-						<div style={{height:'18rem'}}>
-							<iframe width="100%" height="100%" allowfullscreen src={vid.VIDEO} title="YouTube video player" frameBorder="0" allow="accelerometer"></iframe>
-						</div>
-					))
+					// reverse.map((vid, i) => (
+					// 	<div style={{height:'18rem'}}>
+					// 		<iframe width="100%" height="100%" allowfullscreen src={vid.VIDEO} title="YouTube video player" frameBorder="0" allow="accelerometer"></iframe>
+					// 	</div>
+					// ))
+					vidFunc()
 				}
 			</AutoPlaySwipeableViews>
 			<div className="dotCon">{dotFunc()}</div>
