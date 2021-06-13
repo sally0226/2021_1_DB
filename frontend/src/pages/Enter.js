@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import axios from 'axios';
 
 import { Grid, TextField, Button, Link } from '@material-ui/core'
+import { API_URL } from '../CommonVariable';
 
 function Enter() {
 	const [name, setName] = useState("");
@@ -8,8 +10,22 @@ function Enter() {
 	const [room, setRoom] = useState();
 
 	const SubmitHandler = (event) => {
-		alert('A name was submitted: ' + name + 'pw : ' + phone);
 		event.preventDefault();
+		let body = {
+			name: name,
+			contact: phone,
+			room: room
+		}
+		axios.post(`${API_URL}/enter`, body)
+		.then(response=>{
+			if(!response.data.success){
+				alert(`출입명부 작성에 실패하셨습니다!`);
+			}
+			else{
+				alert('출입명부작성에 성공하셨습니다.');
+				window.location.href='/';
+			}
+		})
 	};
 
 	return (
@@ -32,11 +48,12 @@ function Enter() {
 					variant="filled"
 					margin="normal"
 					fullWidth
-					placeholder="Phone Number"
+					placeholder="000-0000-0000"
 					autoFocus
 					style={{
 						backgroundColor: '#ffffff'
 					}}
+					inputProps={{maxLength:13}}
 					value={phone}
 					onChange={(e)=>setPhone(e.target.value)}
 				/>

@@ -83,7 +83,7 @@ async function GetEnter ()  {
 	let r = 0;
 
 	try{
-		const esql = `SELECT * FROM VISIT_INFO`
+		const esql = `SELECT ROOM_NUM, VISIT_NAME, VISIT_CONTACT, TO_CHAR(VISIT_TIME, 'yyyymmhh24miss') AS VISIT_TIME FROM VISIT_INFO`
 		await conn.simpleExecute(esql)
 		.then(res => r=res);
 	} catch (e) {
