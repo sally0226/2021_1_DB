@@ -6,6 +6,7 @@ const createMovie = async (req, res, next) => {
         const { movie, images, videos } = req.body;
 
         const movieData = movie;
+		//console.log(movieData);
         const result = await movieModel.insertData(movieData, images, videos);
         console.log(result);
         if(result === "success")
@@ -82,8 +83,7 @@ const getMovieRatingCode = async (req, res, next) => {
 	 try {
 		 const result = await movieModel.selectMovieRatingCode();
 		 if (result === undefined)
-			 res.status(200).json({ success: false, message: '설정한 상영등급이 없습니다.'});
-		console.log(result);
+			res.status(200).json({ success: false, message: '설정한 상영등급이 없습니다.'});
 		res.send(result)
 	 } catch(err) {
 		 next(err);

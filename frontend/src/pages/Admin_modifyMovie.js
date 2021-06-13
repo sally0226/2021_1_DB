@@ -1,14 +1,13 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { Header } from '../components';
-import { TextField, Button, makeStyles, IconButton } from '@material-ui/core';
+import { TextField, Button, makeStyles, IconButton, Select, MenuItem, FormHelperText, FormControl } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 // import {AiOutlineLink} from 'react-icons';
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"
-import 'react-datepicker/dist/react-datepicker-cssmodules.min.css'
-
 import axios from 'axios';
 import { API_URL } from '../CommonVariable';
+import { useMovieRatingState } from '../MVVM/model/CodeModel';
+
 const styles = makeStyles((theme) => ({
 	input: {
 		color: "#000000",
@@ -44,7 +43,9 @@ function videoReducer(state, action) {
 function ModifyMovie({match}) {
     const movieid = match.params.movieid;
 	const classes = styles();
+	const rating = useMovieRatingState();
     const [movieInfo, setMovieInfo] = useState({});
+	
     useEffect(()=> {
         axios.get(`${API_URL}/movie/${movieid}`)
 		.then(response=>{
@@ -62,9 +63,9 @@ function ModifyMovie({match}) {
                 type: 'SET',
                 data: vids,
             });    
-            console.log(movieInfo.RELEASE_DATE);        
 		});
     },[]);
+
     const [images, imageDispatch] = useReducer(imageReducer, []);
     const [videos, videoDispatch] = useReducer(videoReducer, []);
     const SubmitHandler = (event) => {
@@ -104,11 +105,13 @@ function ModifyMovie({match}) {
     const [imageInput, setImageInput] = useState("");
     const [videoInput, setVideoInput] = useState("");
     const updateField = e => {
+		const name = e.target.name
         setMovieInfo({
           ...movieInfo,
-          [e.target.name]: e.target.value
+          [name]: e.target.value
         });
       };
+	var temp = movieInfo.MOVIE_RATING_CODE
     return (
         <div className="createMovie">
             <Header/>
@@ -167,22 +170,28 @@ function ModifyMovie({match}) {
                 </div>
                 <div className="label-form">
                     <div className="label">상영 등급</div>
-                    <TextField
-                        variant="filled"
-                        margin="normal"
-                        name="MOVIE_RATING_CODE"
-                        placeholder={movieInfo.MOVIE_RATING_CODE}
-                        required
-                        autoFocus
-                        style={{
-                            backgroundColor: '#ffffff',
-                        }}
-                        InputProps={{
-                        className: classes.input
-                        }}
-                        value={movieInfo.MOVIE_RATING_CODE}
-                        onChange={updateField}
-                    />
+					<FormControl>
+					<Select
+							name="MOVIE_RATING_CODE"
+							variant="filled"
+							margin="normal"
+							required
+							autoFocus
+							style={{
+								backgroundColor: '#ffffff',
+							}}
+							value={movieInfo.MOVIE_RATING_CODE}
+							placeholder={movieInfo.MOVIE_RATING_CODE}
+							onChange={updateField}
+						>
+							{rating.map((r) => (
+								<MenuItem value={r.COMMON_CODE}>
+									{r.CODE_NAME}
+								</MenuItem>
+							))}
+						</Select>
+						<FormHelperText style={{color: 'white'}}>현재 값 : {movieInfo.MOVIE_RATING_CODE}</FormHelperText>
+					</FormControl>
                 </div>
                 <div className="label-form">
                     <div className="label">감독</div>

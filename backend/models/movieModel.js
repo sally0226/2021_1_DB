@@ -11,17 +11,11 @@ function getFormatDate(date){
 }
 
 async function insertData(movieData, images, videos){
-    const movie_rating = movieData.rating; 
     var movie_num;
     try{
-        const movie_rating_code = 20001; // 임시코드..ㅎㅎ 코드 테이블에 영화등급관련 레코드가 아직 없음 
-        //await conn.simpleExecute().then(
-            // result => {
-            //     if ()
-            // }
         date = new Date(movieData.startDate)
         date = getFormatDate(date);
-        // console.log(date);
+
         const movieSql =`INSERT INTO MOVIE VALUES(
             MOVIE_NUM.NEXTVAL, 
             '${movieData.name}', 
@@ -34,8 +28,9 @@ async function insertData(movieData, images, videos){
             '${movieData.country}',
             TO_DATE('${date}', 'YYYY-MM-DD'),
             NULL, 
-            ${movie_rating_code}
+            ${movieData.rating}
             )`;
+		console.log(movieSql);
         await conn.simpleExecute(movieSql).then((result) => {
             //console.log(result);
         }); 
@@ -218,12 +213,14 @@ async function selectOneMovie(id) {
 }
 
 async function selectMovieRatingCode() {
+	var result;
 	try{
 		await conn.simpleExecute(`SELECT COMMON_CODE, CODE_NAME FROM CODE WHERE UPPER_COMMON_CODE=100`)
 		.then(res => {
-			console.log(res.rows);
-			return res.rows
+			result = res;
 		})
+
+		return result.rows;
 	} catch(e){
 		console.log(e);
 		return e.errorNum;
