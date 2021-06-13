@@ -21,7 +21,7 @@ export default function Header() {
 	const [idx, setIdx] = useState(0);
 	const idxHandler = (i) => {
 		setIdx(i);
-		isManager? setSubHref(subLinkManager[i])
+		forManager? setSubHref(subLinkManager[i])
 		: setSubHref(subLinkDefault[i]);
 	};
 
@@ -70,45 +70,45 @@ export default function Header() {
 			</Grid>
 		:
 		<Grid className="header">
-				<Grid className="header-main">
-					<Grid className="h-title">
-						<Link href="/" style={{ textDecoration: 'none' }} color="inherit">시DB</Link>
-					</Grid>
-					<Grid className="h-button">
-						<Link href="/enterroom" style={{marginRight:'1rem'}} color="inherit">출입명부작성</Link>
-						{
-							isLogined ?
-							<Link href="/" color="inherit" onClick={()=>setIsLogined(false)} style={{marginRight:'1rem' }}>로그아웃</Link>
-							:
-							<>
-								<Link href="/login" style={{marginRight:'1rem'}} color="inherit">로그인</Link>
-								<Link href="/register" style={{marginRight:'1rem'}} color="inherit">회원가입</Link>
-							</>
-						}
-						{ isManager && <Link href="/" color="inherit" onClick={modeHandler}>관리자메뉴</Link>}
-					</Grid>
+			<Grid className="header-main">
+				<Grid className="h-title">
+					<Link href="/" style={{ textDecoration: 'none' }} color="inherit">시DB</Link>
 				</Grid>
-				<Grid className="header-sub">
-					<Grid className="sub-btn-con">
-						<div className="sub-btn" onMouseOver={()=>idxHandler(0)}>예매</div>
-						<div className="sub-btn" onMouseOver={()=>idxHandler(1)}>영화</div>
-					</Grid>
-					<Grid className="sub-navigation">
-						{
-							subNavDefault[idx] && subNavDefault[idx].map((name, index) =>
-							<Link
-								href={subHref[index]}
-								className="sub-nav-btn"
-								color="inherit"
-								style={{ textDecoration: 'none'}}
-								key={index}
-							>
-								{name}
-							</Link>
-							)
-						}
-					</Grid>
+				<Grid className="h-button">
+					<Link href="/enterroom" style={{marginRight:'1rem'}} color="inherit">출입명부작성</Link>
+					{
+						isLogined ?
+						<Link href="/" color="inherit" onClick={()=>setIsLogined(false)} style={{marginRight:'1rem' }}>로그아웃</Link>
+						:
+						<>
+							<Link href="/login" style={{marginRight:'1rem'}} color="inherit">로그인</Link>
+							<Link href="/register" style={{marginRight:'1rem'}} color="inherit">회원가입</Link>
+						</>
+					}
+					{ isManager && <Link href="/" color="inherit" onClick={modeHandler}>관리자메뉴</Link>}
 				</Grid>
 			</Grid>
+			<Grid className="header-sub">
+				<Grid className="sub-btn-con">
+					<div className="sub-btn" onMouseOver={()=>idxHandler(0)}>예매</div>
+					<div className="sub-btn" onMouseOver={()=>idxHandler(1)}>영화</div>
+				</Grid>
+				<Grid className="sub-navigation">
+					{
+						subNavDefault[idx] && subNavDefault[idx].map((name, index) =>
+						<Link
+							href={subHref[index]}
+							className="sub-nav-btn"
+							color="inherit"
+							style={{ textDecoration: 'none'}}
+							key={index}
+						>
+							{name}
+						</Link>
+						)
+					}
+				</Grid>
+			</Grid>
+		</Grid>
 	)
 }

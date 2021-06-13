@@ -1,11 +1,12 @@
-import React, { useReducer, useState } from 'react';
+import React, { useReducer, useState, useEffect } from 'react';
 import axios from 'axios';
 import { Header } from '../components';
-import { TextField, Button, makeStyles, IconButton } from '@material-ui/core';
+import { TextField, Button, makeStyles, IconButton, Select, MenuItem } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 // import {AiOutlineLink} from 'react-icons';
 import DatePicker from "react-datepicker";
 import { API_URL } from '../CommonVariable';
+import { useMovieRatingState } from '../MVVM/model/CodeModel';
 
 const styles = makeStyles((theme) => ({
 	input: {
@@ -37,6 +38,8 @@ function videoReducer(state, action) {
 
 function CreateMovie() {
 	const classes = styles();
+	const rating = useMovieRatingState();
+	
     const [movieInfo, setMovieInfo] = useState({
         name: "", //영화명 
         startDate: new Date(), //상영예정일
@@ -59,7 +62,7 @@ function CreateMovie() {
             movie: movieInfo,
             images: images,
             videos: videos,
-        }
+        };
 		axios.post(`${API_URL}/movie`, body)
 		.then(response=>{
 			if(response.data.success){
@@ -68,7 +71,7 @@ function CreateMovie() {
 			}
 			else
 				alert(response.data.message);
-		})
+		});
     }
     function handelClick(e) {
         console.log(e.currentTarget.name);
@@ -89,12 +92,14 @@ function CreateMovie() {
     }
     const [imageInput, setImageInput] = useState("");
     const [videoInput, setVideoInput] = useState("");
+
     const updateField = e => {
         setMovieInfo({
           ...movieInfo,
           [e.target.name]: e.target.value
         });
-      };
+    };
+	
     return (
         <div className="createMovie">
             <Header/>
@@ -154,22 +159,27 @@ function CreateMovie() {
                 </div>
                 <div className="label-form">
                     <div className="label">상영 등급</div>
-                    <TextField
-                        variant="filled"
-                        margin="normal"
-                        name="rating"
-                        placeholder={movieInfo.rating}
-                        required
-                        autoFocus
-                        style={{
-                            backgroundColor: '#ffffff',
-                        }}
-                        InputProps={{
-                        className: classes.input
-                        }}
-                        value={movieInfo.rating}
-                        onChange={updateField}
-                    />
+					<Select
+						name="rating"
+						variant="filled"
+						margin="normal"
+						required
+						autoFocus
+						style={{
+							backgroundColor: '#ffffff',
+						}}
+						InputProps={{
+							className: classes.input
+						}}
+						value={movieInfo.rating}
+						onChange={updateField}
+                    >
+						{rating.map((r) => (
+							<MenuItem value={r.COMMON_CODE}>
+								{r.CODE_NAME}
+							</MenuItem>
+						))}
+                    </Select>
                 </div>
                 <div className="label-form">
                     <div className="label">감독</div>
