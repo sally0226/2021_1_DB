@@ -136,7 +136,7 @@ function MovieDetail(props) {
 								{/* todo: codedata 바뀌면 rating 적용하기!  */}
 							</Grid>
 							<p>{movie && movie[0].MOVIE_NAME}</p>
-							<Grid className="tag">{movie && movie[0].SCRN_STATUS ==='Y' ? "현재 상영중" : null}</Grid>
+							{movie && movie[0].SCRN_STATUS ==='Y' ? <Grid className="tag">"현재 상영중"</Grid> : null}
 						</Grid>
 						<Grid className="movie-middle">
 							<Grid className="review">
@@ -172,7 +172,7 @@ function MovieDetail(props) {
 							<p className="body-head">시놉시스</p>
 							<p>{movie && movie[0].MOVIE_INTRO}</p>
 							<p className="body-head">트레일러</p>
-							<Grid>
+							<Grid className="media-con">
 								{movie && movie[2].map(vid => (
 									<iframe width="400" height="250" allowfullscreen src={vid.TRAILER_VIDEO_ROUTE} title="YouTube video player" frameborder="0" allow="accelerometer"></iframe>
 								))}
