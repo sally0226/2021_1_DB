@@ -37,11 +37,12 @@ async function insertData(movieData, images, videos){
         //console.log("movie insert success");
         await conn.simpleExecute(`SELECT LAST_NUMBER from USER_SEQUENCES where SEQUENCE_NAME = 'MOVIE_NUM'`).then((result) => {
             //console.log(result);
-            movie_num = result.rows[0].LAST_NUMBER;
-            //console.log(movie_num);
+            movie_num = result.rows[0].LAST_NUMBER-1;
+            console.log(movie_num);
         });
         
     } catch(e){
+        console.log(e);
         return e.errorNum
     }
     
@@ -60,6 +61,7 @@ async function insertData(movieData, images, videos){
         }
        
     } catch(e){
+        console.log(e);
         return e.errorNum
     }
     return "success";
@@ -178,7 +180,6 @@ async function selectAllMovie() {
 		 }
         return movies;
     } catch(e){
-        console.log(e.errorNum);
         return e.errorNum
     }
 }

@@ -3,6 +3,8 @@ const UserController = require('../controllers/userController');
 const MovieController = require('../controllers/movieController');
 const DeptController = require('../controllers/deptController');
 const EmpController = require('../controllers/empController');
+const Scrn_roomController = require('../controllers/srcn_roomController');
+const SchdeuleContruller = require('../controllers/scheduleController');
 const codeController = require('../controllers/codeController');
 const router = express.Router();
 
@@ -22,5 +24,12 @@ router.get('/dept', DeptController.getAllDept);
 
 router.post('/emp', EmpController.createEmp);
 router.get('/emp', EmpController.getAllEmp);
+
+router.get('/room', Scrn_roomController.getAllRoom);
+
+router.post('/schedule', SchdeuleContruller.createSchedule);
+router.get('/schedule', SchdeuleContruller.getAllSchedule);
+router.put('/schedule/:sche_num', SchdeuleContruller.updateSchedule);
+router.delete('/schedule/:sche_num', SchdeuleContruller.deleteSchedule);
 
 module.exports = router;
