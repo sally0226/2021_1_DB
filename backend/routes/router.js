@@ -14,7 +14,10 @@ router.post('/login', UserController.logIn);
 
 
 router.get('/movie', MovieController.getAllMovie);
+router.get('/movie/:id', MovieController.getOneMovie);
 router.post('/movie', MovieController.createMovie);
+router.delete('/movie/:movie_num', MovieController.deleteMovie);
+router.put('/movie/:movie_num', MovieController.updateMovie);
 
 router.get('/dept', DeptController.getAllDept);
 

@@ -20,7 +20,7 @@ const signUp = async (req, res, next) => {
 		name: name,
 		phone: phone,
 		id: id,
-		password: hashedPassword, // hashedPassword로 바꿔서 보내기~
+		password: hashedPassword,
 		regnum: regnum,
 		birth: birth,
 	};

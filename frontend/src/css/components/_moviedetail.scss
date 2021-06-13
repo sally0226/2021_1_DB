@@ -109,5 +109,17 @@
 	.comment-box {
 		border-bottom: 1px solid rgb(201, 201, 201);
 		padding: 1rem 0;
+		display: flex;
+		flex-flow: row;
+	}
+	.starScore-con {
+		margin-right: 1rem;
+	}
+
+	.media-con {
+		display: flex;
+		width: 100%;
+		flex-flow: row;
+		flex-wrap: wrap;
 	}
 }
