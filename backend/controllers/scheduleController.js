@@ -16,6 +16,8 @@ const createSchedule = async (req, res, next) => {
         const result = await scheduleModel.insertData(req.body);
         if(result === "success")
 		    res.status(201).json({ success: true});
+        else if (result === "cant")
+            res.status(200).json({ success: false, message: '해당 시간에 상영관이 비어있지 않습니다'});
         else {
             res.status(200).json({ success: false, message: '삽입 에러'});
 	    }
@@ -32,6 +34,8 @@ const updateSchedule = async (req, res, next) => {
         const result = await scheduleModel.updateData(schedule_num, data);
         if(result === "success")
 		    res.status(201).json({ success: true});
+            else if (result === "cant")
+            res.status(200).json({ success: false, message: '해당 시간에 상영관이 비어있지 않습니다'});
         else {
             res.status(200).json({ success: false, message: '수정 에러'});
 	    }
