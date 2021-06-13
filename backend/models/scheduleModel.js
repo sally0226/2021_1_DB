@@ -61,7 +61,6 @@ async function insertData(data){
                         ${data.MOVIE_NUM},
                         ${data.ROOM_NUM}, 
                         TO_DATE('${getFormatDateTime(data.SCRN_DATE)}', 'YYYY-MM-DD-HH24-MI'),
-                        TO_DATE('${getFormatDateTime(data.SCRN_DATE)}', 'YYYY-MM-DD-HH24-MI'),
                         (SELECT TOTAL_SEAT_CAP from SCRN_ROOM where ROOM_NUM =${data.ROOM_NUM}))`;
         if (isCanInsert)
             await conn.simpleExecute(sql);

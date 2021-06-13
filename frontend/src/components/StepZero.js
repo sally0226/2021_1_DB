@@ -33,9 +33,9 @@ function StepZero({next, data, selectMovie}) {
 					<Grid className="movie-con">
 						{
 							data && data.map((movie, i)=>(
-								movie.isScreen &&
+								movie.SCRN_STATUS=='Y' &&
 								<Grid className={selectedMovie===i ? 'leftContent leftContent-active' : 'leftContent'} onClick={() => handleMovieSelect(i)}>
-									{movie.name}
+									{movie.MOVIE_NAME}
 								</Grid>
 							))
 						}
