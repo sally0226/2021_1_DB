@@ -25,8 +25,10 @@ function Main() {
 			<Header />
 			<Grid className="main-content">
 				<Grid className="slider">
+					{/* todo: 영상 Carousel로 만들기 */}
 					<Carousel />
 				</Grid>
+				{/* todo: 포스터 넣기 */}
 				<Slider {...settings}>
 					{
 						movie.map((movie, i) => (
