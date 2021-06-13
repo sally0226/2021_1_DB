@@ -108,7 +108,57 @@ async function selectAllMovie() {
     }
 }
 
+// 영화 상세보기 페이지
+async function selectOneMovie(id) {
+	var results = [];
+    var movies;
+    var posters;
+	var vids;
+	var reviews;
+    try {
+        
+        await conn.simpleExecute(`SELECT * FROM MOVIE WHERE MOVIE_NUM=${id}`)
+		.then((result) => {
+            movies = result.rows;
+			results.push(movies[0]);
+        });
+
+        // 그 영화에 해당하는 사진 가지고오기
+        const selectShotSql = `SELECT TRAILER_SHOT_NUM, TRAILER_SHOT_ROUTE FROM TRAILER_SHOT where movie_num=${id}`;
+
+        await conn.simpleExecute(selectShotSql)
+		.then((result) => {
+            posters = result.rows;
+			results.push(posters);
+        });
+
+		// 그 영화의 비디오
+		const selectVidSql = `SELECT TRAILER_VIDEO_NUM, TRAILER_VIDEO_ROUTE FROM TRAILER_VIDEO where movie_num=${id}`;
+
+        await conn.simpleExecute(selectVidSql)
+		.then((result) => {
+            vids = result.rows;
+			results.push(vids);
+        });
+
+		//그 영화의 후기
+		const selectReviewSql = `SELECT REVIEW_NUM, STARS, COMMENTS FROM REVIEW WHERE MOVIE_NUM=${id}`
+
+		await conn.simpleExecute(selectReviewSql)
+		.then((result)=>{
+			reviews = result.rows;
+			results.push(reviews);
+		})
+
+        return results;
+    } catch(e){
+        console.log(e);
+        return "failed"
+    }
+}
+
 module.exports = {
     insertData: insertData,
     selectAllMovie: selectAllMovie,
+	selectOneMovie: selectOneMovie,
 }

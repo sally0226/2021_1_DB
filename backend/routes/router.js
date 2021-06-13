@@ -11,6 +11,7 @@ router.post('/login', UserController.logIn);
 
 
 router.get('/movie', MovieController.getAllMovie);
+router.get('/movie/:id', MovieController.getOneMovie);
 router.post('/movie', MovieController.createMovie);
 
 router.get('/dept', DeptController.getAllDept);
