@@ -77,13 +77,22 @@ function MovieDetail(props) {
 	const [shot, setShot] = useState();
 	const [vid, setVid] = useState();
 	const [review, setReview] = useState();
-	let len = 4
+	const [len, setLen] = useState(1);
+	const [videoLen, setvideoLen] = useState(1)
 
 	// <-- carousel setting
 	const settings = {
 		//infinite: true,
 		speed: 500,
-		slidesToShow: len,
+		slidesToShow: len>4 ? 4:len,
+		slidesToScroll: 1,
+		className: "movie-list",
+	};
+	// carousel setting -->
+	const vidSettings = {
+		//infinite: true,
+		speed: 500,
+		slidesToShow: videoLen>4 ? 4: videoLen,
 		slidesToScroll: 1,
 		className: "movie-list",
 	};
@@ -97,6 +106,8 @@ function MovieDetail(props) {
 				setShot(result.data.data[1]);
 				setVid(result.data.data[2]);
 				setReview(result.data.data[3]);
+				setvideoLen(result.data.data[2].length)
+				setLen(result.data.data[1].length)
 			})
 		}
 		getData()
@@ -182,19 +193,21 @@ function MovieDetail(props) {
 							<p className="body-head">시놉시스</p>
 							<p>{movie && movie.MOVIE_INTRO}</p>
 							<p className="body-head">트레일러</p>
-							<Grid className="media-con">
-								{vid && vid.map(vid => (
-									<Grid item xs={12} sm={6} md={4} lg={2}>
-										<iframe width="95%" height="130" allowfullscreen src={vid.TRAILER_VIDEO_ROUTE} title="YouTube video player" frameBorder="0" allow="accelerometer"></iframe>
-									</Grid>
-								))}
-							</Grid>
+							<Slider {...vidSettings}>
+								{
+									vid && vid.map(vid => (
+										<Grid>
+											<iframe width="90%" height="130" allowfullscreen src={vid.TRAILER_VIDEO_ROUTE} title="YouTube video player" frameBorder="0" allow="accelerometer"></iframe>
+										</Grid>
+									))
+								}
+							</Slider>
 							<p className="body-head">포스터 & 스틸컷</p>
 							
 							<Slider {...settings}>
 								{
 									shot && shot.map(shot => (
-										<Grid item xs={12} sm={6} md={4} lg={3}>
+										<Grid>
 										<a href={shot.TRAILER_SHOT_ROUTE} target="_blank">
 											<img alt="예고 사진" style={{maxHeight:'230px'}} src={shot.TRAILER_SHOT_ROUTE} />
 										</a>
@@ -202,7 +215,7 @@ function MovieDetail(props) {
 									))
 								}
 							</Slider>
-							</Grid>
+						</Grid>
 						: // 평점 및 관람평
 						<Grid className="tab-content">
 							<Grid className="comment">
