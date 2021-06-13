@@ -54,13 +54,13 @@ async function insertData(movieData, images, videos){
     try {
         for (var i=0; i < images.length; i++) {
             // console.log(images[i]);
-            const imageSql = `INSERT INTO TRAILER_SHOT VALUES(${movie_num-1}, TRAILER_SHOT_NUM.NEXTVAL, '${images[i]}')`;
+            const imageSql = `INSERT INTO TRAILER_SHOT VALUES(TRAILER_SHOT_NUM.NEXTVAL, ${movie_num-1}, '${images[i]}')`;
             await conn.simpleExecute(imageSql);
         }
         
         for (var i=0; i < videos.length; i++) {
             // console.log(videos[i]);
-            const videoSql = `INSERT INTO TRAILER_VIDEO VALUES(${movie_num-1}, TRAILER_VIDEO_NUM.NEXTVAL, '${videos[i]}')`;
+            const videoSql = `INSERT INTO TRAILER_VIDEO VALUES(TRAILER_VIDEO_NUM.NEXTVAL, ${movie_num-1}, '${videos[i]}')`;
             await conn.simpleExecute(videoSql);
         }
        
