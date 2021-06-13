@@ -28,6 +28,7 @@ function dataReducer(state, action) {
     }
 }
 function AdminMovieList(){
+    const [reset, setReset] = useState(false);
     useEffect(()=> {
         axios.get(`${API_URL}/movie`)
 		.then(response=>{
@@ -37,22 +38,55 @@ function AdminMovieList(){
                 data: movieData
             });
 		});
-    },[]);
+    },[reset]);
+   
     const [data, dataDispatch] = useReducer(dataReducer, []); 
-    //console.log(data);
+    // console.log(data);
     function handelClick(e) {
-        //console.log(e.currentTarget.id);
         if (e.currentTarget.name === "delete-btn") {
-            dataDispatch({
-                type: 'DELETE',
-                index: e.currentTarget.id
-            })
+            // console.log(e.currentTarget.id);
+            axios.delete(`${API_URL}/movie/${e.currentTarget.id}`)
+		    .then(response=>{
+                if(response.data.success){
+                    alert(`영화가 삭제되었습니다.`);
+                    //window.location.href='';
+                    axios.get(`${API_URL}/movie`)
+                    .then(response=>{
+                        const movieData = response.data;
+                        dataDispatch({
+                            type: 'SET',
+                            data: movieData
+                        });
+		            });
+                }
+                else
+                    alert(response.data.message);
+            });
+            
         } 
         else if (e.currentTarget.name === 'scrn-end-btn') {
             //console.log(e.currentTarget.id);
-            dataDispatch({
-                type: 'END',
-                index: e.currentTarget.id
+            console.log(data);
+            console.log(e.currentTarget.id);
+            var body =data.filter(item => item.MOVIE_NUM == e.currentTarget.id)[0];
+            console.log(body);
+            body.SCRN_STATUS = "N";
+            axios.put(`${API_URL}/movie/${e.currentTarget.id}`, body)
+		    .then(response=>{
+                if(response.data.success){
+                    alert(`영화가 상영 종료 되었습니다.`);
+                    //window.location.href='';
+                    axios.get(`${API_URL}/movie`)
+                    .then(response=>{
+                        const movieData = response.data;
+                        dataDispatch({
+                            type: 'SET',
+                            data: movieData
+                        });
+		            });
+                }
+                else
+                    alert(response.data.message);
             });
         }
         else if (e.currentTarget.name === 'modify-btn') {
@@ -80,7 +114,7 @@ function AdminMovieList(){
                               {row.MOVIE_NAME}
                             </TableCell>
                             <TableCell align="left">{row.RELEASE_DATE}</TableCell>
-                            <TableCell align="left">{row.SCRN_STATUS ? 1 : 0}</TableCell>
+                            <TableCell align="left">{row.SCRN_STATUS ==='Y' ? 1 : 0}</TableCell>
                             <TableCell align="left">
                                 <IconButton 
                                     aria-label="modify btn"

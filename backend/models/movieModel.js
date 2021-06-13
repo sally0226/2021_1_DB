@@ -70,6 +70,66 @@ async function insertData(movieData, images, videos){
     return "success";
 }
 
+async function deleteData(movie_num){
+    try {
+        // TODO : 해당 영화에 존재하는 상영일정이 없을 때 삭제해야함  
+
+        // 사진, 비디오 먼저 삭제 후 영화 삭제 
+        const delImgSql = `DELETE FROM TRAILER_SHOT WHERE MOVIE_NUM=${movie_num}`;
+        const delVideoSql = `DELETE FROM TRAILER_VIDEO WHERE MOVIE_NUM=${movie_num}`;
+        const sql = `DELETE FROM MOVIE WHERE MOVIE_NUM=${movie_num}`;
+        await conn.simpleExecute(delImgSql);
+        await conn.simpleExecute(delVideoSql);
+        await conn.simpleExecute(sql);
+    }catch(e){
+        return e
+    }
+    return "success";
+}
+
+async function updateData(movieData, imageData, videoData){
+    try {
+        console.log(movieData);
+        const sql = `UPDATE MOVIE SET MOVIE_NAME = '${movieData.MOVIE_NAME}',
+                                        ${movieData.SCRN_TIME !== undefined ? `SCRN_TIME = ${movieData.SCRN_TIME},` : ``}
+                                        ${movieData.DIRECTOR !== undefined ? `DIRECTOR = '${movieData.DIRECTOR}',` : ``}
+                                        ${movieData.CAST !== undefined ? `CAST = '${movieData.CAST}',` : ``}
+                                        ${movieData.GENRE !== undefined ? `GENRE = '${movieData.GENRE}',` : ``}
+                                        ${movieData.MOVIE_INTRO !== undefined ? `MOVIE_INTRO = '${movieData.MOVIE_INTRO}',` : ``}
+                                        SCRN_STATUS = '${movieData.SCRN_STATUS}',
+                                        ${movieData.COUNTRY !== undefined ? `COUNTRY = '${movieData.COUNTRY}',` : ``}
+                                        RELEASE_DATE = TO_DATE('${getFormatDate(new Date(movieData.RELEASE_DATE))}','YYYY-MM-DD'),
+                                        MOVIE_RATING_CODE = ${movieData.MOVIE_RATING_CODE}
+                        WHERE MOVIE_NUM = ${movieData.MOVIE_NUM}`;
+        console.log(sql);
+        await conn.simpleExecute(sql);
+
+        const movie_num = movieData.MOVIE_NUM;
+        if (imageData !== undefined) {
+            // 해당 영화 img 전부 지우고 새로 추가 
+            const delImgSql = `DELETE FROM TRAILER_SHOT WHERE MOVIE_NUM=${movie_num}`;
+            await conn.simpleExecute(delImgSql);
+            for (var i=0; i < imageData.length; i++) {
+                // console.log(images[i]);
+                const imageSql = `INSERT INTO TRAILER_SHOT VALUES(TRAILER_SHOT_NUM.NEXTVAL, ${movie_num}, '${imageData[i]}')`;
+                await conn.simpleExecute(imageSql);
+            }
+        }
+        if (videoData !== undefined) {
+            // 해당 영화 video 전부 지우고 새로 추가 
+            const delVideoSql = `DELETE FROM TRAILER_VIDEO WHERE MOVIE_NUM=${movie_num}`;
+            await conn.simpleExecute(delVideoSql);
+            for (var i=0; i < videoData.length; i++) {
+                // console.log(videos[i]);
+                const videoSql = `INSERT INTO TRAILER_VIDEO VALUES(TRAILER_VIDEO_NUM.NEXTVAL, ${movie_num}, '${videoData[i]}')`;
+                await conn.simpleExecute(videoSql);
+            }
+        }
+    }catch(e){
+        return e
+    }
+    return "success";
+}
 async function selectAllMovie() {
     var movies;
     var posters;
@@ -179,6 +239,8 @@ async function selectOneMovie(id) {
 
 module.exports = {
     insertData: insertData,
+    deleteData: deleteData,
+    updateData: updateData,
     selectAllMovie: selectAllMovie,
 	selectOneMovie: selectOneMovie,
 }
