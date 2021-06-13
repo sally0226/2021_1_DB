@@ -22,7 +22,7 @@ const deleteMovie = async (req, res, next) => {
     try {
         const movie_num = req.params.movie_num;
         const result = await movieModel.deleteData(movie_num);
-        console.log(result);
+        // console.log(result);
         if(result === "success")
 		    res.status(201).json({ success: true});
         else {
@@ -34,13 +34,13 @@ const deleteMovie = async (req, res, next) => {
 }
 const updateMovie = async (req, res, next) => {
     try {
-        console.log("update");
+        // console.log("update");
         const movieData = req.body['movie'] === undefined ? req.body:req.body.movie;
         const imageData = req.body['images'] === undefined ? undefined:req.body.images;
         const videoData = req.body['videos'] === undefined ? undefined:req.body.videos;
-        console.log(movieData);
+        (movieData);
         const result = await movieModel.updateData(movieData, imageData, videoData);
-        console.log(result);
+        // console.log(result);
         if(result === "success")
 		    res.status(201).json({ success: true});
         else {

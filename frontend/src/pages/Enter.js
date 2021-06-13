@@ -14,8 +14,9 @@ function Enter() {
 		//상영관 리스트 받아오기 
 		axios.get(`${API_URL}/room`).then(response=>{
 			const rooms = response.data;
-			setRoom(rooms);
-			setSelectRoom(rooms[0]);
+			console.log(rooms.rooms);
+			setRoom(rooms.rooms);
+			setSelectRoom(rooms.rooms[0]);
 			console.log(room);
 			console.log(selectRoom);
 		});

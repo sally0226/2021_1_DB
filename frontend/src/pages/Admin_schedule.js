@@ -7,8 +7,6 @@ import dateToString from '../function/DateToString';
 
 import axios from 'axios';
 import { API_URL } from '../CommonVariable';
-import setHours from "date-fns/setHours";
-import setMinutes from "date-fns/setMinutes";
 
 function dateTimeToString(dates){
     const date = new Date(dates);
@@ -19,7 +17,7 @@ function dateTimeToString(dates){
     day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
     var hours = date.getHours();
     var mins = date.getMinutes();
-    return  year + '/' + month + '/' + day+' '+hours+'시'+mins+"분";       //
+    return  year + '/' + month + '/' + day+' '+hours+'시'+mins+"분"; 
 }
 function dataReducer(state, action) {
     switch (action.type) {
@@ -115,7 +113,7 @@ function Admin_schedule() {
           
         });
         //console.log(newData);
-      };
+    };
 	  const modifyField = e => {
 		console.log(e.currentTarget);
 		console.log(e.target.name);
@@ -124,7 +122,7 @@ function Admin_schedule() {
 		);
 		
         console.log(scheduleList);
-      };
+    };
 	const onClickAdd = () => { //등록버튼 클릭 
 		// insert 상영일정 api 호출 
 		axios.post(`${API_URL}/schedule`, newData)

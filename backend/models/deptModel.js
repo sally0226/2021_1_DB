@@ -6,7 +6,7 @@ async function selectAllDept(){
     var data; 
     try {
         await conn.simpleExecute(sql).then((result) => {
-            console.log(result.rows);
+            // console.log(result.rows);
             data = result.rows;
         });
         return data;

@@ -38,7 +38,7 @@ function StepSecond({next, prev, data, movieId}) {
 								color:'white',
 								marginRight:'5px'}}
 						><RatingCircle /></Grid>
-						{data[movieId].name}
+						{data[movieId]!=undefined && data[movieId].name}
 					</Grid>
 					<Grid className="movie-info">
 						<Grid className="movie-info-col">

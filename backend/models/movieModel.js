@@ -30,7 +30,7 @@ async function insertData(movieData, images, videos){
             NULL, 
             ${movieData.rating}
             )`;
-		//console.log(movieSql);
+		console.log(movieSql);
         await conn.simpleExecute(movieSql).then((result) => {
             //console.log(result);
         }); 
@@ -38,7 +38,7 @@ async function insertData(movieData, images, videos){
         await conn.simpleExecute(`SELECT LAST_NUMBER from USER_SEQUENCES where SEQUENCE_NAME = 'MOVIE_NUM'`).then((result) => {
             //console.log(result);
             movie_num = result.rows[0].LAST_NUMBER-1;
-            console.log(movie_num);
+            // console.log(movie_num);
         });
         
     } catch(e){
@@ -50,13 +50,13 @@ async function insertData(movieData, images, videos){
     try {
         for (var i=0; i < images.length; i++) {
             // console.log(images[i]);
-            const imageSql = `INSERT INTO TRAILER_SHOT VALUES(TRAILER_SHOT_NUM.NEXTVAL, ${movie_num-1}, '${images[i]}')`;
+            const imageSql = `INSERT INTO TRAILER_SHOT VALUES(TRAILER_SHOT_NUM.NEXTVAL, ${movie_num}, '${images[i]}')`;
             await conn.simpleExecute(imageSql);
         }
         
         for (var i=0; i < videos.length; i++) {
             // console.log(videos[i]);
-            const videoSql = `INSERT INTO TRAILER_VIDEO VALUES(TRAILER_VIDEO_NUM.NEXTVAL, ${movie_num-1}, '${videos[i]}')`;
+            const videoSql = `INSERT INTO TRAILER_VIDEO VALUES(TRAILER_VIDEO_NUM.NEXTVAL, ${movie_num}, '${videos[i]}')`;
             await conn.simpleExecute(videoSql);
         }
        
@@ -86,7 +86,7 @@ async function deleteData(movie_num){
 
 async function updateData(movieData, imageData, videoData){
     try {
-        console.log(movieData);
+        // console.log(movieData);
         const sql = `UPDATE MOVIE SET MOVIE_NAME = '${movieData.MOVIE_NAME}',
                                         ${movieData.SCRN_TIME !== undefined ? `SCRN_TIME = ${movieData.SCRN_TIME},` : ``}
                                         ${movieData.DIRECTOR !== undefined ? `DIRECTOR = '${movieData.DIRECTOR}',` : ``}
