@@ -30,7 +30,7 @@ async function insertData(movieData, images, videos){
             NULL, 
             ${movieData.rating}
             )`;
-		console.log(movieSql);
+		//console.log(movieSql);
         await conn.simpleExecute(movieSql).then((result) => {
             //console.log(result);
         }); 
@@ -148,7 +148,7 @@ async function selectAllMovie() {
         for (var i=0;i<movies.length;i++){
             const temp_movie_num = movies[i].MOVIE_NUM;
             const poster = posters.find(element => element.MOVIE_NUM == temp_movie_num);
-            console.log(poster);
+            //console.log(poster);
             if (poster === undefined) {
                 movies[i].POSTER = null;
             }
@@ -174,7 +174,7 @@ async function selectAllMovie() {
 				
 			 else 
 				 movies[i].VIDEO = video.TRAILER_VIDEO_ROUTE;
-			 console.log(movies[i]);
+			 //console.log(movies[i]);
 		 }
         return movies;
     } catch(e){
