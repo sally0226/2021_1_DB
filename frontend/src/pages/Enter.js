@@ -1,20 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 
-import { Grid, TextField, Button, Link } from '@material-ui/core'
+import { Grid, TextField, Button, Link, Select, MenuItem } from '@material-ui/core'
 import { API_URL } from '../CommonVariable';
 
 function Enter() {
 	const [name, setName] = useState("");
 	const [phone, setPhone] = useState("");
-	const [room, setRoom] = useState();
+	const [room, setRoom] = useState([]);
+	const [selectRoom, setSelectRoom] = useState();
+
+	useEffect(()=>{
+		//상영관 리스트 받아오기 
+		axios.get(`${API_URL}/roomid`).then(response=>{
+			const rooms = response.data;
+			setRoom(rooms);
+			setSelectRoom(rooms[0].ROOM_NUM);
+			console.log(room);
+			console.log(selectRoom);
+		});
+	},[]);
 
 	const SubmitHandler = (event) => {
 		event.preventDefault();
 		let body = {
 			name: name,
 			contact: phone,
-			room: room
+			room: selectRoom
 		}
 		axios.post(`${API_URL}/enter`, body)
 		.then(response=>{
@@ -52,25 +64,27 @@ function Enter() {
 					placeholder="000-0000-0000"
 					autoFocus
 					style={{
-						backgroundColor: '#ffffff'
+						backgroundColor: '#ffffff', marginBottom: '1rem'
 					}}
 					inputProps={{maxLength:13}}
 					value={phone}
 					onChange={(e)=>setPhone(e.target.value)}
 				/>
-				<TextField
+				<Select
 					variant="filled"
 					margin="normal"
-					fullWidth
-					placeholder="상영관(숫자)"
-					type="number"
+					required
 					autoFocus
-					style={{
-						backgroundColor: '#ffffff'
-					}}
-					value={room || ''}
-					onChange={(e)=>setRoom(e.target.value)}
-				/>
+					fullWidth
+					value={selectRoom}
+					onChange={e => setSelectRoom(e.target.value)}
+				>
+					{room.map((room) => (
+						<MenuItem value={room.ROOM_NUM}>
+							{room.ROOM_NUM}
+						</MenuItem>
+					))}
+				</Select>
 				<Button 
 					variant="contained"
 					style={{

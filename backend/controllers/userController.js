@@ -74,7 +74,6 @@ const enter = async(req, res, next) => {
 const getEnter = async(req, res, next) => {
 	try{
 		const result = await userModel.GetEnter();
-		console.log(result);
 		if(result===0) // 실패
 			return res.status(200).json({ success: false, message: '데이터를 불러오는 데 실패하였습니다.'})
 		else return res.status(200).json(result.rows);

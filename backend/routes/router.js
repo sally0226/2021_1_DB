@@ -27,6 +27,7 @@ router.post('/emp', EmpController.createEmp);
 router.get('/emp', EmpController.getAllEmp);
 
 router.get('/room', Scrn_roomController.getAllRoom);
+router.get('/roomid', Scrn_roomController.getAllRoomId)
 
 router.post('/schedule', SchdeuleContruller.createSchedule);
 router.get('/schedule', SchdeuleContruller.getAllSchedule);

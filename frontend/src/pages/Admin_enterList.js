@@ -4,7 +4,6 @@ import { Grid, Table, TableCell, TableHead, TableRow, TableBody, Button } from '
 import DatePicker from "react-datepicker";
 import { Header } from '../components'
 import { useVisitorState } from '../MVVM/model/VisitorModel';
-import dateToString from '../function/DateToString';
 
 const stringToDate = (str) => {
 	var year = str.substring(0,4);
