@@ -5,7 +5,7 @@ const DeptController = require('../controllers/deptController');
 const EmpController = require('../controllers/empController');
 const Scrn_roomController = require('../controllers/srcn_roomController');
 const SchdeuleContruller = require('../controllers/scheduleController');
-const scheduleController = require('../controllers/scheduleController');
+const codeController = require('../controllers/codeController');
 const router = express.Router();
 
 
@@ -18,6 +18,7 @@ router.get('/movie/:id', MovieController.getOneMovie);
 router.post('/movie', MovieController.createMovie);
 router.delete('/movie/:movie_num', MovieController.deleteMovie);
 router.put('/movie/:movie_num', MovieController.updateMovie);
+router.get('/movierate', codeController.getMovieRatingCode);
 
 router.get('/dept', DeptController.getAllDept);
 
@@ -27,8 +28,8 @@ router.get('/emp', EmpController.getAllEmp);
 router.get('/room', Scrn_roomController.getAllRoom);
 
 router.post('/schedule', SchdeuleContruller.createSchedule);
-router.get('/schedule', scheduleController.getAllSchedule);
-router.put('/schedule/:sche_num', scheduleController.updateSchedule);
-router.delete('/schedule/:sche_num', scheduleController.deleteSchedule);
+router.get('/schedule', SchdeuleContruller.getAllSchedule);
+router.put('/schedule/:sche_num', SchdeuleContruller.updateSchedule);
+router.delete('/schedule/:sche_num', SchdeuleContruller.deleteSchedule);
 
 module.exports = router;

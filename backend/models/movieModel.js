@@ -11,18 +11,11 @@ function getFormatDate(date){
 }
 
 async function insertData(movieData, images, videos){
-    console.log("insert movie");
-    const movie_rating = movieData.rating; 
     var movie_num;
     try{
-        const movie_rating_code = 20001; // 임시코드..ㅎㅎ 코드 테이블에 영화등급관련 레코드가 아직 없음 
-        //await conn.simpleExecute().then(
-            // result => {
-            //     if ()
-            // }
         date = new Date(movieData.startDate)
         date = getFormatDate(date);
-        // console.log(date);
+
         const movieSql =`INSERT INTO MOVIE VALUES(
             MOVIE_NUM.NEXTVAL, 
             '${movieData.name}', 
@@ -35,8 +28,9 @@ async function insertData(movieData, images, videos){
             '${movieData.country}',
             TO_DATE('${date}', 'YYYY-MM-DD'),
             NULL, 
-            ${movie_rating_code}
+            ${movieData.rating}
             )`;
+		//console.log(movieSql);
         await conn.simpleExecute(movieSql).then((result) => {
             //console.log(result);
         }); 
@@ -156,6 +150,7 @@ async function selectAllMovie() {
         for (var i=0;i<movies.length;i++){
             const temp_movie_num = movies[i].MOVIE_NUM;
             const poster = posters.find(element => element.MOVIE_NUM == temp_movie_num);
+            //console.log(poster);
             if (poster === undefined) {
                 movies[i].POSTER = null;
             }
@@ -181,7 +176,7 @@ async function selectAllMovie() {
 				
 			 else 
 				 movies[i].VIDEO = video.TRAILER_VIDEO_ROUTE;
-			 console.log(movies[i]);
+			 //console.log(movies[i]);
 		 }
         return movies;
     } catch(e){
