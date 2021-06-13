@@ -85,8 +85,6 @@ function MovieDetail(props) {
 				setShot(result.data.data[1]);
 				setVid(result.data.data[2]);
 				setReview(result.data.data[3]);
-				shot&&shot.map(shot=>console.log(shot.TRAILER_SHOT_ROUTE));
-				shot&&console.log(shot[0].TRAILER_SHOT_ROUTE);
 			})
 		}
 		getData()
@@ -133,8 +131,7 @@ function MovieDetail(props) {
 					<Grid className="movie-right">
 						<Grid className="movie-header">
 							<Grid className="circle">
-								<RatingCircle rating="전체이용가" />
-								{/* todo: codedata 바뀌면 rating 적용하기!  */}
+								<RatingCircle rating={movie && movie.MOVIE_RATING_CODE} />
 							</Grid>
 							<p>{movie && movie.MOVIE_NAME}</p>
 							{movie && movie.SCRN_STATUS ==='Y' ? <Grid className="tag">"현재 상영중"</Grid> : null}
