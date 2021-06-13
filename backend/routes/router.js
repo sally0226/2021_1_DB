@@ -23,7 +23,9 @@ router.put('/movie/:movie_num', MovieController.updateMovie);
 router.get('/movierate', codeController.getMovieRatingCode);
 
 router.post('/review', reviewController.createReview);
-router.get('/review', reviewController.getReview);
+router.get('/review/:movie_num', reviewController.getReview);
+router.delete('/review/:review_num', reviewController.deletetReview);
+router.patch('/review', reviewController.updateReview);
 
 router.get('/dept', DeptController.getAllDept);
 

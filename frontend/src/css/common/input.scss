@@ -14,3 +14,6 @@
 	background-color: white !important;
 	padding: 20px 10px !important
 }
+.MuiInput-underline:after {
+	border-bottom: 2px solid var(--red-border-color) !important;
+}

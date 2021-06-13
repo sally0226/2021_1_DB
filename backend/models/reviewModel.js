@@ -20,11 +20,38 @@ async function insertData(mem_num, movie_num, stars, comments){
 async function getAllData(movie_num){
 	let r = false;
     try{
-        conn.simpleExecute(`SELECT REVIEW_NUM, MEM_NUM, STARS, COMMENTS FROM REVIEW WHERE MOIVE_NUM=${movie_num}`)
+		console.log(`SELECT REVIEW_NUM, MEM_NUM, STARS, COMMENTS FROM REVIEW WHERE MOIVE_NUM=${movie_num}`)
+        await conn.simpleExecute(`SELECT REVIEW_NUM, MEM_NUM, STARS, COMMENTS FROM REVIEW WHERE MOVIE_NUM=${movie_num}`)
 		.then( res => r=res )
     } catch(e){
         console.log(e);
-        return e.errorNum
+        return false
+    }
+	return r.rows;
+}
+
+async function deleteData(review_num){
+	let r = false;
+    try{
+		console.log(`DELETE FROM REVIEW WHERE REVIEW_NUM=${review_num}`)
+        await conn.simpleExecute(`DELETE FROM REVIEW WHERE REVIEW_NUM=${review_num}`)
+		.then( res => r=true )
+    } catch(e){
+        console.log(e);
+        return false
+    }
+	return r;
+}
+
+async function editData(comments, review_num, stars){
+	let r = false;
+    try{
+		console.log(`UPDATE REVIEW SET COMMENTS='${comments}', STARS=${stars} WHERE REVIEW_NUM=${review_num}`)
+        await conn.simpleExecute(`UPDATE REVIEW SET COMMENTS='${comments}', STARS=${stars} WHERE REVIEW_NUM=${review_num}`)
+		.then( res => r=true )
+    } catch(e){
+        console.log(e);
+        return false
     }
 	return r;
 }
@@ -32,4 +59,6 @@ async function getAllData(movie_num){
 module.exports = {
     insertData: insertData,
 	getAllData: getAllData,
+	deleteData: deleteData,
+	editData: editData,
 }

@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import Slider from "react-slick";
 
-import { Button, Grid, InputBase, Link, Tab, Tabs } from '@material-ui/core';
+import { Button, Grid, InputBase, Link, Tab, Tabs, IconButton, TextField } from '@material-ui/core';
 import { ReactComponent as Star } from '../assets/Star.svg'
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ClearIcon from '@material-ui/icons/Clear';
+import CheckIcon from '@material-ui/icons/Check';
 
-import { Header, RatingCircle } from '../components';
+import { Header, RatingCircle, useSessionStorage } from '../components';
 import { API_URL } from '../CommonVariable';
 
 const starScore = (num) => {
@@ -79,6 +83,7 @@ function MovieDetail(props) {
 	const [review, setReview] = useState();
 	const [len, setLen] = useState(1);
 	const [videoLen, setvideoLen] = useState(1)
+	const mem_num = Number(sessionStorage.getItem("memNum"));
 
 	// <-- carousel setting
 	const settings = {
@@ -97,24 +102,25 @@ function MovieDetail(props) {
 		className: "movie-list",
 	};
 	// carousel setting -->
+	const getData = async() => {
+		await axios.get(`${API_URL}/movie/${movieId}`)
+		.then(result => {
+			setMovie(result.data.data[0]);
+			setShot(result.data.data[1]);
+			setVid(result.data.data[2]);
+			setReview(result.data.data[3]);
+			setvideoLen(result.data.data[2].length)
+			setLen(result.data.data[1].length)
+		})
+	}
 
 	useEffect(() => {
-		const getData = async() => {
-			await axios.get(`${API_URL}/movie/${movieId}`)
-			.then(result => {
-				setMovie(result.data.data[0]);
-				setShot(result.data.data[1]);
-				setVid(result.data.data[2]);
-				setReview(result.data.data[3]);
-				setvideoLen(result.data.data[2].length)
-				setLen(result.data.data[1].length)
-			})
-		}
-		getData()
+		getData();
 	}, [])
+	console.log(review);
 
 	// <-- Tab
-	const [tabValue, setTabValue] = useState(0);
+	const [tabValue, setTabValue] = useSessionStorage("tabValue", 0);
 	const tabChangeHandler = (e, newValue) => {
 		setTabValue(newValue);
 	}
@@ -133,6 +139,25 @@ function MovieDetail(props) {
 		setScore(index+1);
 		setClicked(clickStates);
 	}
+
+	const [reviewEditMode, setReviewEditMode] = useState(-1);
+	const [editC, setEditC] = useState([true,true,true,true,true])
+	const [editS, setEditS] = useState(5);
+	const starEditHandler = (e, index) => {
+		e.preventDefault();
+		let clickStates = [...editC];
+		for(let i=0; i<5; i++){
+			if(i <= index) clickStates[i] = true;
+			else clickStates[i] = false;
+		}
+		setEditS(index+1);
+		setEditC(clickStates);
+	}
+	const [editP, setEditP] = useState();
+	const editModeHandler = (id, comment) => {
+		setReviewEditMode(id)
+		setEditP(comment);
+	}
 	// star -->
 
 	const [comment, setComment] = useState();
@@ -141,9 +166,10 @@ function MovieDetail(props) {
 		e.preventDefault();
 		if(comment===undefined || comment === "")
 			alert('comment를 입력해주세요');
+		else if(mem_num<0) alert('회원만 리뷰를 작성할 수 있습니다.')
 		else{
 			let body={
-				mem_num: sessionStorage.getItem("memNum"),
+				mem_num: mem_num,
 				movie_num: movieId,
 				stars: score,
 				comments: comment
@@ -151,8 +177,47 @@ function MovieDetail(props) {
 			console.log(body);
 			axios.post(`${API_URL}/review`, body)
 			.then(res =>{
-				if(res.data.success)
+				if(res.data.success){
 					alert('리뷰를 작성하였습니다.');
+					getData()
+				}
+				else
+					alert(res.data.message);
+			})
+		}
+	}
+
+	const deleteHandler = (review_num) => {
+		axios.delete(`${API_URL}/review/${review_num}`)
+			.then(res =>{
+				if(res.data.success){
+					alert(res.data.message);
+					getData()
+				}
+				else
+					alert(res.data.message);
+			})
+	}
+
+	const editSubmitHandler = (e) => {
+		e.preventDefault();
+		if(editP==undefined || editP === "")
+			alert('comment를 입력해주세요');
+		else{
+			let body={
+				review_num: reviewEditMode,
+				movie_num: movieId,
+				stars: editS,
+				comments: editP
+			}
+			console.log(body);
+			axios.patch(`${API_URL}/review`, body)
+			.then(res =>{
+				if(res.data.success){
+					alert('리뷰를 수정하였습니다.');
+					setReviewEditMode(-1);
+					getData()
+				}
 				else
 					alert(res.data.message);
 			})
@@ -269,21 +334,52 @@ function MovieDetail(props) {
 								</Grid>
 							</Grid>
 							<Grid className="comment-list">
-								<p>총 {review.length}건</p>
+								<p>총 {review && review.length}건</p>
 								<Grid className="list-con">
 									{
 										review && review.map(review => (
+											review.REVIEW_NUM === reviewEditMode ?
 											<Grid className="comment-box">
-												{review.STARS}
-												{review.COMMENT}
+												<Grid className="starScore-con">
+													<span className="star-clicker">
+												<Star width="20" height="20" fill={editC[0] ? 'yellow' : 'gray'} onClick={e => starEditHandler(e,0)} />
+												<Star width="20" height="20" fill={editC[1] ? 'yellow' : 'gray'} onClick={e => starEditHandler(e,1)} />
+												<Star width="20" height="20" fill={editC[2] ? 'yellow' : 'gray'} onClick={e => starEditHandler(e,2)} />
+												<Star width="20" height="20" fill={editC[3] ? 'yellow' : 'gray'} onClick={e => starEditHandler(e,3)} />
+												<Star width="20" height="20" fill={editC[4] ? 'yellow' : 'gray'} onClick={e => starEditHandler(e,4)} />
+												</span>
+												</Grid>
+												<TextField
+													value={editP}
+													multiline
+													style={{width:'80%'}}
+													onChange={(e)=>setEditP(e.target.value)}
+												/>
+												<IconButton color="inherit" style={{padding:'0 0.5rem'}} onClick={editSubmitHandler}>
+													<CheckIcon />
+												</IconButton>
+												<IconButton color="inherit" style={{padding:'0 0.5rem'}} onClick={()=>editModeHandler(-1, "")}>
+													<ClearIcon />
+												</IconButton>
+											</Grid>
+											:
+											<Grid className="comment-box">
+												{starScore(review.STARS)}
+												{review.COMMENTS}
+												{	
+													review.MEM_NUM === mem_num &&
+													<>
+													<IconButton color="inherit" style={{padding:'0 0.5rem 0 1rem'}} onClick={()=>editModeHandler(review.REVIEW_NUM, review.COMMENTS)}>
+														<EditIcon />
+												  	</IconButton>
+													<IconButton color="inherit" style={{padding:'0 0.5rem'}} onClick={()=>deleteHandler(review.REVIEW_NUM)}>
+													  <DeleteIcon />
+													</IconButton>
+													</>
+												}
 											</Grid>
 										))
 									}
-									{/* review 연결하면 아래 예시 지우기 */}
-									<Grid className="comment-box">
-										{starScore(3)}
-										안녕
-									</Grid>
 								</Grid>
 							</Grid>
 						</Grid>

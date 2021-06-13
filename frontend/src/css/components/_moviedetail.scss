@@ -97,9 +97,9 @@
 		.comment-submit {
 			background-color: #B48484;
 		}
-		.star-clicker {
-			cursor: pointer;
-		}
+	}
+	.star-clicker {
+		cursor: pointer;
 	}
 
 	.list-con {
@@ -114,6 +114,8 @@
 	}
 	.starScore-con {
 		margin-right: 1rem;
+		display: flex;
+		flex-wrap: nowrap;
 	}
 
 	.media-con {
@@ -121,5 +123,8 @@
 		width: 100%;
 		flex-flow: row;
 		flex-wrap: wrap;
+	}
+	.MuiInput-root{
+		color: white !important;
 	}
 }
