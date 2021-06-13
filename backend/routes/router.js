@@ -27,11 +27,15 @@ router.post('/emp', EmpController.createEmp);
 router.get('/emp', EmpController.getAllEmp);
 
 router.get('/room', Scrn_roomController.getAllRoom);
+router.post('/room', Scrn_roomController.createRoom);
+router.delete('/room/:room_num', Scrn_roomController.deleteRoom);
 router.get('/roomid', Scrn_roomController.getAllRoomId)
 
 router.post('/schedule', SchdeuleContruller.createSchedule);
 router.get('/schedule', SchdeuleContruller.getAllSchedule);
 router.put('/schedule/:sche_num', SchdeuleContruller.updateSchedule);
 router.delete('/schedule/:sche_num', SchdeuleContruller.deleteSchedule);
+
+router.get('/codes/emc_exit',codeController.getEmc_ExitCode);
 
 module.exports = router;

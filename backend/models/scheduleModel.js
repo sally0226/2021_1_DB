@@ -93,7 +93,7 @@ async function updateData(schedule_num, data){
 
 async function deleteData(schedule_num) {
     try{
-        console.log("delete");
+        // console.log("delete");
         const sql = `DELETE FROM SCHEDULE WHERE SCHEDULE_NUM = ${schedule_num}`;
         await conn.simpleExecute(sql);
         return "success";
