@@ -13,8 +13,8 @@ function getFormatDate(dates){
 }
 async function insertData(data){
     try {
-       console.log(data);
-       console.log(getFormatDate(data.SCRN_DATE));
+    //    console.log(data);
+    //    console.log(getFormatDate(data.SCRN_DATE));
         const sql = `INSERT INTO SCHEDULE VALUES(
                         SCHEDULE_NUM.NEXTVAL, 
                         ${data.MOVIE_NUM},
@@ -32,7 +32,7 @@ async function insertData(data){
 
 async function updateData(schedule_num, data){
     try{
-        console.log(data);
+        // console.log(data);
         const sql = `UPDATE SCHEDULE SET MOVIE_NUM=${data.MOVIE_NUM}, ROOM_NUM=${data.ROOM_NUM}, SCRN_DATE=TO_DATE('${getFormatDate(data.SCRN_DATE)}', 'YYYY-MM-DD-HH24-MI') WHERE SCHEDULE_NUM = ${schedule_num}`
         await conn.simpleExecute(sql);
         return "success";
@@ -44,7 +44,7 @@ async function updateData(schedule_num, data){
 
 async function deleteData(schedule_num) {
     try{
-        console.log("delete");
+        // console.log("delete");
         const sql = `DELETE FROM SCHEDULE WHERE SCHEDULE_NUM = ${schedule_num}`;
         await conn.simpleExecute(sql);
         return "success";

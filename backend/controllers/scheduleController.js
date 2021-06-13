@@ -26,7 +26,7 @@ const createSchedule = async (req, res, next) => {
 
 const updateSchedule = async (req, res, next) => {
     try {
-        console.log("update");
+        // console.log("update");
         const data = req.body;
         const schedule_num = req.params.sche_num;
         const result = await scheduleModel.updateData(schedule_num, data);
