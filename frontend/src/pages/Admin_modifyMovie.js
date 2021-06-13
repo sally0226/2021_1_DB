@@ -44,6 +44,7 @@ function ModifyMovie({match}) {
     const movieid = match.params.movieid;
 	const classes = styles();
 	const rating = useMovieRatingState();
+	console.log(rating);
     const [movieInfo, setMovieInfo] = useState({});
 	
     useEffect(()=> {
@@ -181,7 +182,6 @@ function ModifyMovie({match}) {
 								backgroundColor: '#ffffff',
 							}}
 							value={movieInfo.MOVIE_RATING_CODE}
-							placeholder={movieInfo.MOVIE_RATING_CODE}
 							onChange={updateField}
 						>
 							{rating.map((r) => (

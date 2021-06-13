@@ -232,21 +232,6 @@ async function selectOneMovie(id) {
     }
 }
 
-async function selectMovieRatingCode() {
-	var result;
-	try{
-		await conn.simpleExecute(`SELECT COMMON_CODE, CODE_NAME FROM CODE WHERE UPPER_COMMON_CODE=100`)
-		.then(res => {
-			result = res;
-		})
-
-		return result.rows;
-	} catch(e){
-		console.log(e);
-		return e.errorNum;
-	}
-}
-
 module.exports = {
     insertData: insertData,
     deleteData: deleteData,

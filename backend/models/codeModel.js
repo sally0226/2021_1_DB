@@ -4,10 +4,10 @@ async function selectMovieRatingCode() {
 	try{
 		await conn.simpleExecute(`SELECT COMMON_CODE, CODE_NAME FROM CODE WHERE UPPER_COMMON_CODE=100`)
 		.then(res => {
-			result = res;
+			result = res.rows;
 		})
 
-		return result.rows;
+		return result;
 	} catch(e){
 		console.log(e);
 		return e.errorNum;
