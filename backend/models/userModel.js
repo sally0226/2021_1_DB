@@ -66,8 +66,9 @@ async function Enter (name, contact, room)  {
 	var dd  = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
 	var hh = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
 	var min = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-	var day = "".concat(yyyy).concat("").concat(mm).concat("").concat(dd).concat(hh).concat(min).concat('00');
-
+	var day = "".concat(yyyy).concat("").concat(mm).concat("").concat(dd).concat(hh).concat(min);
+	console.log("===============================================================");
+	console.log(day);
 	try{
 		const esql = `INSERT INTO VISIT_INFO VALUES(VISIT_NUM.NEXTVAL, ${room}, '${name}', '${contact}',TO_DATE('${day}','YYYYMMDDHH24MISS'))`
 		await conn.simpleExecute(esql)
@@ -83,7 +84,7 @@ async function GetEnter ()  {
 	let r = 0;
 
 	try{
-		const esql = `SELECT ROOM_NUM, VISIT_NAME, VISIT_CONTACT, TO_CHAR(VISIT_TIME, 'yyyymmhh24miss') AS VISIT_TIME FROM VISIT_INFO`
+		const esql = `SELECT ROOM_NUM, VISIT_NAME, VISIT_CONTACT, TO_CHAR(VISIT_TIME, 'yyyymmddhh24miss') AS VISIT_TIME FROM VISIT_INFO`
 		await conn.simpleExecute(esql)
 		.then(res => r=res);
 	} catch (e) {
