@@ -171,7 +171,7 @@ function ModifyMovie({match}) {
                 <div className="label-form">
                     <div className="label">상영 등급</div>
 					<FormControl>
-					<Select
+						<Select
 							name="MOVIE_RATING_CODE"
 							variant="filled"
 							margin="normal"
