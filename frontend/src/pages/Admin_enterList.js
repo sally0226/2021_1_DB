@@ -4,11 +4,23 @@ import { Grid, Table, TableCell, TableHead, TableRow, TableBody, Button } from '
 import DatePicker from "react-datepicker";
 import { Header } from '../components'
 import { useVisitorState } from '../MVVM/model/VisitorModel';
-import dateToString from '../function/DateToString';
+
+const stringToDate = (str) => {
+	var year = str.substring(0,4);
+	var mon = str.substring(4,6);
+	var day = str.substring(6,8);
+	var hour = str.substring(8,10);
+	var min = str.substring(10,12);
+	var sec = str.substring(12,14);
+
+	return year + '-' + mon + '-' + day + ' ' + hour + ':' + min + ':' + sec;
+	// return '2021-06-14 01:19:00'
+}
 
 function Admin_enterList() {
-	const [all, setAll] = useState(false);
+	const [all, setAll] = useState(true);
 	const visitors = useVisitorState();
+	console.log(visitors);
 	// <-- datepicker
 	const [selectedDate, setSelectedDate] = useState(new Date());
 	const handleDateChange = (date) => {
@@ -60,27 +72,27 @@ function Admin_enterList() {
 					</TableHead>
 					<TableBody>
 						{
-							all ?
-							visitors.map((visitor, i)=>(
+							all ? 
+							visitors && visitors.map((visitor, i)=>(
 								<TableRow key={i}>
 									<TableCell component="th" scope="row">
-										{dateToString(visitor.Date)}
+										{stringToDate(visitor.VISIT_TIME).substring(0,16)}
 									</TableCell>
-									<TableCell align="left">{visitor.room}</TableCell>
-									<TableCell align="left">{visitor.name}</TableCell>
-									<TableCell align="left">{visitor.number}</TableCell>
+									<TableCell align="left">{visitor.ROOM_NUM}</TableCell>
+									<TableCell align="left">{visitor.VISIT_NAME}</TableCell>
+									<TableCell align="left">{visitor.VISIT_CONTACT}</TableCell>
 								</TableRow>
 							))
 							:
-							visitors.map((visitor, i)=>(
-								isSameDate(visitor.Date, selectedDate) &&
+							visitors && visitors.map((visitor, i)=>(
+								isSameDate(new Date(`${stringToDate(visitor.VISIT_TIME)}`), selectedDate) &&
 								<TableRow key={i}>
 									<TableCell component="th" scope="row">
-										{dateToString(visitor.Date)}
+										{stringToDate(visitor.VISIT_TIME).substring(0,16)}
 									</TableCell>
-									<TableCell align="left">{visitor.room}</TableCell>
-									<TableCell align="left">{visitor.name}</TableCell>
-									<TableCell align="left">{visitor.number}</TableCell>
+									<TableCell align="left">{visitor.ROOM_NUM}</TableCell>
+									<TableCell align="left">{visitor.VISIT_NAME}</TableCell>
+									<TableCell align="left">{visitor.VISIT_CONTACT}</TableCell>
 								</TableRow>
 							))
 						}

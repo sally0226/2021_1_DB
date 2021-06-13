@@ -11,7 +11,8 @@ const router = express.Router();
 
 router.post('/signup', UserController.signUp);
 router.post('/login', UserController.logIn);
-
+router.post('/enter', UserController.enter);
+router.get('/enter', UserController.getEnter);
 
 router.get('/movie', MovieController.getAllMovie);
 router.get('/movie/:id', MovieController.getOneMovie);
@@ -28,6 +29,7 @@ router.get('/emp', EmpController.getAllEmp);
 router.get('/room', Scrn_roomController.getAllRoom);
 router.post('/room', Scrn_roomController.createRoom);
 router.delete('/room/:room_num', Scrn_roomController.deleteRoom);
+router.get('/roomid', Scrn_roomController.getAllRoomId)
 
 router.post('/schedule', SchdeuleContruller.createSchedule);
 router.get('/schedule', SchdeuleContruller.getAllSchedule);

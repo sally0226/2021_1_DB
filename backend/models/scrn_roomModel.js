@@ -44,8 +44,24 @@ async function deleteData(room_num) {
     }
     return "success";
 }
+
+async function selectRoomID(){
+    try {
+        const sql = `SELECT ROOM_NUM FROM SCRN_ROOM`;
+        var rooms;
+        await conn.simpleExecute(sql).then((result) => {
+            console.log(result);
+            rooms = result.rows;
+        })
+        return rooms;
+    } catch(e){
+        return e
+    }
+}
+
 module.exports = {
     selectAllData: selectAllData,
+	selectRoomID: selectRoomID,
     insertData: insertData,
     deleteData: deleteData,
 }

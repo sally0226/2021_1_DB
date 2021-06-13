@@ -25,14 +25,12 @@ function Main() {
 			<Header />
 			<Grid className="main-content">
 				<Grid className="slider">
-					{/* todo: 영상 Carousel로 만들기 */}
 					<Carousel data={movie} />
 				</Grid>
-				{/* todo: 포스터 넣기 */}
 				<Slider {...settings}>
 					{
 						movie.map((movie, i) => (
-							movie.SCRN_STATUS==="N" &&
+							movie.SCRN_STATUS==="Y" &&
 							<div className="movies">
 								<span className="rank">{rank++}</span>
 								<div className="poster">
