@@ -6,7 +6,6 @@ import { useMovieState } from '../MVVM/model/MovieModel';
 
 function Main() {
 	const movie = useMovieState();
-	console.log(movie);
 	let rank = 1;
 	let len = movie.length;
 	if(len>4) len =4;
@@ -27,7 +26,7 @@ function Main() {
 			<Grid className="main-content">
 				<Grid className="slider">
 					{/* todo: 영상 Carousel로 만들기 */}
-					<Carousel />
+					<Carousel data={movie} />
 				</Grid>
 				{/* todo: 포스터 넣기 */}
 				<Slider {...settings}>

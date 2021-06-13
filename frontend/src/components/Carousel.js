@@ -5,9 +5,11 @@ import PaginationDot from './PaginationDot';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-const Carousel = () => {
+const Carousel = (data) => {
+	const movieData = data.data;
+
 	const [index, setIndex] = useState(0)
-	const dots = 3;
+	const dots = movieData.length;
 
 	const handleChangeIndex = ( index ) => {
 		setIndex(index);
@@ -27,9 +29,13 @@ const Carousel = () => {
 	return (
 		<div className="carousel">
 			<AutoPlaySwipeableViews index={index} onChangeIndex={handleChangeIndex}>
-				<div className={`${"slide"} ${"slide1"}`} />
-				<div className={`${"slide"} ${"slide2"}`} />
-				<div className={`${"slide"} ${"slide3"}`} />
+				{
+					movieData.map(vid => (
+						<div style={{height:'18rem'}}>
+							<iframe width="100%" height="100%" allowfullscreen src={vid.VIDEO} title="YouTube video player" frameBorder="0" allow="accelerometer"></iframe>
+						</div>
+					))
+				}
 			</AutoPlaySwipeableViews>
 			<div className="dotCon">{dotFunc()}</div>
 		</div>
