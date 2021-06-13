@@ -140,8 +140,23 @@ function MovieDetail(props) {
 	const submitHandler = (e) => {
 		e.preventDefault();
 		if(comment===undefined || comment === "")
-		alert('comment를 입력해주세요');
-		else alert('comment: ' + comment);
+			alert('comment를 입력해주세요');
+		else{
+			let body={
+				mem_num: sessionStorage.getItem("memNum"),
+				movie_num: movieId,
+				stars: score,
+				comments: comment
+			}
+			console.log(body);
+			axios.post(`${API_URL}/review`, body)
+			.then(res =>{
+				if(res.data.success)
+					alert('리뷰를 작성하였습니다.');
+				else
+					alert(res.data.message);
+			})
+		}
 	}
 
 	return (

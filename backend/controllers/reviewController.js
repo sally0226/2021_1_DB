@@ -1,17 +1,19 @@
-const bcrypt = require('bcrypt');
 const reviewModel = require('../models/reviewModel');
 
 const createReview = async (req, res, next) => {
     try {
         const { mem_num, movie_num, stars, comments } = req.body;
 
-        const result = await movieModel.insertData(mem_num, movie_num, stars, comments);
+        const result = await reviewModel.insertData(mem_num, movie_num, stars, comments);
         //console.log(result);
-        if(result === "success")
-		    res.status(201).json({ success: true});
-        else {
-            res.status(200).json({ success: false, message: '생성 에러'});
+        if(result===1400)
+		    res.status(201).json({ success: false, message: '로그인한 회원만 리뷰 할 수 있습니다.' });
+        else if(result===false) {
+            res.status(200).json({ success: false, message: '리뷰 작성에 실패하였습니다.'});
 	    }
+		else {
+			res.status(200).json({ success: true})
+		}
     } catch(err) {
         next(err)
     }
@@ -20,7 +22,7 @@ const createReview = async (req, res, next) => {
 const getReview = async (req,res,next) => {
 	const { movie_num } = req.body;
 	try {
-        const result = await movieModel.getAllData(movie_num);
+        const result = await reviewModel.getAllData(movie_num);
         //console.log(result);
 		if (result === false)
 			res.status(200).json({ success: false, message: '리뷰 요청에 실패했습니다.'});

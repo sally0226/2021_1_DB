@@ -1,11 +1,15 @@
 // MOVIE, TRAILER_SHOT, TRAILER_VIDEO 테이블 관련 함수들 
 const conn = require('../models/database');
 
-async function insertData(mem_num, stars, comments, movie_num){
-	let r = false;
+async function insertData(mem_num, movie_num, stars, comments){
+	var r = false;
     try{
-        conn.simpleExecute(`INSERT INTO REVIEW VALUES(REVIEW_NUM.NEXTVAL, ${movie_num}, ${mem_num}, ${stars}, ${comments})`)
-		.then( res => r=true )
+        await conn.simpleExecute(`INSERT INTO REVIEW VALUES(REVIEW_NUM.NEXTVAL, ${movie_num}, ${mem_num}, ${stars}, '${comments}')`)
+
+		await conn.simpleExecute(`SELECT AVG(STARS) AS AVG FROM REVIEW GROUP BY MOVIE_NUM HAVING MOVIE_NUM=${movie_num}`)
+		.then(res => r=res.rows[0].AVG)
+
+		await conn.simpleExecute(`UPDATE MOVIE SET AVG_STARS = ${r.toFixed(2)} WHERE MOVIE_NUM=${movie_num}`)
     } catch(e){
         console.log(e);
         return e.errorNum
