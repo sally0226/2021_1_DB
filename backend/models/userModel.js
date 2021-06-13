@@ -4,6 +4,7 @@ const conn = require('../models/database');
 async function Login (id, password) {
 	let r = 0;
 	let userRow = '';
+	let CS_NUM;
 	
 	await conn.simpleExecute(`SELECT * FROM MEM WHERE MEM_ID='${id}'`)
 	.then(result=>{
@@ -11,7 +12,12 @@ async function Login (id, password) {
 			userRow = result.rows;
 			r = userRow
 		}
+		CS_NUM = r[0].CS_NUM
 	})
+
+	await conn.simpleExecute(`SELECT CS_CLASSIFY_CODE FROM CS WHERE CS_NUM=${CS_NUM}`)
+	.then(res => r.push(res.rows[0]))
+	
 	return r;
 }
 
@@ -32,40 +38,21 @@ async function findUser ({id, regnum})  {
 }
 
 async function insertData (data)  {
-   	const CS_NUM_sql = `SELECT CS_NUM FROM CS`;
-	const MEM_NUM_sql = `SELECT MEM_NUM FROM MEM`;
-	let CS_NUM, MEM_NUM;	
-	
-    try {
-		await conn.simpleExecute('SELECT * FROM MEM')
-		.then(result => console.log(result));
-		// 추후에 시퀀스로 고쳐서 아래 ID 불러오는 거 교체하기!
-		await conn.simpleExecute(CS_NUM_sql)
-		.then((result)=>{
-			console.log(result);
-			if(result.rows.length===0) // 첫 데이터일 경우
-				CS_NUM = 1;
-			else
-				CS_NUM=result.rows[result.rows.length-1].CS_NUM+1;
-		})
+	let CS_NUM;
 
-		await conn.simpleExecute(MEM_NUM_sql)
-		.then(result => {
-			console.log(result);
-			if(result.rows.length===0) // 첫 데이터일 경우
-				MEM_NUM = 1;
-			else
-				MEM_NUM=result.rows[result.rows.length-1].MEM_NUM+1;
-		})
-
-		const cssql = `INSERT INTO CS VALUES(${CS_NUM}, '${data.name}', to_date(${data.birth}, 'yyyy-mm-dd'), '${data.phone}', '20001')`;
-		const memsql = `INSERT INTO MEM VALUES(${MEM_NUM}, ${CS_NUM}, '${data.regnum}', '${data.id}', '${data.password}', 0)`;
+	try{
+		const cssql = `INSERT INTO CS VALUES(CS_NUM.NEXTVAL, '${data.name}', to_date(${data.birth}, 'yyyy-mm-dd'), '${data.phone}', '20001')`;
 
 		await conn.simpleExecute(cssql)
+
+		await conn.simpleExecute(`SELECT LAST_NUMBER FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'CS_NUM'`)
+		.then(res => CS_NUM = result.rows[0].LAST_NUMBER-1)
+
+		const memsql = `INSERT INTO MEM VALUES(MEM_NUM.NEXTCAL, ${CS_NUM}, '${data.regnum}', '${data.id}', '${data.password}', 0)`;
 		await conn.simpleExecute(memsql)
 
     } catch(e) {
-		console.log(e); // 에러 출력
+		//console.log(e); // 에러 출력
 		return e.errorNum
     }
 	return "success"

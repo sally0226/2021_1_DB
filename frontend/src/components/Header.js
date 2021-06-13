@@ -5,6 +5,7 @@ import { useSessionStorage } from '.';
 
 export default function Header() {
 	const [isManager, setIsManager] = useSessionStorage("isManager", false);
+	const [forManager, setForManager] = useSessionStorage("forManager", false);
 	const [isLogined, setIsLogined] = useSessionStorage("isLogined", false);
 
 	const [subHref, setSubHref] = useState([]); // 링크를 담는 state
@@ -25,10 +26,10 @@ export default function Header() {
 	};
 
 	const modeHandler = () => {
-		setIsManager(!isManager);
+		setForManager(!forManager);
 	};
 	return(
-		isManager ?
+		forManager ?
 		<Grid className="header">
 				<Grid className="header-main">
 					<Grid className="h-title">
@@ -84,8 +85,7 @@ export default function Header() {
 								<Link href="/register" style={{marginRight:'1rem'}} color="inherit">회원가입</Link>
 							</>
 						}
-						<Link href="/" color="inherit" onClick={modeHandler}>관리자</Link>
-					{/* 추후 login기능으로 관리자 페이지 접속할 수 있게 하기 */}
+						{ isManager && <Link href="/" color="inherit" onClick={modeHandler}>관리자메뉴</Link>}
 					</Grid>
 				</Grid>
 				<Grid className="header-sub">
