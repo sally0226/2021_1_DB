@@ -26,7 +26,7 @@ function Main() {
 			<Grid className="main-content">
 				<Grid className="slider">
 					{/* todo: 영상 Carousel로 만들기 */}
-					<Carousel />
+					<Carousel data={movie} />
 				</Grid>
 				{/* todo: 포스터 넣기 */}
 				<Slider {...settings}>
@@ -40,6 +40,7 @@ function Main() {
 										<Button variant="outlined" href="/reserve" style={{marginBottom:'1rem'}}>예매하기</Button>
 										<Button variant="outlined" href={`/movie/${movie.MOVIE_NUM}`}>상세정보</Button>
 									</Grid>
+									<img alt="포스터" style={{width: '100%', height:'100%'}} src={movie.POSTER} />
 								</div>
 								<span>{movie.MOVIE_NAME}</span>
 								<span>{movie.AVG_STARS===null ? 0 : movie.AVG_STARS}점</span>
