@@ -20,7 +20,7 @@ function Login() {
 	
 	const SubmitHandler = (event) => {
 		event.preventDefault();
-		if(tabValue==0){
+		if(tabValue===0){
 			let body = {
 				id: id,
 				password: pw
@@ -37,6 +37,7 @@ function Login() {
 					else{
 						alert(`${response.data.user[0].MEM_ID}님 로그인 되었습니다!`);
 						sessionStorage.setItem("isLogined", true);
+						sessionStorage.setItem("memNum", response.data.user[0].MEM_NUM)
 						window.location.href='/';
 					}
 				}

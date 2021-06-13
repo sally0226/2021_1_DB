@@ -6,6 +6,7 @@ const EmpController = require('../controllers/empController');
 const Scrn_roomController = require('../controllers/srcn_roomController');
 const SchdeuleContruller = require('../controllers/scheduleController');
 const codeController = require('../controllers/codeController');
+const reviewController = require('../controllers/reviewController');
 const router = express.Router();
 
 
@@ -20,6 +21,9 @@ router.post('/movie', MovieController.createMovie);
 router.delete('/movie/:movie_num', MovieController.deleteMovie);
 router.put('/movie/:movie_num', MovieController.updateMovie);
 router.get('/movierate', codeController.getMovieRatingCode);
+
+router.post('/review', reviewController.createReview);
+router.get('/review', reviewController.getReview);
 
 router.get('/dept', DeptController.getAllDept);
 
