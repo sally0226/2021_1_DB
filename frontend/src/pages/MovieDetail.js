@@ -1,38 +1,85 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 
 import { Button, Grid, InputBase, Tab, Tabs } from '@material-ui/core';
 import { ReactComponent as Star } from '../assets/Star.svg'
 
 import { Header, RatingCircle } from '../components';
-import { useMovieState } from '../MVVM/model/MovieModel';
 import { API_URL } from '../CommonVariable';
 
-function dataReducer(state, action) {
-    switch (action.type) {
-        case 'SET':
-            return action.data;
-        default:
-            throw new Error(`Unhandled action type: ${action.type}`);
-    }
+const starScore = (num) => {
+	// todo: 반복문으로 코드 줄이기 ;
+	if(num===0)
+		return (
+			<Grid className="starScore-con">
+				<Star fill="gray" width="20" height="20" />
+				<Star fill="gray" width="20" height="20" />
+				<Star fill="gray" width="20" height="20" />
+				<Star fill="gray" width="20" height="20" />
+				<Star fill="gray" width="20" height="20" />
+			</Grid>
+		)
+	else if(num===1)
+		return (
+			<Grid className="starScore-con">
+				<Star fill="yellow" width="20" height="20" />
+				<Star fill="gray" width="20" height="20" />
+				<Star fill="gray" width="20" height="20" />
+				<Star fill="gray" width="20" height="20" />
+				<Star fill="gray" width="20" height="20" />
+			</Grid>
+		)
+	else if(num===2)
+		return (
+		<Grid className="starScore-con">
+			<Star fill="yellow" width="20" height="20" />
+			<Star fill="yellow" width="20" height="20" />
+			<Star fill="gray" width="20" height="20" />
+			<Star fill="gray" width="20" height="20" />
+			<Star fill="gray" width="20" height="20" />
+		</Grid>
+		)
+	else if(num===3)
+		return (
+		<Grid className="starScore-con">
+			<Star fill="yellow" width="20" height="20" />
+			<Star fill="yellow" width="20" height="20" />
+			<Star fill="yellow" width="20" height="20" />
+			<Star fill="gray" width="20" height="20" />
+			<Star fill="gray" width="20" height="20" />
+		</Grid>
+		)
+	else if(num===4)
+	return (
+	<Grid className="starScore-con">
+		<Star fill="yellow" width="20" height="20" />
+		<Star fill="yellow" width="20" height="20" />
+		<Star fill="yellow" width="20" height="20" />
+		<Star fill="yellow" width="20" height="20" />
+		<Star fill="gray" width="20" height="20" />
+	</Grid>
+	)
+	else return (
+		<Grid className="starScore-con">
+		<Star fill="yellow" width="20" height="20" />
+		<Star fill="yellow" width="20" height="20" />
+		<Star fill="yellow" width="20" height="20" />
+		<Star fill="yellow" width="20" height="20" />
+		<Star fill="yellow" width="20" height="20" />
+		</Grid>
+	)
 }
 
 function MovieDetail(props) {
 	const movieId = props.match.params.movieId
-
-	//const [movie, setMovie] = useState();
-	const [movie, movieDispatch] = useReducer(dataReducer, []);
-
+	const [movie, setMovie] = useState()
 
 	useEffect(() => {
 		const getData = async() => {
 			await axios.get(`${API_URL}/movie/${movieId}`)
 			.then(result => {
 				console.log(result.data.data);
-				movieDispatch({
-					type: 'SET',
-					data: result.data.data
-				})
+				setMovie(result.data.data);
 			})
 		}
 		getData()
@@ -76,6 +123,7 @@ function MovieDetail(props) {
 			<Grid className="detail-body">
 				<p className="head-typo">영화 상세</p>
 				<Grid className="movie">
+					{/* todo: 포스터 받아오면 포스터 넣기 */}
 					<div style={{
 						minWidth: '150px',
 						height: '200px',
@@ -103,9 +151,9 @@ function MovieDetail(props) {
 							>예매하기</Button>
 						</Grid>
 						<Grid className="movie-last">
-							<p>감독 : {movie && movie[0].DIRECTORE} / 배우 : {movie && movie[0].CAST}</p>
+							<p>감독 : {movie && movie[0].DIRECTOR} / 배우 : {movie && movie[0].CAST}</p>
 							<p>장르 : {movie && movie[0].GENRE}</p>
-							<p>개봉 : {movie && movie[0].RELEASE_DATE}</p>
+							<p>개봉 : {movie && movie[0].RELEASE_DATE.substring(0,10)}</p>
 						</Grid>
 					</Grid>
 				</Grid>
@@ -122,15 +170,20 @@ function MovieDetail(props) {
 						tabValue === 0? // 영화 정보
 						<Grid className="tab-content">
 							<p className="body-head">시놉시스</p>
-							<p>시놉시스 내용</p>
+							<p>{movie && movie[0].MOVIE_INTRO}</p>
 							<p className="body-head">트레일러</p>
-							<span>트레일러 영상</span>
+							<Grid>
+								{movie && movie[2].map(vid => (
+									<iframe width="400" height="250" allowfullscreen src={vid.TRAILER_VIDEO_ROUTE} title="YouTube video player" frameborder="0" allow="accelerometer"></iframe>
+								))}
+							</Grid>
 							<p className="body-head">포스터 & 스틸컷</p>
-							<div style={{
-								width: '150px',
-								height: '200px',
-								backgroundColor: 'white'
-							}} />
+							<Grid>
+								{/* todo : 사진 잘 보이게 하기 */}
+								{movie && movie[1].map(shot => (
+									shot.TRAILER_SHOT_ROUTE
+								))}
+							</Grid>
 						</Grid>
 						: // 평점 및 관람평
 						<Grid className="tab-content">
@@ -170,10 +223,20 @@ function MovieDetail(props) {
 								</Grid>
 							</Grid>
 							<Grid className="comment-list">
-								<p>총 ?건</p>
+								<p>총 {movie[3].length}건</p>
 								<Grid className="list-con">
+									{
+										movie && movie[3].map(review => (
+											<Grid className="comment-box">
+												{review.STARS}
+												{review.COMMENT}
+											</Grid>
+										))
+									}
+									{/* review 연결하면 아래 예시 지우기 */}
 									<Grid className="comment-box">
-										comment 디비에서 들고오면 담아주기
+										{starScore(3)}
+										안녕
 									</Grid>
 								</Grid>
 							</Grid>

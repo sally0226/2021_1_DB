@@ -117,10 +117,10 @@ async function selectOneMovie(id) {
 	var reviews;
     try {
         
-        await conn.simpleExecute(`SELECT * FROM MOVIE`)
+        await conn.simpleExecute(`SELECT * FROM MOVIE WHERE MOVIE_NUM=${id}`)
 		.then((result) => {
             movies = result.rows;
-			results.push(movies);
+			results.push(movies[0]);
         });
 
         // 그 영화에 해당하는 사진 가지고오기
