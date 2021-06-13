@@ -51,7 +51,6 @@ function NowScreen({ match }) {
 								<span className="rank">{rank++}</span>
 								<div className="poster">
 									<Grid className="movie-hover">
-										<Button variant="outlined" href="/reserve" style={{marginBottom:'1rem'}}>예매하기</Button>
 										<Button variant="outlined" href={`/movie/${movie.MOVIE_NUM}`}>상세정보</Button>
 									</Grid>
 									<img alt="포스터" style={{width: '100%', height:'100%'}} src={movie.POSTER} />
