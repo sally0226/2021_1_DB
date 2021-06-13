@@ -29,8 +29,7 @@ function NowScreen({ match }) {
 					{
 						status === "now" ?
 						movie.map((movie, i) => (
-							// todo: 상영중인 영화만 불러오도록 아래 주석 지우기
-							//movie.SCRN_STATUS==="Y" &&
+							movie.SCRN_STATUS==="Y" &&
 							new Date(movie.RELEASE_DATE) <= today &&
 							<div className="movies">
 								<span className="rank">{rank++}</span>
