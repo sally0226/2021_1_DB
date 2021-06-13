@@ -12,10 +12,10 @@ function Enter() {
 
 	useEffect(()=>{
 		//상영관 리스트 받아오기 
-		axios.get(`${API_URL}/roomid`).then(response=>{
+		axios.get(`${API_URL}/room`).then(response=>{
 			const rooms = response.data;
 			setRoom(rooms);
-			setSelectRoom(rooms[0].ROOM_NUM);
+			setSelectRoom(rooms[0]);
 			console.log(room);
 			console.log(selectRoom);
 		});
@@ -81,7 +81,7 @@ function Enter() {
 				>
 					{room.map((room) => (
 						<MenuItem value={room.ROOM_NUM}>
-							{room.ROOM_NUM}
+							{room.ROOM_NAME}
 						</MenuItem>
 					))}
 				</Select>
