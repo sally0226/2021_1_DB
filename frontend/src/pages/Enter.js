@@ -18,11 +18,12 @@ function Enter() {
 		}
 		axios.post(`${API_URL}/enter`, body)
 		.then(response=>{
+			console.log(response);
 			if(!response.data.success){
 				alert(`출입명부 작성에 실패하셨습니다!`);
 			}
 			else{
-				alert('출입명부작성에 성공하셨습니다.');
+				alert(response.data.message);
 				window.location.href='/';
 			}
 		})

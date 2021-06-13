@@ -71,7 +71,7 @@ async function Enter (name, contact, room)  {
 	try{
 		const esql = `INSERT INTO VISIT_INFO VALUES(VISIT_NUM.NEXTVAL, ${room}, '${name}', '${contact}',TO_DATE('${day}','YYYYMMDDHH24MISS'))`
 		await conn.simpleExecute(esql)
-		.then(res => r="success");
+		.then(r="success");
 	} catch (e) {
 		console.log(e)
 		return e.errorNum

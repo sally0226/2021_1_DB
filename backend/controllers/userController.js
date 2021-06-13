@@ -63,7 +63,7 @@ const enter = async(req, res, next) => {
 	try{
 		const { name, contact, room } = req.body;
 		const result = await userModel.Enter(name,contact,room);
-		if(result===0){ // 입장 실패
+		if(result!="success"){ // 입장 실패
 			return res.status(200).json({ success: false, message: '작성에 실패햐였습니다.'})
 		} else return res.status(200).json({ success: true, message: '즐거운 관람되십시오.'})
 	} catch(err) {
