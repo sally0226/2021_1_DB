@@ -217,10 +217,24 @@ async function selectOneMovie(id) {
     }
 }
 
+async function selectMovieRatingCode() {
+	try{
+		await conn.simpleExecute(`SELECT COMMON_CODE, CODE_NAME FROM CODE WHERE UPPER_COMMON_CODE=100`)
+		.then(res => {
+			console.log(res.rows);
+			return res.rows
+		})
+	} catch(e){
+		console.log(e);
+		return e.errorNum;
+	}
+}
+
 module.exports = {
     insertData: insertData,
     deleteData: deleteData,
     updateData: updateData,
     selectAllMovie: selectAllMovie,
 	selectOneMovie: selectOneMovie,
+	selectMovieRatingCode: selectMovieRatingCode
 }

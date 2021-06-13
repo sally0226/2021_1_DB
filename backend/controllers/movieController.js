@@ -76,10 +76,25 @@ const getOneMovie = async (req, res, next) => {
 	}
 	//return result;
 }
+
+const getMovieRatingCode = async (req, res, next) => {
+	// console.log("getAllMovie");
+	 try {
+		 const result = await movieModel.selectMovieRatingCode();
+		 if (result === undefined)
+			 res.status(200).json({ success: false, message: '설정한 상영등급이 없습니다.'});
+		console.log(result);
+		res.send(result)
+	 } catch(err) {
+		 next(err);
+	 }
+ }
+
 module.exports = {
     createMovie: createMovie,
     deleteMovie: deleteMovie,
     updateMovie: updateMovie,
     getAllMovie: getAllMovie,
 	getOneMovie: getOneMovie,
+	getMovieRatingCode: getMovieRatingCode,
 }
