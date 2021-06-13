@@ -11,13 +11,44 @@ const createMovie = async (req, res, next) => {
         if(result === "success")
 		    res.status(201).json({ success: true});
         else {
-            res.status(200).json({ success: false, message: '이것은 에러'});
+            res.status(200).json({ success: false, message: '생성 에러'});
 	    }
     } catch(err) {
         next(err)
     }
 }
-
+const deleteMovie = async (req, res, next) => {
+    try {
+        const movie_num = req.params.movie_num;
+        const result = await movieModel.deleteData(movie_num);
+        console.log(result);
+        if(result === "success")
+		    res.status(201).json({ success: true});
+        else {
+            res.status(200).json({ success: false, message: '삭제 에러'});
+	    }
+    }catch(err) {
+        next(err)
+    }
+}
+const updateMovie = async (req, res, next) => {
+    try {
+        console.log("update");
+        const movieData = req.body['movie'] === undefined ? req.body:req.body.movie;
+        const imageData = req.body['images'] === undefined ? undefined:req.body.images;
+        const videoData = req.body['videos'] === undefined ? undefined:req.body.videos;
+        console.log(movieData);
+        const result = await movieModel.updateData(movieData, imageData, videoData);
+        console.log(result);
+        if(result === "success")
+		    res.status(201).json({ success: true});
+        else {
+            res.status(200).json({ success: false, message: 'update 에러'});
+	    }
+    }catch(err) {
+        next(err)
+    }
+}
 const getAllMovie = async (req, res, next) => {
    // console.log("getAllMovie");
     try {
@@ -30,7 +61,7 @@ const getAllMovie = async (req, res, next) => {
     }
 }
 
-// 영화 상세보기 페이지
+// 영화 상세보기 페이지 + 관리자-영화수정페이지
 const getOneMovie = async (req, res, next) => {
 	const id = req.params.id;
 	try {
@@ -47,6 +78,8 @@ const getOneMovie = async (req, res, next) => {
 }
 module.exports = {
     createMovie: createMovie,
+    deleteMovie: deleteMovie,
+    updateMovie: updateMovie,
     getAllMovie: getAllMovie,
 	getOneMovie: getOneMovie,
 }
