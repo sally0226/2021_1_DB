@@ -7,7 +7,7 @@ const createMovie = async (req, res, next) => {
 
         const movieData = movie;
         const result = await movieModel.insertData(movieData, images, videos);
-        console.log(result);
+        //console.log(result);
         if(result === "success")
 		    res.status(201).json({ success: true});
         else {
@@ -19,7 +19,6 @@ const createMovie = async (req, res, next) => {
 }
 
 const getAllMovie = async (req, res, next) => {
-    console.log("Afsdff");
     try {
         const result = await movieModel.selectAllMovie();
         if (result === undefined)

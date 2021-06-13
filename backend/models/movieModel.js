@@ -11,6 +11,7 @@ function getFormatDate(date){
 }
 
 async function insertData(movieData, images, videos){
+    console.log("insert movie");
     const movie_rating = movieData.rating; 
     var movie_num;
     try{
@@ -42,29 +43,31 @@ async function insertData(movieData, images, videos){
         //console.log("movie insert success");
         await conn.simpleExecute(`SELECT LAST_NUMBER from USER_SEQUENCES where SEQUENCE_NAME = 'MOVIE_NUM'`).then((result) => {
             //console.log(result);
-            movie_num = result.rows[0].LAST_NUMBER;
-            //console.log(movie_num);
+            movie_num = result.rows[0].LAST_NUMBER-1;
+            console.log(movie_num);
         });
         
     } catch(e){
+        console.log(e);
         return e.errorNum
     }
     
     //image, video 생성 
     try {
         for (var i=0; i < images.length; i++) {
-            // console.log(images[i]);
-            const imageSql = `INSERT INTO TRAILER_SHOT VALUES(${movie_num-1}, TRAILER_SHOT_NUM.NEXTVAL, '${images[i]}')`;
+            console.log(images[i]);
+            const imageSql = `INSERT INTO TRAILER_SHOT VALUES(TRAILER_SHOT_NUM.NEXTVAL,${movie_num},  '${images[i]}')`;
             await conn.simpleExecute(imageSql);
         }
         
         for (var i=0; i < videos.length; i++) {
             // console.log(videos[i]);
-            const videoSql = `INSERT INTO TRAILER_VIDEO VALUES(${movie_num-1}, TRAILER_VIDEO_NUM.NEXTVAL, '${videos[i]}')`;
+            const videoSql = `INSERT INTO TRAILER_VIDEO VALUES(TRAILER_VIDEO_NUM.NEXTVAL,${movie_num},  '${videos[i]}')`;
             await conn.simpleExecute(videoSql);
         }
        
     } catch(e){
+        console.log(e);
         return e.errorNum
     }
     return "success";
@@ -78,7 +81,6 @@ async function selectAllMovie() {
         
         await conn.simpleExecute(sql).then((result) => {
             movies = result.rows;
-            console.log(movies.length);
         });
 
         // 각 영화별 첫 번째 사진 가져오기 (포스터)
@@ -87,23 +89,19 @@ async function selectAllMovie() {
 
         await conn.simpleExecute(selectPosterSql).then((result) => {
             posters = result.rows;
-            console.log(posters);
         });
         for (var i=0;i<movies.length;i++){
             const temp_movie_num = movies[i].MOVIE_NUM;
             const poster = posters.find(element => element.MOVIE_NUM == temp_movie_num);
-            console.log(poster);
             if (poster === undefined) {
                 movies[i].POSTER = null;
             }
                
             else 
                 movies[i].POSTER = poster.TRAILER_SHOT_ROUTE;
-            console.log(movies[i]);
         }
         return movies;
     } catch(e){
-        console.log(e.errorNum);
         return e.errorNum
     }
 }

@@ -59,7 +59,7 @@ function CreateMovie() {
             movie: movieInfo,
             images: images,
             videos: videos,
-        }
+        };
 		axios.post(`${API_URL}/movie`, body)
 		.then(response=>{
 			if(response.data.success){
@@ -68,7 +68,7 @@ function CreateMovie() {
 			}
 			else
 				alert(response.data.message);
-		})
+		});
     }
     function handelClick(e) {
         console.log(e.currentTarget.name);

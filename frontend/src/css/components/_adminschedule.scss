@@ -44,6 +44,10 @@
 	.MuiInputBase-input {
 		text-align: center !important;
 	}
+	.MuiFilledInput-input {
+		background-color: transparent !important;
+		padding: 0px !important;
+	}
 	.MuiTableCell-root {
 		padding: 0.5rem !important;
 	}
