@@ -1,84 +1,19 @@
-import React, { useState, useContext, createContext } from 'react';
+import axios from 'axios';
+import React, { useState, useContext, createContext, useEffect } from 'react';
+import { API_URL } from '../../CommonVariable';
 
 const visitorState = createContext([]);
 const visitorDispatch = createContext(()=>{});
 
 function VisitorModel({ children }) {
-	const initialState = [{
-		id: 1,
-		room: 2,
-		name: '지의신',
-		Date: new Date("2021-04-30"),
-		number:'010-1111-1111'
-	},{
-		id: 2,
-		room: 3,
-		name: '김바다',
-		Date: new Date("2021-05-30"),
-		number:'010-1111-1111'
-	},{
-		id: 3,
-		room: 4,
-		name: '김수빈',
-		Date: new Date("2021-06-05"),
-		number:'010-1111-1111'
-	},{
-		id: 1,
-		room: 2,
-		name: '지의신',
-		Date: new Date("2021-04-30"),
-		number:'010-1111-1111'
-	},{
-		id: 2,
-		room: 3,
-		name: '김바다',
-		Date: new Date("2021-05-30"),
-		number:'010-1111-1111'
-	},{
-		id: 3,
-		room: 4,
-		name: '김수빈',
-		Date: new Date("2021-06-05"),
-		number:'010-1111-1111'
-	},{
-		id: 1,
-		room: 2,
-		name: '지의신',
-		Date: new Date("2021-04-30"),
-		number:'010-1111-1111'
-	},{
-		id: 2,
-		room: 3,
-		name: '김바다',
-		Date: new Date("2021-05-30"),
-		number:'010-1111-1111'
-	},{
-		id: 3,
-		room: 4,
-		name: '김수빈',
-		Date: new Date("2021-06-05"),
-		number:'010-1111-1111'
-	},{
-		id: 1,
-		room: 2,
-		name: '지의신',
-		Date: new Date("2021-04-30"),
-		number:'010-1111-1111'
-	},{
-		id: 2,
-		room: 3,
-		name: '김바다',
-		Date: new Date("2021-05-30"),
-		number:'010-1111-1111'
-	},{
-		id: 3,
-		room: 4,
-		name: '김수빈',
-		Date: new Date("2021-06-05"),
-		number:'010-1111-1111'
-	}];
-	const [visitorData, setVisitorData] = useState(initialState)
-	// back에서 받아올때 예매율 순으로 받아오기
+	const [visitorData, setVisitorData] = useState([])
+	useEffect(() => {
+		async function getdata() {
+			await axios.get(`${API_URL}/enter`)
+			.then(r => setVisitorData(r.data))
+		}
+		getdata();
+	}, [])
 	return (
 		<visitorState.Provider value={visitorData}>
 			<visitorDispatch.Provider value={setVisitorData}>
