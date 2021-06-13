@@ -15,8 +15,8 @@ const MovieViewModel = ({id, children}) => {
 		fetchMovies();
 	},[]);
 
-	const fetchMovies = () => {
-		axios.get(`${API_URL}/movie`)
+	const fetchMovies = async() => {
+		await axios.get(`${API_URL}/movie`)
 		.then(res => {
 			setMovie(res.data);
 		})

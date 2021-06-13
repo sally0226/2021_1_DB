@@ -1,10 +1,26 @@
-import React, { useState, forwardRef } from 'react'
+import React, { useState, forwardRef, useEffect } from 'react'
 import { Grid } from '@material-ui/core';
 import { RatingCircle } from '../components'
 import DatePicker from "react-datepicker";
+import axios from 'axios';
+import { API_URL } from '../CommonVariable';
 
 function StepZero({next, data, selectMovie}) {
 	console.log(data);
+	// <-- 스케쥴 데이터
+	const [schData, setSchData] = useState();
+	async function getSchedule(){
+		await axios.get(`${API_URL}/schedule`)
+		.then(res => {
+			setSchData(res.data);
+		})
+	}
+	console.log(schData);
+	useEffect(() => {
+		getSchedule()
+	}, [])
+	// 스케쥴 데이터 -->
+
 	const [selectedMovie, setSelectedMovie] = useState(0);
 	const handleMovieSelect = (i) => {
 		setSelectedMovie(i);
@@ -32,9 +48,9 @@ function StepZero({next, data, selectMovie}) {
 				<Grid className={`${'right-border'} ${'zeroBody'}`}>
 					<Grid className="movie-con">
 						{
-							data && data.map((movie, i)=>(
+							data && data.map((movie)=>(
 								movie.SCRN_STATUS=='Y' &&
-								<Grid className={selectedMovie===i ? 'leftContent leftContent-active' : 'leftContent'} onClick={() => handleMovieSelect(i)}>
+								<Grid className={selectedMovie===movie.MOVIE_NUM ? 'leftContent leftContent-active' : 'leftContent'} onClick={() => handleMovieSelect(movie.MOVIE_NUM)}>
 									{movie.MOVIE_NAME}
 								</Grid>
 							))
@@ -64,17 +80,19 @@ function StepZero({next, data, selectMovie}) {
 									color:'white',
 									marginRight:'5px'}}
 							><RatingCircle /></Grid>
-							{data[selectedMovie] != undefined && data[selectedMovie].name}
+							{data[selectedMovie-1] != undefined && data[selectedMovie-1].MOVIE_NAME}
 						</Grid>
 						<Grid className="timeGrid-body">
-							<Grid className="timeGrid-content" onClick={next}>
-								<Grid style={{fontWeight:'bold', marginBottom:'5px'}}>16:25</Grid>
-								<Grid style={{fontSize:'0.5rem'}}>100/200 1관</Grid>
-							</Grid>
-							<Grid className="timeGrid-content" onClick={next}>
-								<Grid style={{fontWeight:'bold', marginBottom:'5px'}}>16:25</Grid>
-								<Grid style={{fontSize:'0.5rem'}}>100/200 1관</Grid>
-							</Grid>
+							{/* todo: 조금더 알맞은 데이터를 가져오기 */}
+							{
+								schData && schData.map(sch=>{
+									return(sch.MOVIE_NUM === selectedMovie &&
+									<Grid className="timeGrid-content" onClick={next}>
+										<Grid style={{fontWeight:'bold', marginBottom:'5px'}}>{sch.SCRN_DATE.substring(14,19)}</Grid>
+										<Grid style={{fontSize:'0.5rem'}}>{sch.RESIDUAL_SEAT}석 {sch.ROOM_NUM}관</Grid>
+									</Grid>)
+								})
+							}
 						</Grid>
 					</Grid>
 				</Grid>
