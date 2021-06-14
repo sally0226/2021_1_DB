@@ -236,9 +236,6 @@
 			.movie-info-col2{
 				width: 100%;
 			}
-			.margin-bot {
-				margin-bottom: 1rem;
-			}
 		}
 
 		.middle-content {
@@ -256,6 +253,7 @@
 
 		.DC-grid {
 			display: flex;
+			flex-wrap: wrap;
 			width: 100%;
 
 			.DC-content {
@@ -313,7 +311,6 @@
 		width: 90%;
 		display: flex;
 		flex-direction: row;
-		height: 30rem;
 
 		.FinalBody {
 			height: 100%;
@@ -333,7 +330,7 @@
 				display:flex;
 				flex-direction: column;
 				background-color: white;
-				margin-top: 3rem;
+				margin: 3rem 0;
 				width: 50%;
 
 				.info-content {

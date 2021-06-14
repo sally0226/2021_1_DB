@@ -24,7 +24,19 @@ const getMovieRatingCode = async (req, res, next) => {
 	 }
  }
 
+ const getDCCode = async (req, res, next) => {
+	 try {
+		 const result = await codeModel.selectDCCode();
+		 if (result === undefined)
+			res.status(200).json({ success: false, message: '할인 항목이 없습니다.'});
+		res.send(result);
+	 } catch(err) {
+		 next(err);
+	 }
+ }
+
  module.exports = {
 	getMovieRatingCode: getMovieRatingCode,
 	getEmc_ExitCode: getEmc_ExitCode,
+	getDCCode:getDCCode,
 }

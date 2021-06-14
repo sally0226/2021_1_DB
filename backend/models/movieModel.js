@@ -30,7 +30,7 @@ async function insertData(movieData, images, videos){
             NULL, 
             ${movieData.rating}
             )`;
-		//console.log(movieSql);
+		console.log(movieSql);
         await conn.simpleExecute(movieSql).then((result) => {
             //console.log(result);
         }); 
@@ -218,7 +218,7 @@ async function selectOneMovie(id) {
         });
 
 		//그 영화의 후기
-		const selectReviewSql = `SELECT REVIEW_NUM, STARS, COMMENTS FROM REVIEW WHERE MOVIE_NUM=${id}`
+		const selectReviewSql = `SELECT MEM_NUM, REVIEW_NUM, STARS, COMMENTS FROM REVIEW WHERE MOVIE_NUM=${id}`
 
 		await conn.simpleExecute(selectReviewSql)
 		.then((result)=>{

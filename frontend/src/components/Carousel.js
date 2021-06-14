@@ -39,7 +39,7 @@ const Carousel = (data) => {
 
 	return (
 		<div className="carousel">
-			<AutoPlaySwipeableViews index={index} onChangeIndex={handleChangeIndex}>
+			<AutoPlaySwipeableViews index={index} onChangeIndex={handleChangeIndex} interval={4000}>
 				{
 					// reverse.map((vid, i) => (
 					// 	<div style={{height:'18rem'}}>

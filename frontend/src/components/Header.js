@@ -28,6 +28,10 @@ export default function Header() {
 	const modeHandler = () => {
 		setForManager(!forManager);
 	};
+	const Logouthandler =() => {
+		setIsLogined(false);
+		sessionStorage.setItem("memNum", -1)
+	}
 	return(
 		forManager ?
 		<Grid className="header">
@@ -78,7 +82,7 @@ export default function Header() {
 					<Link href="/enterroom" style={{marginRight:'1rem'}} color="inherit">출입명부작성</Link>
 					{
 						isLogined ?
-						<Link href="/" color="inherit" onClick={()=>setIsLogined(false)} style={{marginRight:'1rem' }}>로그아웃</Link>
+						<Link href="/" color="inherit" onClick={()=>Logouthandler()} style={{marginRight:'1rem' }}>로그아웃</Link>
 						:
 						<>
 							<Link href="/login" style={{marginRight:'1rem'}} color="inherit">로그인</Link>

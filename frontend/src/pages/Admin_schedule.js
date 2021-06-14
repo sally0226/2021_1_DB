@@ -53,7 +53,7 @@ function Admin_schedule() {
 		axios.get(`${API_URL}/room`).then(response=>{
 			const rooms = response.data;
 			// console.log(rooms);
-			setRoomList(rooms);
+			setRoomList(rooms.rooms);
 			// console.log(roomList);
 		});
 		axios.get(`${API_URL}/movie`).then(response=>{

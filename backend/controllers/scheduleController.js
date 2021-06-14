@@ -11,6 +11,17 @@ const getAllSchedule = async (req, res, next) => {
     }
 }
 
+const getAllDetailSchedule = async (req,res,next) => {
+	try {
+		const result = await scheduleModel.selectAllDetailData();
+		if(result === undefined)
+			res.status(200).json({ success: false, message: '상영일정을 불러오지 못했습니다.'})
+		else res.send(result);
+	} catch(err){
+		next(err);
+	}
+}
+
 const createSchedule = async (req, res, next) => {
     try {
         const result = await scheduleModel.insertData(req.body);
@@ -62,4 +73,5 @@ module.exports = {
     createSchedule: createSchedule,
     updateSchedule: updateSchedule,
     deleteSchedule: deleteSchedule,
+	getAllDetailSchedule: getAllDetailSchedule
 }

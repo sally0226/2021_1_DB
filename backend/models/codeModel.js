@@ -28,7 +28,23 @@ async function selectEmc_ExitCode() {
 		return e.errorNum;
 	}
 }
+
+async function selectDCCode() {
+	var result;
+	try{
+		await conn.simpleExecute(`SELECT * FROM DC`)
+		.then(res => {
+			result = res.rows;
+		})
+		console.log(result);
+		return result;
+	} catch(e){
+		console.log(e);
+		return e.errorNum;
+	}
+}
 module.exports = {
 	selectMovieRatingCode: selectMovieRatingCode,
 	selectEmc_ExitCode: selectEmc_ExitCode,
+	selectDCCode:selectDCCode
 }
