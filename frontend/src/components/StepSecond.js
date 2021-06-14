@@ -14,6 +14,7 @@ import { RatingCircle } from '../components'
 
 function StepSecond({next, prev, movie, movieId, schedule}) {
 	const movieData = movie.filter(m=>m.MOVIE_NUM===movieId)[0];
+	console.log(schedule);
 	const [point, setPoint] = useState(0);
 	const [DC, setDC] = useState(-1);
 	const [payment, setPayment] = useState(0);
@@ -21,6 +22,16 @@ function StepSecond({next, prev, movie, movieId, schedule}) {
 	const handlerDCClick = (i) => {
 		if(i===DC) setDC(-1); // 다시 누르면 취소
 		else setDC(i);
+	}
+
+	const stringToDate = (str) => {
+		var year = str.substring(0,4);
+		var mon = str.substring(4,6);
+		var day = str.substring(6,8);
+		var hour = str.substring(8,10);
+		var min = str.substring(10,12);
+	
+		return year + '년 ' + mon + '월 ' + day + '일 ' + hour + '시 '+ min + '분 ';
 	}
 
 	return (
@@ -43,14 +54,14 @@ function StepSecond({next, prev, movie, movieId, schedule}) {
 					</Grid>
 					<Grid className="movie-info">
 						<Grid className="movie-info-col">
-							<p className="margin-bot">일시</p>
-							<p className="margin-bot">상영관</p>
+							<p style={{marginBottom:'2rem'}}>일시</p>
+							<p style={{marginBottom:'1rem'}}>상영관</p>
 							<p>좌석</p>
 						</Grid>
 						<Grid className="movie-info-col2">
-							<p className="margin-bot">날짜정보</p>
-							<p className="margin-bot">상영관정보</p>
-							<p className="margin-bot">좌석정보</p>
+							<p style={{marginBottom:'1.2rem'}}>{stringToDate(schedule.SCRN_DATE)}</p>
+							<p style={{marginBottom:'1rem'}}>{schedule.ROOM_NAME}</p>
+							<p>좌석정보</p>
 						</Grid>
 					</Grid>
 				</Grid>
