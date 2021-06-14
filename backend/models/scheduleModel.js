@@ -125,7 +125,6 @@ async function selectAllDetailData() {
         await conn.simpleExecute(sql).then((result) => {
             schedules = result.rows;
         });
-		console.log(schedules);
         return schedules;
     }catch(e) {
         return e;

@@ -22,7 +22,7 @@ const stringToDate = (str) => {
 	return year + '-' + mon + '-' + day;
 }
 
-function StepZero({next, data, selectMovie}) {
+function StepZero({next, data, selectMovie, selectSch}) {
 	console.log(data);
 	// <-- 스케쥴 데이터
 	const [schData, setSchData] = useState();
@@ -56,6 +56,12 @@ function StepZero({next, data, selectMovie}) {
 			</button>
 		)
 	});
+
+	const HandlerNext = (sch) => {
+		console.log(sch);
+		selectSch(sch);
+		next();
+	}
 	return (
 		<Grid className="stepZero">
 			<Grid item xs={6} className="left">
@@ -104,7 +110,7 @@ function StepZero({next, data, selectMovie}) {
 								schData && schData.map(sch=>{
 									return(sch.MOVIE_NUM === selectedMovie &&
 										dateTimeToString(selectedDate) === sch.SCRN_DATE.substring(0,8) &&
-										<Grid className="timeGrid-content" onClick={next}>
+										<Grid className="timeGrid-content" onClick={() => HandlerNext(sch)}>
 											<Grid style={{fontWeight:'bold', marginBottom:'5px'}}>{sch.SCRN_DATE.substring(8,10)}:{sch.SCRN_DATE.substring(10,12)}</Grid>
 											<Grid style={{fontSize:'0.5rem'}}>{sch.RESIDUAL_SEAT}/{sch.TOTAL_SEAT_CAP} {sch.ROOM_NAME}</Grid>
 										</Grid>)
