@@ -74,12 +74,20 @@ function StepSecond({next, prev, movie, movieId, schedule}) {
 					<Grid className="middle-content">
 						<p className="content-head">포인트 사용</p>
 						<FormControl>
+						{sessionStorage.getItem("memNum")==="-1" || sessionStorage.getItem("memNum")===null?
 							<FilledInput
-								value={point}
-								onChange={(e)=>setPoint(e.target.value)}
-								endAdornment={<InputAdornment position="end">원</InputAdornment>}
-								disableUnderline
+							disabled
+							value={point}
+							onChange={(e)=>setPoint(e.target.value)}
+							endAdornment={<InputAdornment position="end">원</InputAdornment>}
+							disableUnderline
 							/>
+						: <FilledInput
+						value={point}
+						onChange={(e)=>setPoint(e.target.value)}
+						endAdornment={<InputAdornment position="end">원</InputAdornment>}
+						disableUnderline
+						/>}
 							<FormHelperText>잔여 포인트 : </FormHelperText>
 						</FormControl>
 					</Grid>
