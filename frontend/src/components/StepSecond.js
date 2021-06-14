@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import {
 	Grid,
 	Button,
@@ -11,8 +11,18 @@ import {
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import { RatingCircle } from '../components'
+import axios from 'axios';
+import { API_URL } from '../CommonVariable';
 
 function StepSecond({next, prev, movie, movieId, schedule}) {
+	const [dcData, setDcData] = useState();
+	useEffect(() => {
+		axios.get(`${API_URL}/dc`)
+		.then(r=>{
+			setDcData(r.data)
+		})
+	}, [])
+	console.log(dcData);
 	const movieData = movie.filter(m=>m.MOVIE_NUM===movieId)[0];
 	console.log(schedule);
 	const [point, setPoint] = useState(0);
@@ -95,12 +105,13 @@ function StepSecond({next, prev, movie, movieId, schedule}) {
 						<p className="content-head">할인</p>
 						{/* 할인 방법 불러오기 */}
 						<Grid className="DC-grid">
-							<Grid className={DC === 0 ? 'DC-content content-active' : 'DC-content'} onClick={()=>handlerDCClick(0)}>
-								skt멤버쉽
-							</Grid>
-							<Grid className={DC === 1 ? 'DC-content content-active' : 'DC-content'} onClick={()=>handlerDCClick(1)}>
-								kt멤버쉽
-							</Grid>
+							{
+								dcData && dcData.map(dc=>(
+									<Grid className={DC===dc.DC_CODE ? 'DC-content content-active' : 'DC-content'} onClick={()=>handlerDCClick(dc.DC_CODE)}>
+										{dc.DC_NAME}
+									</Grid>
+								))
+							}
 						</Grid>
 					</Grid>
 					<Grid className="middle-content">

@@ -253,6 +253,7 @@
 
 		.DC-grid {
 			display: flex;
+			flex-wrap: wrap;
 			width: 100%;
 
 			.DC-content {

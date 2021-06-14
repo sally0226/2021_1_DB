@@ -20,7 +20,6 @@ router.get('/movie/:id', MovieController.getOneMovie);
 router.post('/movie', MovieController.createMovie);
 router.delete('/movie/:movie_num', MovieController.deleteMovie);
 router.put('/movie/:movie_num', MovieController.updateMovie);
-router.get('/movierate', codeController.getMovieRatingCode);
 
 router.post('/review', reviewController.createReview);
 router.get('/review/:movie_num', reviewController.getReview);
@@ -43,6 +42,8 @@ router.get('/scheduledetail', scheduleController.getAllDetailSchedule);
 router.put('/schedule/:sche_num', scheduleController.updateSchedule);
 router.delete('/schedule/:sche_num', scheduleController.deleteSchedule);
 
+router.get('/movierate', codeController.getMovieRatingCode);
 router.get('/codes/emc_exit',codeController.getEmc_ExitCode);
+router.get('/dc', codeController.getDCCode);
 
 module.exports = router;
