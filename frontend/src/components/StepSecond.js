@@ -12,7 +12,8 @@ import CreditCardIcon from '@material-ui/icons/CreditCard';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import { RatingCircle } from '../components'
 
-function StepSecond({next, prev, data, movieId}) {
+function StepSecond({next, prev, movie, movieId, schedule}) {
+	const movieData = movie.filter(m=>m.MOVIE_NUM===movieId)[0];
 	const [point, setPoint] = useState(0);
 	const [DC, setDC] = useState(-1);
 	const [payment, setPayment] = useState(0);
@@ -38,7 +39,7 @@ function StepSecond({next, prev, data, movieId}) {
 								color:'white',
 								marginRight:'5px'}}
 						><RatingCircle /></Grid>
-						{data[movieId]!=undefined && data[movieId].name}
+						{movieData!=undefined && movieData.MOVIE_NAME}
 					</Grid>
 					<Grid className="movie-info">
 						<Grid className="movie-info-col">

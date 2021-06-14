@@ -40,7 +40,9 @@ function Reserve() {
 					: step === 1 ?
 					<StepFirst next={stepNextHandler} prev={stepPrevHandler} />
 					: step === 2 ?
-					<StepSecond next={stepNextHandler} prev={stepPrevHandler} data={movie} movieId={movieId} />
+					<StepSecond
+						next={stepNextHandler} prev={stepPrevHandler}
+						movie={movie} movieId={movieId} schedule={schData} />
 					: <StepFinal movie={movie} schedule={schData} movieId={movieId} />
 				}
 			</Grid>
