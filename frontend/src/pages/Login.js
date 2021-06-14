@@ -20,7 +20,7 @@ function Login() {
 	
 	const SubmitHandler = (event) => {
 		event.preventDefault();
-		if(tabValue==0){
+		if(tabValue===0){
 			let body = {
 				id: id,
 				password: pw
@@ -28,10 +28,18 @@ function Login() {
 			axios.post(`${API_URL}/login`, body)
 			.then(response=>{
 				if(response.data.success){
-					alert(`${response.data.user[0].MEM_ID}님 로그인 되었습니다!`);
-					sessionStorage.setItem("isLogined", true);
-					console.log(sessionStorage.getItem("isLogined"))
-					window.location.href='/';
+					if(response.data.user[1].CS_CLASSIFY_CODE === 20003){
+						alert('관리자님, 환영합니다.')
+						sessionStorage.setItem("isManager", true);
+						sessionStorage.setItem("forManager", true);
+						window.location.href='/';
+					}
+					else{
+						alert(`${response.data.user[0].MEM_ID}님 로그인 되었습니다!`);
+						sessionStorage.setItem("isLogined", true);
+						sessionStorage.setItem("memNum", response.data.user[0].MEM_NUM)
+						window.location.href='/';
+					}
 				}
 				else
 					alert(response.data.message);

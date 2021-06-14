@@ -5,15 +5,15 @@ function RatingCircle({ rating }) {
 	return (
 		<Grid
 			className={
-				rating === "전체이용가" ? 'ratingCircle all'
-				: rating === "18세이용가" ? 'ratingCircle adult'
+				rating === 10001 ? 'ratingCircle all'
+				: rating === 10004 ? 'ratingCircle adult'
 				: 'ratingCircle avg'
 			}
 		>
 			{
-				rating === "전체이용가" ? '전'
-				: rating === "18세이용가" ? '18'
-				: rating === "15세이용가" ? '15'
+				rating === 10001 ? '전'
+				: rating === 10004 ? '18'
+				: rating === 10003 ? '15'
 				: '12'
 			}
 		</Grid>

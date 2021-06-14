@@ -24,6 +24,10 @@ function Reserve() {
 	const movie = useMovieState();
 	const [movieId, setMovieId] = useState(0);
 	// 영화 정보 -->
+
+	//<-- 상영일정 정보 ( stepZero 에서 setSchData 함. )
+	const [schData, setSchData] = useState();
+	// 상영일정 정보 -->
 	
 	return (
 		<Grid className="reserve">
@@ -32,19 +36,34 @@ function Reserve() {
 			<Grid className="step-grid">
 				{
 					step===0 ?
-					<StepZero next={stepNextHandler} prev={stepPrevHandler} selectMovie={setMovieId} data={movie}/>
+					<StepZero next={stepNextHandler} selectMovie={setMovieId} selectSch={setSchData} data={movie}/>
 					: step === 1 ?
 					<StepFirst next={stepNextHandler} prev={stepPrevHandler} />
 					: step === 2 ?
-					<StepSecond next={stepNextHandler} prev={stepPrevHandler} data={movie} movieId={movieId} />
-					: <StepFinal />
+					<StepSecond
+						next={stepNextHandler} prev={stepPrevHandler}
+						movie={movie} movieId={movieId} schedule={schData} />
+					: <StepFinal movie={movie} schedule={schData} movieId={movieId} />
 				}
 			</Grid>
 		</Grid>
 	);
 };
 
-function StepFinal(){
+function StepFinal({movie, schedule, movieId}){
+	const movieData = movie.filter(m=>m.MOVIE_NUM===movieId)[0];
+	console.log(movieData);
+	console.log(schedule);
+
+	const stringToDate = (str) => {
+		var year = str.substring(0,4);
+		var mon = str.substring(4,6);
+		var day = str.substring(6,8);
+		var hour = str.substring(8,10);
+		var min = str.substring(10,12);
+	
+		return year + '년 ' + mon + '월 ' + day + '일 ' + hour + '시 '+ min + '분';
+	}
 	// 영화 정보 넣어야함!
 	return (
 		<Grid className="stepFinal">
@@ -57,22 +76,33 @@ function StepFinal(){
 							영화이름
 						</Grid>
 						<Grid className="right">
-							hi
+							{movieData.MOVIE_NAME}
 						</Grid>
 					</Grid>
 					<Grid className="info-content">
 						<Grid className="left">
 							일시
 						</Grid>
+						<Grid className="right">
+							{stringToDate(schedule.SCRN_DATE)}
+						</Grid>
 					</Grid>
 					<Grid className="info-content">
 						<Grid className="left">
 							상영관
 						</Grid>
+						<Grid className="right">
+							{schedule.ROOM_NAME}
+						</Grid>
 					</Grid>
 					<Grid className="info-content">
 						<Grid className="left">
 							좌석
+						</Grid>
+					</Grid>
+					<Grid className="info-content">
+						<Grid className="left">
+							총 가격
 						</Grid>
 					</Grid>
 				</Grid>

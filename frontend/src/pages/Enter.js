@@ -1,15 +1,45 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios';
 
-import { Grid, TextField, Button, Link } from '@material-ui/core'
+import { Grid, TextField, Button, Link, Select, MenuItem } from '@material-ui/core'
+import { API_URL } from '../CommonVariable';
 
 function Enter() {
 	const [name, setName] = useState("");
 	const [phone, setPhone] = useState("");
-	const [room, setRoom] = useState();
+	const [room, setRoom] = useState([]);
+	const [selectRoom, setSelectRoom] = useState();
+
+	useEffect(()=>{
+		//상영관 리스트 받아오기 
+		axios.get(`${API_URL}/room`).then(response=>{
+			const rooms = response.data;
+			console.log(rooms.rooms);
+			setRoom(rooms.rooms);
+			setSelectRoom(rooms.rooms[0]);
+			console.log(room);
+			console.log(selectRoom);
+		});
+	},[]);
 
 	const SubmitHandler = (event) => {
-		alert('A name was submitted: ' + name + 'pw : ' + phone);
 		event.preventDefault();
+		let body = {
+			name: name,
+			contact: phone,
+			room: selectRoom
+		}
+		axios.post(`${API_URL}/enter`, body)
+		.then(response=>{
+			console.log(response);
+			if(!response.data.success){
+				alert(`출입명부 작성에 실패하셨습니다!`);
+			}
+			else{
+				alert(response.data.message);
+				window.location.href='/';
+			}
+		})
 	};
 
 	return (
@@ -32,27 +62,30 @@ function Enter() {
 					variant="filled"
 					margin="normal"
 					fullWidth
-					placeholder="Phone Number"
+					placeholder="000-0000-0000"
 					autoFocus
 					style={{
-						backgroundColor: '#ffffff'
+						backgroundColor: '#ffffff', marginBottom: '1rem'
 					}}
+					inputProps={{maxLength:13}}
 					value={phone}
 					onChange={(e)=>setPhone(e.target.value)}
 				/>
-				<TextField
+				<Select
 					variant="filled"
 					margin="normal"
-					fullWidth
-					placeholder="상영관(숫자)"
-					type="number"
+					required
 					autoFocus
-					style={{
-						backgroundColor: '#ffffff'
-					}}
-					value={room || ''}
-					onChange={(e)=>setRoom(e.target.value)}
-				/>
+					fullWidth
+					value={selectRoom}
+					onChange={e => setSelectRoom(e.target.value)}
+				>
+					{room.map((room) => (
+						<MenuItem value={room.ROOM_NUM}>
+							{room.ROOM_NAME}
+						</MenuItem>
+					))}
+				</Select>
 				<Button 
 					variant="contained"
 					style={{

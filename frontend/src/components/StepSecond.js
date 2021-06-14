@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import {
 	Grid,
 	Button,
@@ -11,8 +11,19 @@ import {
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import { RatingCircle } from '../components'
+import axios from 'axios';
+import { API_URL } from '../CommonVariable';
 
-function StepSecond({next, prev, data, movieId}) {
+function StepSecond({next, prev, movie, movieId, schedule}) {
+	const [dcData, setDcData] = useState();
+	useEffect(() => {
+		axios.get(`${API_URL}/dc`)
+		.then(r=>{
+			setDcData(r.data)
+		})
+	}, [])
+	const movieData = movie.filter(m=>m.MOVIE_NUM===movieId)[0];
+	console.log(movieData);
 	const [point, setPoint] = useState(0);
 	const [DC, setDC] = useState(-1);
 	const [payment, setPayment] = useState(0);
@@ -22,6 +33,16 @@ function StepSecond({next, prev, data, movieId}) {
 		else setDC(i);
 	}
 
+	const stringToDate = (str) => {
+		var year = str.substring(0,4);
+		var mon = str.substring(4,6);
+		var day = str.substring(6,8);
+		var hour = str.substring(8,10);
+		var min = str.substring(10,12);
+	
+		return year + '년 ' + mon + '월 ' + day + '일 ' + hour + '시 '+ min + '분 ';
+	}
+
 	return (
 		<Grid className="stepSecond">
 			<Grid item xs={3} className="left">
@@ -29,7 +50,7 @@ function StepSecond({next, prev, data, movieId}) {
 					예매정보
 				</Grid>
 				<Grid className={`${'right-border'} ${'SecondBody'}`}>
-					<Grid className="poster" />
+					<img alt="포스터" style={{width: '45%', height:'50%'}} src={movieData.POSTER} />
 					<Grid className="left-content-head">
 						<Grid
 							style={{
@@ -38,18 +59,18 @@ function StepSecond({next, prev, data, movieId}) {
 								color:'white',
 								marginRight:'5px'}}
 						><RatingCircle /></Grid>
-						{data[movieId].name}
+						{movieData!=undefined && movieData.MOVIE_NAME}
 					</Grid>
 					<Grid className="movie-info">
 						<Grid className="movie-info-col">
-							<p className="margin-bot">일시</p>
-							<p className="margin-bot">상영관</p>
+							<p style={{marginBottom:'2rem'}}>일시</p>
+							<p style={{marginBottom:'1rem'}}>상영관</p>
 							<p>좌석</p>
 						</Grid>
 						<Grid className="movie-info-col2">
-							<p className="margin-bot">날짜정보</p>
-							<p className="margin-bot">상영관정보</p>
-							<p className="margin-bot">좌석정보</p>
+							<p style={{marginBottom:'1.2rem'}}>{stringToDate(schedule.SCRN_DATE)}</p>
+							<p style={{marginBottom:'1rem'}}>{schedule.ROOM_NAME}</p>
+							<p>좌석정보</p>
 						</Grid>
 					</Grid>
 				</Grid>
@@ -62,12 +83,20 @@ function StepSecond({next, prev, data, movieId}) {
 					<Grid className="middle-content">
 						<p className="content-head">포인트 사용</p>
 						<FormControl>
+						{sessionStorage.getItem("memNum")==="-1" || sessionStorage.getItem("memNum")===null?
 							<FilledInput
-								value={point}
-								onChange={(e)=>setPoint(e.target.value)}
-								endAdornment={<InputAdornment position="end">원</InputAdornment>}
-								disableUnderline
+							disabled
+							value={point}
+							onChange={(e)=>setPoint(e.target.value)}
+							endAdornment={<InputAdornment position="end">원</InputAdornment>}
+							disableUnderline
 							/>
+						: <FilledInput
+						value={point}
+						onChange={(e)=>setPoint(e.target.value)}
+						endAdornment={<InputAdornment position="end">원</InputAdornment>}
+						disableUnderline
+						/>}
 							<FormHelperText>잔여 포인트 : </FormHelperText>
 						</FormControl>
 					</Grid>
@@ -75,12 +104,13 @@ function StepSecond({next, prev, data, movieId}) {
 						<p className="content-head">할인</p>
 						{/* 할인 방법 불러오기 */}
 						<Grid className="DC-grid">
-							<Grid className={DC === 0 ? 'DC-content content-active' : 'DC-content'} onClick={()=>handlerDCClick(0)}>
-								skt멤버쉽
-							</Grid>
-							<Grid className={DC === 1 ? 'DC-content content-active' : 'DC-content'} onClick={()=>handlerDCClick(1)}>
-								kt멤버쉽
-							</Grid>
+							{
+								dcData && dcData.map(dc=>(
+									<Grid className={DC===dc.DC_CODE ? 'DC-content content-active' : 'DC-content'} onClick={()=>handlerDCClick(dc.DC_CODE)}>
+										{dc.DC_NAME}
+									</Grid>
+								))
+							}
 						</Grid>
 					</Grid>
 					<Grid className="middle-content">

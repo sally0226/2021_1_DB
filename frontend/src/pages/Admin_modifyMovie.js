@@ -1,12 +1,12 @@
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { Header } from '../components';
-import { TextField, Button, makeStyles, IconButton } from '@material-ui/core';
+import { TextField, Button, makeStyles, IconButton, Select, MenuItem, FormHelperText, FormControl } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 // import {AiOutlineLink} from 'react-icons';
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"
-import 'react-datepicker/dist/react-datepicker-cssmodules.min.css'
-
+import axios from 'axios';
+import { API_URL } from '../CommonVariable';
+import { useMovieRatingState } from '../MVVM/model/CodeModel';
 
 const styles = makeStyles((theme) => ({
 	input: {
@@ -15,6 +15,8 @@ const styles = makeStyles((theme) => ({
 }));
 function imageReducer(state, action) {
     switch (action.type) {
+        case 'SET':
+            return action.data;
         case 'CREATE':
             return state.concat(action.item);
         case 'DELETE':
@@ -26,6 +28,8 @@ function imageReducer(state, action) {
 }
 function videoReducer(state, action) {
     switch (action.type) {
+        case 'SET':
+            return action.data;
         case 'CREATE':
             return state.concat(action.item);
         case 'DELETE':
@@ -39,21 +43,49 @@ function videoReducer(state, action) {
 function ModifyMovie({match}) {
     const movieid = match.params.movieid;
 	const classes = styles();
-    const [movieInfo, setMovieInfo] = useState({ //movieid값 back에 넘겨서 해당하는 movie정보 받아서 초기화하기
-        name: "", //영화명 
-        startDate: new Date(), //상영예정일
-        scrnTime: "0", //상영시간
-        rating: "0", //상영등급
-        director: "", //감독
-        actors: "", //배우
-        genre: "", //장르
-        intro: "", //영화소개
-        country: "", //국가
-        //예고 영상
-        //예고 사진
-    });
+	const rating = useMovieRatingState();
+	console.log(rating);
+    const [movieInfo, setMovieInfo] = useState({});
+	
+    useEffect(()=> {
+        axios.get(`${API_URL}/movie/${movieid}`)
+		.then(response=>{
+            var movie = response.data.data[0];
+            movie.RELEASE_DATE = new Date(movie.RELEASE_DATE);
+            setMovieInfo(movie);
+            const imgs = response.data.data[1].map(element => element.TRAILER_SHOT_ROUTE);
+            // console.log(imgs);
+            imageDispatch({
+                type: 'SET',
+                data: imgs,
+            });
+            const vids = response.data.data[2].map(element => element.TRAILER_VIDEO_ROUTE);
+            videoDispatch({
+                type: 'SET',
+                data: vids,
+            });    
+		});
+    },[]);
+
     const [images, imageDispatch] = useReducer(imageReducer, []);
     const [videos, videoDispatch] = useReducer(videoReducer, []);
+    const SubmitHandler = (event) => {
+        event.preventDefault();
+        let body = {
+            movie: movieInfo,
+            images: images,
+            videos: videos,
+        }
+        axios.put(`${API_URL}/movie/${movieInfo.MOVIE_NUM}`, body)
+        .then(response=>{
+            if(response.data.success){
+                alert(`영화가 수정되었습니다.`);
+                window.location.href='/adminmovielist';
+            }
+            else
+                alert(response.data.message);
+        })
+    }
     function handelClick(e) {
         console.log(e.currentTarget.name);
         if (e.currentTarget.name === "image") {
@@ -74,11 +106,13 @@ function ModifyMovie({match}) {
     const [imageInput, setImageInput] = useState("");
     const [videoInput, setVideoInput] = useState("");
     const updateField = e => {
+		const name = e.target.name
         setMovieInfo({
           ...movieInfo,
-          [e.target.name]: e.target.value
+          [name]: e.target.value
         });
       };
+	var temp = movieInfo.MOVIE_RATING_CODE
     return (
         <div className="createMovie">
             <Header/>
@@ -89,8 +123,8 @@ function ModifyMovie({match}) {
                     <TextField
                         variant="filled"
                         margin="normal"
-                        name="name"
-                        placeholder={movieInfo.name}
+                        name="MOVIE_NAME"
+                        placeholder={movieInfo.MOVIE_NAME}
                         required
                         autoFocus
                         style={{
@@ -99,20 +133,19 @@ function ModifyMovie({match}) {
                         InputProps={{
                             className: classes.input
                         }}
-                        value={movieInfo.name}
+                        value={movieInfo.MOVIE_NAME}
                         onChange={updateField}
                     />
                 </div>
                 <div className="label-form">
                     <div className="label">상영 예정일</div>
                     <DatePicker
-                        selected={movieInfo.startDate}
+                        selected={movieInfo.RELEASE_DATE}
                         onChange={(date) => {
                             setMovieInfo({
                                 ...movieInfo,
                                 ["startDate"]: date
                             });
-                            console.log(movieInfo);
                         }}
                         
                     />
@@ -122,8 +155,8 @@ function ModifyMovie({match}) {
                     <TextField
                         variant="filled"
                         margin="normal"
-                        name="scrnTime"
-                        placeholder={movieInfo.scrnTime}
+                        name="SCRN_TIME"
+                        placeholder={movieInfo.SCRN_TIME}
                         required
                         autoFocus
                         style={{
@@ -132,36 +165,41 @@ function ModifyMovie({match}) {
                         InputProps={{
                         className: classes.input
                         }}
-                        value={movieInfo.scrnTime}
+                        value={movieInfo.SCRN_TIME}
                         onChange={updateField}
                     />
                 </div>
                 <div className="label-form">
                     <div className="label">상영 등급</div>
-                    <TextField
-                        variant="filled"
-                        margin="normal"
-                        name="rating"
-                        placeholder={movieInfo.rating}
-                        required
-                        autoFocus
-                        style={{
-                            backgroundColor: '#ffffff',
-                        }}
-                        InputProps={{
-                        className: classes.input
-                        }}
-                        value={movieInfo.rating}
-                        onChange={updateField}
-                    />
+					<FormControl>
+						<Select
+							name="MOVIE_RATING_CODE"
+							variant="filled"
+							margin="normal"
+							required
+							autoFocus
+							style={{
+								backgroundColor: '#ffffff',
+							}}
+							value={movieInfo.MOVIE_RATING_CODE}
+							onChange={updateField}
+						>
+							{rating.map((r) => (
+								<MenuItem value={r.COMMON_CODE}>
+									{r.CODE_NAME}
+								</MenuItem>
+							))}
+						</Select>
+						<FormHelperText style={{color: 'white'}}>현재 값 : {movieInfo.MOVIE_RATING_CODE}</FormHelperText>
+					</FormControl>
                 </div>
                 <div className="label-form">
                     <div className="label">감독</div>
                     <TextField
                         variant="filled"
                         margin="normal"
-                        name="director"
-                        placeholder={movieInfo.director}
+                        name="DIRECTOR"
+                        placeholder={movieInfo.DIRECTOR}
                         required
                         autoFocus
                         style={{
@@ -170,7 +208,7 @@ function ModifyMovie({match}) {
                         InputProps={{
                         className: classes.input
                         }}
-                        value={movieInfo.director}
+                        value={movieInfo.DIRECTOR}
                         onChange={updateField}
                     />
                 </div>
@@ -179,8 +217,8 @@ function ModifyMovie({match}) {
                     <TextField
                         variant="filled"
                         margin="normal"
-                        name="actors"
-                        placeholder={movieInfo.actors}
+                        name="CAST"
+                        placeholder={movieInfo.CAST}
                         required
                         autoFocus
                         style={{
@@ -189,7 +227,7 @@ function ModifyMovie({match}) {
                         InputProps={{
                         className: classes.input
                         }}
-                        value={movieInfo.actors}
+                        value={movieInfo.CAST}
                         onChange={updateField}
                     />
                 </div>
@@ -198,8 +236,8 @@ function ModifyMovie({match}) {
                     <TextField
                         variant="filled"
                         margin="normal"
-                        name="genre"
-                        placeholder={movieInfo.genre}
+                        name="GENRE"
+                        placeholder={movieInfo.GENRE}
                         required
                         autoFocus
                         style={{
@@ -208,7 +246,7 @@ function ModifyMovie({match}) {
                         InputProps={{
                         className: classes.input
                         }}
-                        value={movieInfo.genre}
+                        value={movieInfo.GENRE}
                         onChange={updateField}
                     />
                 </div>
@@ -217,8 +255,8 @@ function ModifyMovie({match}) {
                     <TextField
                         variant="filled"
                         margin="normal"
-                        name="intro"
-                        placeholder={movieInfo.intro}
+                        name="MOVIE_INTRO"
+                        placeholder={movieInfo.MOVIE_INTRO}
                         required
                         autoFocus
                         style={{
@@ -227,7 +265,7 @@ function ModifyMovie({match}) {
                         InputProps={{
                         className: classes.input
                         }}
-                        value={movieInfo.intro}
+                        value={movieInfo.MOVIE_INTRO}
                         onChange={updateField}
                         multiline
                         rows={4}
@@ -238,8 +276,8 @@ function ModifyMovie({match}) {
                     <TextField
                         variant="filled"
                         margin="normal"
-                        name="country"
-                        placeholder={movieInfo.country}
+                        name="COUNTRY"
+                        placeholder={movieInfo.COUNTRY}
                         required
                         autoFocus
                         style={{
@@ -248,7 +286,7 @@ function ModifyMovie({match}) {
                         InputProps={{
                         className: classes.input
                         }}
-                        value={movieInfo.country}
+                        value={movieInfo.COUNTRY}
                         onChange={updateField}
                     />
                 </div>
@@ -382,10 +420,9 @@ function ModifyMovie({match}) {
                     marginLeft: '100px',
                     marginBottom: '30px'
                 }}
-                // onClick={
-                //     // 등록된 영화 목록 페이지로 이동 
-                //     // 백엔드에 영화정보 보내서 레코드 생성되게 하기
-                // }
+                onClick={
+                    SubmitHandler
+                }
             >
             수정하기
             </Button>

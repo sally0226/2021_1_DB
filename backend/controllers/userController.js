@@ -20,7 +20,7 @@ const signUp = async (req, res, next) => {
 		name: name,
 		phone: phone,
 		id: id,
-		password: hashedPassword, // hashedPassword로 바꿔서 보내기~
+		password: hashedPassword,
 		regnum: regnum,
 		birth: birth,
 	};
@@ -59,7 +59,32 @@ const logIn = async(req, res, next) => {
 	}
 }
 
+const enter = async(req, res, next) => {
+	try{
+		const { name, contact, room } = req.body;
+		const result = await userModel.Enter(name,contact,room);
+		if(result!="success"){ // 입장 실패
+			return res.status(200).json({ success: false, message: '작성에 실패햐였습니다.'})
+		} else return res.status(200).json({ success: true, message: '즐거운 관람되십시오.'})
+	} catch(err) {
+		next(err)
+	}
+}
+
+const getEnter = async(req, res, next) => {
+	try{
+		const result = await userModel.GetEnter();
+		if(result===0) // 실패
+			return res.status(200).json({ success: false, message: '데이터를 불러오는 데 실패하였습니다.'})
+		else return res.status(200).json(result.rows);
+	} catch(err){
+		next(err);
+	}
+}
+
 module.exports ={
     signUp:signUp,
-	logIn: logIn
+	logIn: logIn,
+	enter: enter,
+	getEnter: getEnter,
 }
