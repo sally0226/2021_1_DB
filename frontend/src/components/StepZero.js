@@ -107,8 +107,8 @@ function StepZero({next, data, selectMovie, selectSch}) {
 									marginRight:'5px'}}
 							>{ratingCode !="" && <RatingCircle rating={ratingCode} />}</Grid>
 							{
-								// console.log(data.filter(d => d.MOVIE_NUM===selectedMovie)[0].MOVIE_NAME)
-								data.filter(d => d.MOVIE_NUM===selectedMovie)[0].MOVIE_NAME != undefined && data.filter(d => d.MOVIE_NUM===selectedMovie)[0].MOVIE_NAME
+								data.filter(d => d.MOVIE_NUM===selectedMovie)[0] !== undefined?
+								(data.filter(d => d.MOVIE_NUM===selectedMovie)[0].MOVIE_NAME != undefined && data.filter(d => d.MOVIE_NUM===selectedMovie)[0].MOVIE_NAME) : null
 							}
 						</Grid>
 						<Grid className="timeGrid-body">
