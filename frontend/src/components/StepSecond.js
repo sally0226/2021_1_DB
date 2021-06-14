@@ -50,7 +50,7 @@ function StepSecond({next, prev, movie, movieId, schedule}) {
 					예매정보
 				</Grid>
 				<Grid className={`${'right-border'} ${'SecondBody'}`}>
-					<img alt="포스터" style={{width: '60%', height:'45%'}} src={movieData.POSTER} />
+					<img alt="포스터" style={{width: '45%', height:'50%'}} src={movieData.POSTER} />
 					<Grid className="left-content-head">
 						<Grid
 							style={{
