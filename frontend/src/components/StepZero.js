@@ -105,9 +105,10 @@ function StepZero({next, data, selectMovie, selectSch}) {
 									height:'2rem',
 									color:'white',
 									marginRight:'5px'}}
-							>{ratingCode!="" && <RatingCircle rating={ratingCode} />}</Grid>
+							>{ratingCode !="" && <RatingCircle rating={ratingCode} />}</Grid>
 							{
-								data && data.filter(d => d.MOVIE_NUM===selectedMovie)[0].MOVIE_NAME
+								// console.log(data.filter(d => d.MOVIE_NUM===selectedMovie)[0].MOVIE_NAME)
+								data.filter(d => d.MOVIE_NUM===selectedMovie)[0].MOVIE_NAME != undefined && data.filter(d => d.MOVIE_NUM===selectedMovie)[0].MOVIE_NAME
 							}
 						</Grid>
 						<Grid className="timeGrid-body">
