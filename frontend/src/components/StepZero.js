@@ -41,10 +41,10 @@ function StepZero({next, data, selectMovie, selectSch}) {
 	const [ratingCode, setRatingCode] = useState("");
 
 	const [selectedMovie, setSelectedMovie] = useState(0);
-	const handleMovieSelect = (i) => {
+	const handleMovieSelect = (i) => { // movie_num
 		setSelectedMovie(i);
 		selectMovie(i);
-		setRatingCode(data[i-1].MOVIE_RATING_CODE);
+		setRatingCode(data.filter(d => d.MOVIE_NUM===i)[0].MOVIE_RATING_CODE);
 	}
 	const [selectedDate, setSelectedDate] = useState(new Date());
 	const handleDateChange = (date) => {
@@ -106,7 +106,9 @@ function StepZero({next, data, selectMovie, selectSch}) {
 									color:'white',
 									marginRight:'5px'}}
 							>{ratingCode!="" && <RatingCircle rating={ratingCode} />}</Grid>
-							{data[selectedMovie-1] != undefined && data[selectedMovie-1].MOVIE_NAME}
+							{
+								data && data.filter(d => d.MOVIE_NUM===selectedMovie)[0].MOVIE_NAME
+							}
 						</Grid>
 						<Grid className="timeGrid-body">
 							{
