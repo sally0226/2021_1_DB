@@ -22,9 +22,8 @@ function StepSecond({next, prev, movie, movieId, schedule}) {
 			setDcData(r.data)
 		})
 	}, [])
-	console.log(dcData);
 	const movieData = movie.filter(m=>m.MOVIE_NUM===movieId)[0];
-	console.log(schedule);
+	console.log(movieData);
 	const [point, setPoint] = useState(0);
 	const [DC, setDC] = useState(-1);
 	const [payment, setPayment] = useState(0);
@@ -51,7 +50,7 @@ function StepSecond({next, prev, movie, movieId, schedule}) {
 					예매정보
 				</Grid>
 				<Grid className={`${'right-border'} ${'SecondBody'}`}>
-					<Grid className="poster" />
+					<img alt="포스터" style={{width: '60%', height:'45%'}} src={movieData.POSTER} />
 					<Grid className="left-content-head">
 						<Grid
 							style={{
