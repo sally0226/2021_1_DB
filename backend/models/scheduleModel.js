@@ -114,9 +114,27 @@ async function selectAllData() {
         return e;
     }
 }
+
+async function selectAllDetailData() {
+    try{
+        const sql = `SELECT SC.SCHEDULE_NUM, SC.MOVIE_NUM, SC.ROOM_NUM,ROOM.ROOM_NAME, ROOM.TOTAL_SEAT_CAP, TO_CHAR(SC.SCRN_DATE,'yyyymmddhh24miss') AS SCRN_DATE, SC.RESIDUAL_SEAT
+		FROM SCHEDULE SC, SCRN_ROOM ROOM
+		WHERE SC.ROOM_NUM=ROOM.ROOM_NUM
+		ORDER BY sc.scrn_date asc`;
+        var schedules;
+        await conn.simpleExecute(sql).then((result) => {
+            schedules = result.rows;
+        });
+		console.log(schedules);
+        return schedules;
+    }catch(e) {
+        return e;
+    }
+}
 module.exports = {
     insertData: insertData,
     updateData: updateData,
     deleteData: deleteData,
     selectAllData: selectAllData,
+	selectAllDetailData,selectAllDetailData
 }

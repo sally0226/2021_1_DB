@@ -5,12 +5,29 @@ import DatePicker from "react-datepicker";
 import axios from 'axios';
 import { API_URL } from '../CommonVariable';
 
+function dateTimeToString(date){
+    var year = date.getFullYear();              //yyyy
+    var month = (1 + date.getMonth());          //M
+    month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
+    var day = date.getDate();                   //d
+    day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
+    return  year + '' + month + '' + day; 
+}
+
+const stringToDate = (str) => {
+	var year = str.substring(0,4);
+	var mon = str.substring(4,6);
+	var day = str.substring(6,8);
+
+	return year + '-' + mon + '-' + day;
+}
+
 function StepZero({next, data, selectMovie}) {
 	console.log(data);
 	// <-- 스케쥴 데이터
 	const [schData, setSchData] = useState();
 	async function getSchedule(){
-		await axios.get(`${API_URL}/schedule`)
+		await axios.get(`${API_URL}/scheduledetail`)
 		.then(res => {
 			setSchData(res.data);
 		})
@@ -83,14 +100,14 @@ function StepZero({next, data, selectMovie}) {
 							{data[selectedMovie-1] != undefined && data[selectedMovie-1].MOVIE_NAME}
 						</Grid>
 						<Grid className="timeGrid-body">
-							{/* todo: 조금더 알맞은 데이터를 가져오기 */}
 							{
 								schData && schData.map(sch=>{
 									return(sch.MOVIE_NUM === selectedMovie &&
-									<Grid className="timeGrid-content" onClick={next}>
-										<Grid style={{fontWeight:'bold', marginBottom:'5px'}}>{sch.SCRN_DATE.substring(14,19)}</Grid>
-										<Grid style={{fontSize:'0.5rem'}}>{sch.RESIDUAL_SEAT}석 {sch.ROOM_NUM}관</Grid>
-									</Grid>)
+										dateTimeToString(selectedDate) === sch.SCRN_DATE.substring(0,8) &&
+										<Grid className="timeGrid-content" onClick={next}>
+											<Grid style={{fontWeight:'bold', marginBottom:'5px'}}>{sch.SCRN_DATE.substring(8,10)}:{sch.SCRN_DATE.substring(10,12)}</Grid>
+											<Grid style={{fontSize:'0.5rem'}}>{sch.RESIDUAL_SEAT}/{sch.TOTAL_SEAT_CAP} {sch.ROOM_NAME}</Grid>
+										</Grid>)
 								})
 							}
 						</Grid>
